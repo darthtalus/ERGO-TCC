@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-teal: #1A4645;
+        --soft-teal: #75A7A6;
+        --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    body { font-family: 'Inter', sans-serif; background-color: #f8fbfb; }
+
+    .manage-container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+
+    /* ── Header ── */
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+        padding: 2rem;
+        border-radius: 20px;
+        color: white;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(26,70,69,0.15);
+    }
+    .page-header::after {
+        content: '';
+        position: absolute;
+        top: -50%; right: -10%;
+        width: 300px; height: 300px;
+        background: rgba(255,255,255,0.03);
+        border-radius: 50%;
+    }
+    .page-header h1 { font-size: 1.75rem; font-weight: 800; margin: 0; }
+    .page-header p { opacity: 0.8; font-size: 0.95rem; margin-top: 0.5rem; }
+
+    /* ── Card ── */
+    .config-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(0,0,0,0.03);
+        padding: 2rem;
+        animation: slideUp 0.4s ease-out;
+    }
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Table Styling ── */
+    .units-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0.75rem;
+    }
+    .units-table th {
+        padding: 1rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #868e96;
+        font-weight: 700;
+        text-align: center;
+    }
+    .units-table th:first-child { text-align: left; }
+
+    .dimension-row {
+        background: #f8fafa;
+        border-radius: 12px;
+        transition: transform 0.2s, background 0.2s;
+    }
+    .dimension-row:hover {
+        background: #f0f7f7;
+        transform: scale(1.005);
+    }
+    .dimension-row td {
+        padding: 1.25rem 1rem;
+        vertical-align: middle;
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid transparent;
+    }
+    .dimension-row td:first-child {
+        border-left: 1px solid transparent;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+        font-weight: 700;
+        color: var(--primary-teal);
+    }
+    .dimension-row td:last-child {
+        border-right: 1px solid transparent;
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    /* ── Custom Checkbox ── */
+    .checkbox-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .custom-checkbox {
+        width: 24px; height: 24px;
+        cursor: pointer;
+        appearance: none;
+        background-color: #fff;
+        border: 2px solid #dee2e6;
+        border-radius: 6px;
+        position: relative;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .custom-checkbox:checked {
+        background-color: var(--primary-teal);
+        border-color: var(--primary-teal);
+    }
+    .custom-checkbox:checked::after {
+        content: '\f00c';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        color: white;
+        font-size: 12px;
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .custom-checkbox:hover {
+        border-color: var(--soft-teal);
+        box-shadow: 0 0 0 4px rgba(117,167,166,0.1);
+    }
+
+    /* ── Buttons ── */
+    .btn-save {
+        background: var(--primary-teal);
+        color: white;
+        padding: 0.8rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(26,70,69,0.2);
+    }
+    .btn-save:hover {
+        background: #2c5e5c;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(26,70,69,0.3);
+        color: white;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="manage-container">
+    <div class="page-header">
+        <div class="d-flex align-items-center gap-4">
+            <div style="background: rgba(255,255,255,0.15); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                <i class="fa-solid fa-gears"></i>
+            </div>
+            <div>
+                <h1>{% trans "Manage Dimension Units" %}</h1>
+                <p>{% trans "Configure which units are available for each page dimension." %}</p>
+            </div>
+            <div class="ms-auto">
+                <a href="{% url 'list_create_units' %}" class="btn btn-outline-light rounded-pill px-4" style="border-color: rgba(255,255,255,0.3); font-size: 0.85rem;">
+                    <i class="fa-solid fa-plus me-2"></i>{% trans "Register New Units" %}
+                </a>
+                <a href="{% url 'manage_predefined_aspects' %}" class="btn btn-outline-light rounded-pill px-4" style="border-color: rgba(255,255,255,0.3); font-size: 0.85rem;">
+                    <i class="fa-solid fa-lightbulb me-2"></i>{% trans "Manage Suggestions" %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partials/_alerts.html' %}
+
+    <div class="config-card">
+        <form method="post">
+            {% csrf_token %}
+            <div class="table-responsive">
+                <table class="units-table">
+                    <thead>
+                        <tr>
+                            <th>{% trans "Dimension" %}</th>
+                            {% for unit in units %}
+                            <th class="text-center">{{ unit.name }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in matrix %}
+                        <tr class="dimension-row">
+                            <td>{{ row.dim.label }}</td>
+                            {% for u_config in row.units %}
+                            <td>
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" 
+                                           name="unit_{{ row.dim.key }}_{{ u_config.unit.id }}" 
+                                           class="custom-checkbox"
+                                           {% if u_config.active %}checked{% endif %}>
+                                </div>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-5 d-flex justify-content-end">
+                <button type="submit" class="btn btn-save">
+                    <i class="fa-solid fa-floppy-disk me-2"></i> {% trans "Save Configuration" %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</main>
+{% endblock content %}

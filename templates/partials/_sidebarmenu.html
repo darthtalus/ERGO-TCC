@@ -1,0 +1,129 @@
+{% load static i18n %}
+{% if user.is_authenticated %}
+<nav id="sidebarMenu" class="offcanvas-md offcanvas-start sidebar" tabindex="-1">
+    <div class="offcanvas-header d-md-none">
+        <h5 class="offcanvas-title text-white">ERGO Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body position-sticky pt-3 sidebar-sticky">
+        <div class="d-flex flex-column w-100 h-100">
+            <div class="d-flex justify-content-center logo-nav">
+                <img src="{% static 'images/logo-nav.png' %}" alt="Logomarca da ERGO">
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link active" aria-current="page" href="{% url 'tasks_index' %}">
+                        <img class="me-2" src="{% static 'images/ico-main.png' %}" style="max-height: 15px" alt="">
+                        <span>{% trans "Main" %}</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="{% url 'upgrades_dashboard' %}">
+                        <img class="me-2" src="{% static 'images/ico-kanban.svg' %}" style="max-height: 15px" alt="">
+                        <span>{% trans "Analysis and workflow" %}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="{% url 'statistics' %}">
+                        <img class="me-2" src="{% static 'images/ico-task.png' %}" style="max-height: 15px" alt="">
+                        <span>{% trans "Statistics" %}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="{% url 'params' %}">
+                        <img class="me-2" src="{% static 'images/ico-parameter.png' %}" style="max-height: 15px" alt="">
+                        <span>{% trans "Parametrization" %}</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="{% url 'tutorials' %}">
+                        <img class="me-2" src="{% static 'images/ico-tutorials.png' %}" style="max-height: 15px" alt="">
+                        <span>{% trans "Tutorials" %}</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="{% url 'documentation' %}">
+                        <img class="me-2" src="{% static 'images/ico-parameter.png' %}" style="max-height: 15px" alt="">
+                        <span>{% trans "Documentation" %}</span>
+                    </a>
+                </li>
+
+                {% if user.role == 'SUPERADMIN' or user.role == 'ADMIN' %}
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="{% url 'user_list' %}">
+                        <img class="me-2" src="{% static 'images/ico-user.png' %}" style="max-height: 15px" alt="">
+                        <span>{% trans "Users" %}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="{% url 'export_reports_index' %}">
+                        <img class="me-2" src="{% static 'images/ico-parameter.png' %}" style="max-height: 15px; filter: grayscale(1) brightness(1.5);" alt="">
+                        <span>{% trans "Reports" %}</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="{% url 'profile' %}">
+                        <img class="me-2" src="{% static 'images/ico-user.png' %}" style="max-height: 15px" alt="">
+                        <span>{% trans "My Profile" %}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalFinalizarDia">
+                        <img class="me-2" src="{% static 'images/ico-main.png' %}" style="max-height: 15px; filter: hue-rotate(90deg);" alt="">
+                        <span>{% trans "Finish the day" %}</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="mt-4 px-3 d-flex justify-content-center gap-3">
+                <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                    <input name="language" type="hidden" value="pt-br">
+                    <button type="submit" class="btn btn-link p-0 border-0 shadow-none" title="Português (Brasil)">
+                        <img src="https://flagcdn.com/w40/br.png" width="30" alt="Brasil" style="border-radius: 4px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">
+                    </button>
+                </form>
+                <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                    <input name="language" type="hidden" value="en">
+                    <button type="submit" class="btn btn-link p-0 border-0 shadow-none" title="English">
+                        <img src="https://flagcdn.com/w40/us.png" width="30" alt="English" style="border-radius: 4px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">
+                    </button>
+                </form>
+            </div>
+            <div class="mt-auto pb-4 text-center">
+                <a href="{% url 'privacy_policy' %}" class="d-block mb-2 text-decoration-none" style="font-size: 0.85rem; color: #adb5bd;">{% trans "Política de Privacidade" %}</a>
+                <div class="version-tag">{{ APP_VERSION }}</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // Close the offcanvas on mobile when a nav link is clicked,
+    // without blocking navigation (no preventDefault).
+    document.addEventListener('DOMContentLoaded', function () {
+        var sidebarEl = document.getElementById('sidebarMenu');
+        if (!sidebarEl) return;
+
+        sidebarEl.querySelectorAll('.sidebar-nav-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                // Only dismiss if the offcanvas is currently shown (mobile view)
+                var offcanvasInstance = bootstrap.Offcanvas.getInstance(sidebarEl);
+                if (offcanvasInstance) {
+                    offcanvasInstance.hide();
+                }
+                // Browser follows the href normally — no preventDefault needed
+            });
+        });
+    });
+</script>
+{% endif %}

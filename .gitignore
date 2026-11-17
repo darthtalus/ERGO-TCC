@@ -1,0 +1,121 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+.eggs/
+
+# =========================
+# Ambiente Virtual
+# =========================
+venv/
+env/
+ENV/
+.venv/
+.venv
+.env_backup
+
+# =========================
+# Django
+# =========================
+*.log
+local_settings.py
+db.sqlite3
+db_old.sqlite3
+media/
+private_media/
+staticfiles/
+/static/
+
+# =========================
+# Variáveis de Ambiente
+# =========================
+.env
+.env.local
+.env.*.local
+.env.*
+!.env.example
+
+# =========================
+# Banco de Dados / Backups
+# =========================
+*.dump
+*.sql
+*.sqlite3
+*.sqlite
+*.db
+*.bak
+*.pem
+*.key
+backups/
+test_media/
+test_private_media/
+
+# =========================
+# macOS
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+
+# =========================
+# IDEs e Editores
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+
+# =========================
+# Node / npm (package.json existe no projeto)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Logs e saídas
+# =========================
+nohup.out
+output.log
+app.yaml
+vercel.json
+package.json
+*.log
+
+# =========================
+# Cobertura de testes
+# =========================
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+*.cover
+.pytest_cache/
+test_db.py

@@ -1,0 +1,15 @@
+tr:nth-child(odd) td:nth-child(even) {
+  background-color: #eceaea;
+}
+
+tr:nth-child(even) td:nth-child(odd) {
+  background-color: #e4e4e4;
+}
+
+tr:nth-child(even) td:nth-child(even) {
+  background-color: #d7d2d2;
+}
+
+tr:nth-child(odd) td:nth-child(odd) {
+  background-color: #f1f1f1;
+}

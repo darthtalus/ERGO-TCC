@@ -1,0 +1,104 @@
+<div class="doc-header" id="topo">
+    <h1><i class="fa-solid fa-book me-2"></i>Documentação técnica e funcional do ERGO v5</h1>
+    <p>Fluxo protegido, auditoria por ciclos, análises, permissões e integrações.</p>
+</div>
+
+<nav class="doc-nav mt-3" aria-label="Índice da documentação">
+    <a href="#proposito">Propósito</a><a href="#papeis">Papéis</a><a href="#fluxo">Fluxo</a>
+    <a href="#auditoria">Auditoria</a><a href="#abc">Dimensões</a><a href="#analises">Análises</a>
+    <a href="#colaboracao">Colaboração</a><a href="#modelos">Modelos</a><a href="#sensores">Sensores</a>
+    <a href="#seguranca">Segurança</a><a href="#validacao">Validação</a><a href="#limites">Limites</a>
+</nav>
+
+<section class="doc-section" id="proposito">
+    <h2>1. Propósito e escopo</h2>
+    <p>O ERGO integra gestão de tarefas, efetividade diária e dimensões Ambiente/Acesso, Cognição e Comportamento. A área <strong>Análises e fluxo de trabalho</strong> acrescenta gráficos, recomendações baseadas em regras, colaboração, revisão, modelos, recorrência e sensores.</p>
+    <div class="doc-warning"><strong>Aviso:</strong> recomendações, score preventivo, dimensão crítica e sugestão de executores são heurísticas. Não constituem diagnóstico clínico, laudo ergonômico nem decisão automatizada sobre trabalhadores.</div>
+</section>
+
+<section class="doc-section" id="papeis">
+    <h2>2. Perfis e papéis</h2>
+    <table class="doc-table">
+        <tr><th>Perfil/papel</th><th>Capacidade principal</th></tr>
+        <tr><td>Proprietário</td><td>Cria a tarefa, administra papéis e revisa entregas de terceiros.</td></tr>
+        <tr><td>Executor</td><td>Controla sua atribuição, responde checklist e conclui com autoavaliação.</td></tr>
+        <tr><td>Stakeholder</td><td>Acompanha e avalia entregas de outros executores.</td></tr>
+        <tr><td>ADMIN/SUPERADMIN/superusuário</td><td>Escopo organizacional, sem permissão para avaliar a própria entrega.</td></tr>
+        <tr><td>Externo</td><td>Vê somente a página pública do token e pode solicitar participação.</td></tr>
+    </table>
+</section>
+
+<section class="doc-section" id="fluxo">
+    <h2>3. Fluxo protegido</h2>
+    <div class="doc-code">DOING ⇄ PAUSED<br>DOING/PAUSED → CANCELED → DOING<br>DOING/PAUSED + autoavaliação 1–5 → DONE<br>DONE + RETURNED → DOING<br>DONE + APPROVED → FINAL</div>
+    <ol>
+        <li>O estado pertence à atribuição do executor, não à tarefa inteira.</li>
+        <li><code>DONE</code> não pode ser selecionado no status comum ou no Kanban.</li>
+        <li>A conclusão grava autoavaliação e estado na mesma transação.</li>
+        <li>Ninguém avalia/revisa a própria atribuição.</li>
+        <li>Devolução abre novo ciclo; aprovação é final.</li>
+    </ol>
+</section>
+
+<section class="doc-section" id="auditoria">
+    <h2>4. Ciclos e auditoria</h2>
+    <p>Cada revisão registra decisão, revisor, comentário, data, número do ciclo e um snapshot imutável das avaliações daquele momento. Revisões são append-only. Após aprovação, a interface e os serviços bloqueiam alteração ou exclusão das avaliações finais.</p>
+    <p class="doc-note">O Django Admin deixa atribuições com histórico, avaliações e revisões como registros protegidos, evitando um atalho administrativo para burlar o workflow.</p>
+</section>
+
+<section class="doc-section" id="abc">
+    <h2>5. Dimensões e efetividade</h2>
+    <ul><li><strong>Ambiente/Acesso:</strong> condições externas e recursos.</li><li><strong>Cognição:</strong> foco, carga mental e processamento.</li><li><strong>Comportamento:</strong> rotina, pausas, postura e ritmo.</li><li><strong>Efetividade:</strong> resultado percebido, registrado separadamente.</li></ul>
+    <p>Aspectos personalizáveis aumentam flexibilidade, mas reduzem comparabilidade. Para pesquisa, use instrumento, escala e manual de resposta fixos.</p>
+</section>
+
+<section class="doc-section" id="analises">
+    <h2>6. Análises e gráficos</h2>
+    <p>O painel possui escopo pessoal e, para perfis privilegiados, organizacional. Exibe médias, estados, pendências, divergências, leituras ambientais e resumo assistido.</p>
+    <ul><li>linha temporal;</li><li>barras das médias ABC;</li><li>rosca dos estados;</li><li>efetividade por dia da semana;</li><li>histograma de dificuldade;</li><li>dispersão dificuldade × efetividade.</li></ul>
+    <p class="doc-warning">Visualização descritiva não comprova causalidade nem valida o modelo teórico.</p>
+</section>
+
+<section class="doc-section" id="colaboracao">
+    <h2>7. Colaboração, checklists e anexos</h2>
+    <ul><li>comentários de até 2.000 caracteres;</li><li>anexos permitidos de até 10 MB;</li><li>armazenamento privado e download autorizado;</li><li>checklist operacional copiado de modelo;</li><li>checklist preventivo somente pelo executor em DOING/PAUSED;</li><li>revisão por atribuição.</li></ul>
+</section>
+
+<section class="doc-section" id="modelos">
+    <h2>8. Modelos e recorrência</h2>
+    <p>Modelos guardam nome, descrição, duração, dificuldade e um item de checklist por linha. Regras recorrentes podem ser diárias, semanais ou mensais; a recorrência mensal preserva o dia âncora quando possível.</p>
+    <div class="doc-code">python manage.py generate_recurring_tasks</div>
+    <p>Agende esse comando em produção. O banco registra cada ocorrência por regra/data para evitar duplicidade.</p>
+</section>
+
+<section class="doc-section" id="sensores">
+    <h2>9. Sensores e API</h2>
+    <p>Registra temperatura, umidade, ruído, luminosidade, qualidade do ar, origem e observação.</p>
+    <div class="doc-code">POST /upgrades/api/sensors/<br>X-ERGO-API-Key: ergo_CHAVE</div>
+    <p>A chave completa aparece uma vez; o banco armazena apenas prefixo e hash. Use HTTPS, rate limiting e revogação.</p>
+</section>
+
+<section class="doc-section" id="relatorios">
+    <h2>10. Relatórios e exportações</h2>
+    <ul><li>PDF analítico com métricas e gráficos;</li><li>CSVs originais do sistema;</li><li>CSV adicional pseudonimizado, não anonimizado de forma irreversível.</li></ul>
+</section>
+
+<section class="doc-section" id="seguranca">
+    <h2>11. Segurança e privacidade</h2>
+    <ul><li>autorização server-side e CSRF;</li><li>operações destrutivas por POST;</li><li>constraints de banco;</li><li>anexos privados;</li><li>links públicos sem nomes por padrão;</li><li>status de solicitação não revelado por e-mail;</li><li>superusuário reconhecido sem promoção manual do campo role.</li></ul>
+</section>
+
+<section class="doc-section" id="validacao">
+    <h2>12. Testes e validação</h2>
+    <p>A versão contém 43 testes automatizados e três validadores independentes. No Windows:</p>
+    <div class="doc-code">.\scripts\run_validation_windows.ps1</div>
+    <p>Para validar uma cópia limpa de distribuição, use <code>.\scripts\run_package_validation_windows.ps1</code>.</p>
+    <p>O ambiente de implantação deve registrar o resultado dos testes e do roteiro manual antes de produção.</p>
+</section>
+
+<section class="doc-section" id="limites">
+    <h2>13. Limitações conhecidas</h2>
+    <ul><li>Kanban sem arrastar e soltar;</li><li>recorrência depende de agendador externo;</li><li>APIs gerais usam sessão Django;</li><li>não há antivírus ou rate limiting interno;</li><li>sensores não são calibrados pelo sistema;</li><li>heurísticas não são instrumento científico validado.</li></ul>
+</section>
+
+<div class="doc-actions"><a class="doc-btn" href="{% url 'tasks_index' %}"><i class="fa-solid fa-arrow-left me-2"></i>Voltar às tarefas</a><a class="doc-btn doc-btn-primary" href="#topo"><i class="fa-solid fa-arrow-up me-2"></i>Voltar ao topo</a></div>

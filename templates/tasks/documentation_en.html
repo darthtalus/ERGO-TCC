@@ -1,0 +1,98 @@
+<div class="doc-header" id="top">
+    <h1><i class="fa-solid fa-book me-2"></i>ERGO v5 technical and functional documentation</h1>
+    <p>Guarded workflow, cycle audit, analytics, permissions, and integrations.</p>
+</div>
+
+<nav class="doc-nav mt-3" aria-label="Documentation index">
+    <a href="#purpose">Purpose</a><a href="#roles">Roles</a><a href="#workflow">Workflow</a>
+    <a href="#audit">Audit</a><a href="#abc">Dimensions</a><a href="#analytics">Analytics</a>
+    <a href="#collaboration">Collaboration</a><a href="#templates">Templates</a><a href="#sensors">Sensors</a>
+    <a href="#security">Security</a><a href="#validation">Validation</a><a href="#limits">Limits</a>
+</nav>
+
+<section class="doc-section" id="purpose">
+    <h2>1. Purpose and scope</h2>
+    <p>ERGO combines task management, daily effectiveness, and Environment/Access, Cognition, and Behavior. <strong>Ergonomic analysis and workflow</strong> adds charts, rule-based recommendations, collaboration, review, templates, recurrence, and sensors.</p>
+    <div class="doc-warning"><strong>Notice:</strong> recommendations, preventive scores, critical dimensions, and executor suggestions are heuristics. They are not clinical diagnoses, ergonomic reports, or automated employment decisions.</div>
+</section>
+
+<section class="doc-section" id="roles">
+    <h2>2. Profiles and roles</h2>
+    <table class="doc-table">
+        <tr><th>Profile/role</th><th>Main capability</th></tr>
+        <tr><td>Owner</td><td>Creates the task, manages roles, and reviews other executors.</td></tr>
+        <tr><td>Executor</td><td>Controls their assignment, answers checklists, and completes with self-assessment.</td></tr>
+        <tr><td>Stakeholder</td><td>Follows and evaluates other executors.</td></tr>
+        <tr><td>ADMIN/SUPERADMIN/superuser</td><td>Organization scope, without permission to review their own delivery.</td></tr>
+        <tr><td>External user</td><td>Only sees the public-token page and may request participation.</td></tr>
+    </table>
+</section>
+
+<section class="doc-section" id="workflow">
+    <h2>3. Guarded workflow</h2>
+    <div class="doc-code">DOING ⇄ PAUSED<br>DOING/PAUSED → CANCELED → DOING<br>DOING/PAUSED + 1–5 self-assessment → DONE<br>DONE + RETURNED → DOING<br>DONE + APPROVED → FINAL</div>
+    <ol><li>Status belongs to an executor assignment, not the whole task.</li><li><code>DONE</code> cannot be selected from generic status or Kanban.</li><li>Completion stores assessment and state in one transaction.</li><li>Nobody evaluates or reviews their own assignment.</li><li>A return opens a new cycle; approval is final.</li></ol>
+</section>
+
+<section class="doc-section" id="audit">
+    <h2>4. Cycles and audit</h2>
+    <p>Every review stores decision, reviewer, comment, timestamp, cycle number, and an immutable snapshot of the assessments at that point. Reviews are append-only. After approval, services and screens block changes or deletion of final assessments.</p>
+    <p class="doc-note">Django Admin protects assignments with history, assessments, and reviews so it cannot be used as a workflow bypass.</p>
+</section>
+
+<section class="doc-section" id="abc">
+    <h2>5. Dimensions and effectiveness</h2>
+    <ul><li><strong>Environment/Access:</strong> external conditions and resources.</li><li><strong>Cognition:</strong> focus, mental workload, and processing.</li><li><strong>Behavior:</strong> routine, breaks, posture, and pace.</li><li><strong>Effectiveness:</strong> perceived result recorded separately.</li></ul>
+    <p>Custom aspects improve flexibility but reduce comparability. Research should use a fixed instrument, scale, and response guide.</p>
+</section>
+
+<section class="doc-section" id="analytics">
+    <h2>6. Analytics and charts</h2>
+    <p>The dashboard has a personal scope and an authorized organization scope. It displays averages, states, pending reviews, divergences, readings, and a rule-based summary.</p>
+    <ul><li>time series;</li><li>ABC average bars;</li><li>state doughnut;</li><li>weekday effectiveness;</li><li>difficulty histogram;</li><li>difficulty × effectiveness scatter plot.</li></ul>
+    <p class="doc-warning">Descriptive visualization does not establish causality or validate the theoretical model.</p>
+</section>
+
+<section class="doc-section" id="collaboration">
+    <h2>7. Collaboration, checklists, and attachments</h2>
+    <ul><li>comments up to 2,000 characters;</li><li>allowed attachments up to 10 MB;</li><li>private storage and authorized download;</li><li>operational checklist copied from templates;</li><li>preventive checklist only by the executor in DOING/PAUSED;</li><li>review per assignment.</li></ul>
+</section>
+
+<section class="doc-section" id="templates">
+    <h2>8. Templates and recurrence</h2>
+    <p>Templates store name, description, duration, difficulty, and one checklist item per line. Rules may be daily, weekly, or monthly; monthly recurrence keeps its anchor day where possible.</p>
+    <div class="doc-code">python manage.py generate_recurring_tasks</div>
+    <p>Schedule the command in production. The database records every rule/date occurrence to prevent duplicates.</p>
+</section>
+
+<section class="doc-section" id="sensors">
+    <h2>9. Sensors and API</h2>
+    <p>Records temperature, humidity, noise, luminosity, air quality, source, and note.</p>
+    <div class="doc-code">POST /upgrades/api/sensors/<br>X-ERGO-API-Key: ergo_KEY</div>
+    <p>The full key is shown once; only prefix and hash are stored. Use HTTPS, rate limiting, and revocation.</p>
+</section>
+
+<section class="doc-section" id="reports">
+    <h2>10. Reports and exports</h2>
+    <ul><li>analytical PDF with metrics and charts;</li><li>original system CSVs;</li><li>additional pseudonymized CSV, not irreversible anonymization.</li></ul>
+</section>
+
+<section class="doc-section" id="security">
+    <h2>11. Security and privacy</h2>
+    <ul><li>server-side authorization and CSRF;</li><li>destructive operations through POST;</li><li>database constraints;</li><li>private attachments;</li><li>public links hide names by default;</li><li>request status is not disclosed by email;</li><li>Django superusers work without manual custom-role promotion.</li></ul>
+</section>
+
+<section class="doc-section" id="validation">
+    <h2>12. Tests and validation</h2>
+    <p>The release includes 43 automated tests and three independent validators. On Windows:</p>
+    <div class="doc-code">.\scripts\run_validation_windows.ps1</div>
+    <p>To validate a clean distribution copy, use <code>.\scripts\run_package_validation_windows.ps1</code>.</p>
+    <p>The deployment environment must record automated and manual acceptance results before production use.</p>
+</section>
+
+<section class="doc-section" id="limits">
+    <h2>13. Known limitations</h2>
+    <ul><li>no drag-and-drop Kanban;</li><li>recurrence needs an external scheduler;</li><li>general APIs use Django sessions;</li><li>no built-in antivirus or rate limiting;</li><li>sensors are not calibrated by ERGO;</li><li>heuristics are not a validated scientific instrument.</li></ul>
+</section>
+
+<div class="doc-actions"><a class="doc-btn" href="{% url 'tasks_index' %}"><i class="fa-solid fa-arrow-left me-2"></i>Back to tasks</a><a class="doc-btn doc-btn-primary" href="#top"><i class="fa-solid fa-arrow-up me-2"></i>Back to top</a></div>

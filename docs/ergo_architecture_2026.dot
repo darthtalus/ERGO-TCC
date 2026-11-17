@@ -1,0 +1,52 @@
+digraph ERGOArchitecture {
+  graph [rankdir=LR, bgcolor="white", pad="0.3", nodesep="0.45", ranksep="0.75", fontname="Arial", label="ERGO v5 — guarded workflow architecture", labelloc="t"];
+  node [shape=box, style="rounded,filled", fillcolor="#eef7f6", color="#1A4645", fontname="Arial", fontsize=10, margin="0.12,0.08"];
+  edge [color="#587877", fontname="Arial", fontsize=9];
+
+  clients [label="Browser / external sensor", fillcolor="#fff7e5", color="#b07b12"];
+  proxy [label="HTTPS reverse proxy\nTLS / rate limiting"];
+  django [label="Django project\nURLs / middleware / templates", fillcolor="#d9efed"];
+  validation [label="Forms + validators\nCSRF / API-key parsing", fillcolor="#e9f4ff", color="#456a8a"];
+  policy [label="tasks/permissions.py\nserver-side authorization", fillcolor="#e9f4ff", color="#456a8a"];
+  workflow [label="tasks/services.py\ntransactions + state machine", fillcolor="#e9f4ff", color="#456a8a"];
+
+  subgraph cluster_apps {
+    label="Django applications";
+    color="#8cb9b6";
+    style="rounded";
+    accounts [label="accounts\nusers and authentication"];
+    tasks [label="tasks\ntasks, assignments, assessments"];
+    aspects [label="user_aspects\ndaily effectiveness and ABC history"];
+    upgrades [label="upgrades\nanalytics, audit, recurrence, sensors"];
+    support [label="dimensions / units / pages\nsupporting modules"];
+  }
+
+  db [label="MySQL / MariaDB\nconstraints + audit data", shape=cylinder, fillcolor="#edf0ff", color="#555a9e"];
+  private [label="private_media/\nprotected attachments", shape=folder, fillcolor="#fdecec", color="#9e5555"];
+  static [label="Static files", shape=folder, fillcolor="#f1f1f1", color="#777777"];
+  smtp [label="SMTP service\noptional", shape=component, fillcolor="#f7efff", color="#7a57a0"];
+  scheduler [label="External scheduler\nrecurring-task command", shape=component, fillcolor="#f7efff", color="#7a57a0"];
+  tests [label="42 isolated tests\n+ static validators", fillcolor="#effbea", color="#53834a"];
+
+  clients -> proxy;
+  proxy -> django;
+  django -> validation;
+  validation -> policy;
+  policy -> workflow;
+  workflow -> tasks;
+  workflow -> upgrades;
+  django -> accounts;
+  django -> aspects;
+  django -> support;
+  tasks -> db;
+  upgrades -> db;
+  accounts -> db;
+  aspects -> db;
+  support -> db;
+  upgrades -> private [label="authorized download"];
+  django -> static;
+  tasks -> smtp [label="invites / notifications"];
+  scheduler -> upgrades [label="generate_due"];
+  tests -> policy [style=dashed];
+  tests -> workflow [style=dashed];
+}

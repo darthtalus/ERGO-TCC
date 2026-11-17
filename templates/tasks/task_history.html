@@ -1,0 +1,649 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/tasks.css' %}?v={{ APP_VERSION }}" />
+    <style>
+        :root {
+            --primary-teal: #1A4645;
+            --soft-teal: #75A7A6;
+            --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f4; }
+
+        .history-container { max-width: 900px; margin: 0 auto; }
+
+        /* ── Header compacto ── */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+            padding: 1.25rem 1.5rem;
+            border-radius: 14px;
+            color: white;
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(26,70,69,0.2);
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: -60%; right: -5%;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .page-header h1 { font-size: 1.25rem; font-weight: 700; margin: 0; }
+        .page-header .label { font-size: 0.68rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; }
+
+        .btn-back {
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .btn-back:hover { background: rgba(255,255,255,0.22); color: white; }
+
+        /* ── Card do executor ── */
+        .executor-card {
+            background: white;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--primary-teal);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--card-shadow);
+        }
+        .executor-avatar {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(45deg, var(--primary-teal), var(--soft-teal));
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1rem; flex-shrink: 0;
+        }
+        .executor-name { font-size: 0.95rem; font-weight: 700; color: #1a1a2e; margin: 0; }
+
+        .status-pill {
+            font-size: 0.68rem;
+            padding: 0.15rem 0.6rem;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        /* ── Linha de avaliação ── */
+        .eval-row {
+            background: white;
+            border-radius: 10px;
+            padding: 0.6rem 1rem;
+            margin-bottom: 0.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #f0f4f4;
+            transition: box-shadow 0.2s;
+        }
+        .eval-row:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+
+        .eval-type-badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .badge-stakeholder { background: #fff4e6; color: #d9480f; }
+        .badge-self        { background: #e7f5ff; color: #1971c2; }
+
+        .eval-meta { min-width: 0; }
+        .eval-meta .evaluator { font-size: 0.82rem; font-weight: 600; color: #2d3436; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .eval-meta .eval-date { font-size: 0.72rem; color: #adb5bd; margin-top: 1px; }
+
+        /* ── Dimensões inline ── */
+        .dim-group {
+            display: flex;
+            gap: 0.4rem;
+        }
+        .dim-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f8fafa;
+            border: 1px solid #eef2f2;
+            border-radius: 8px;
+            padding: 0.25rem 0.5rem;
+            min-width: 52px;
+        }
+        .dim-chip-label { font-size: 0.6rem; color: #868e96; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .dim-chip-val   { font-size: 0.85rem; font-weight: 800; color: var(--primary-teal); }
+
+        /* ── Estrelas ── */
+        .stars-sm {
+            color: #fab005;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            filter: drop-shadow(0 0 3px rgba(250,176,5,0.3));
+        }
+        .effectiveness-col { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+        .eff-label { font-size: 0.6rem; color: #adb5bd; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* ── Empty state ── */
+        .empty-state {
+            padding: 2rem 1rem;
+            text-align: center;
+            background: white;
+            border-radius: 12px;
+            border: 2px dashed #dee2e6;
+            color: #adb5bd;
+            font-size: 0.85rem;
+        }
+
+        /* ── Responsividade ── */
+        @media (max-width: 768px) {
+            .history-container { padding-left: 10px; padding-right: 10px; }
+            .page-header { padding: 1rem; }
+            .page-header h1 { font-size: 1.1rem; }
+            
+            .eval-row {
+                grid-template-columns: 1fr auto;
+                gap: 0.5rem;
+                padding: 0.75rem;
+            }
+            
+            .eval-type-badge {
+                grid-column: 1;
+                width: fit-content;
+                margin-bottom: 2px;
+            }
+
+            .effectiveness-col {
+                grid-column: 2;
+                grid-row: 1 / span 2;
+                justify-content: center;
+            }
+
+            .eval-meta {
+                grid-column: 1;
+            }
+
+            .dim-group {
+                grid-column: 1 / span 2;
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 0.6rem;
+                padding-top: 0.6rem;
+                border-top: 1px solid #f1f3f5;
+            }
+
+            .dim-chip {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .dim-chip { min-width: 45px; padding: 0.2rem; }
+            .dim-chip-val { font-size: 0.75rem; }
+            .stars-sm { font-size: 0.65rem; }
+        }
+
+        /* ── Animação suave ── */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .eval-row { animation: fadeIn 0.3s ease-out backwards; }
+        .eval-row:nth-child(1) { animation-delay: 0.05s; }
+        .eval-row:nth-child(2) { animation-delay: 0.10s; }
+        .eval-row:nth-child(3) { animation-delay: 0.15s; }
+        .eval-row:nth-child(4) { animation-delay: 0.20s; }
+        .eval-row:nth-child(5) { animation-delay: 0.25s; }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="container py-3 history-container">
+
+    {# Header #}
+    {% include 'partials/_alerts.html' %}
+    <div class="page-header mb-3">
+        <div class="d-flex justify-content-between align-items-center position-relative" style="z-index:1;">
+            <div>
+                <div class="label">{% trans "Task History" %} • {% trans "Created by" %} {{ task.user.get_full_name|default:task.user.username }} {% trans "on" %} {{ task.created_at|date:"d/m/Y" }}</div>
+                <h1>#{{ task.id }} - {{ task.name }}</h1>
+            </div>
+            <a href="{% url 'upgrades_task_collaboration' task.id %}" class="btn btn-back btn-sm rounded-pill px-3 me-2">
+                <i class="fa-solid fa-comments me-1"></i>{% trans "Discussion and review" %}
+            </a>
+            <a href="{% url 'tasks_index' %}" class="btn btn-back btn-sm rounded-pill px-3">
+                <i class="fa-solid fa-chevron-left me-1"></i>{% trans "Back" %}
+            </a>
+        </div>
+    </div>
+    
+    {# Navigation for Stakeholders #}
+    {% if prev_task_id or next_task_id %}
+    <div class="d-flex justify-content-between mb-3 px-1">
+        {% if prev_task_id %}
+        <a href="{% url 'task_history' prev_task_id %}" class="btn btn-outline-secondary btn-sm rounded-pill px-3" style="font-size: 0.75rem; border-color: #dee2e6; color: #636e72;">
+            <i class="fa-solid fa-arrow-left me-1"></i> {% trans "Previous pending" %}
+        </a>
+        {% else %}
+        <div></div>
+        {% endif %}
+        
+        {% if next_task_id %}
+        <a href="{% url 'task_history' next_task_id %}" class="btn btn-outline-secondary btn-sm rounded-pill px-3" style="font-size: 0.75rem; border-color: #dee2e6; color: #636e72;">
+            {% trans "Next pending" %} <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% for assignment in assignments %}
+        {% if assignment.type == 'EXECUTOR' %}
+
+            {# Executor info #}
+            <div class="executor-card mb-2">
+                <div class="executor-avatar">
+                    <i class="fa-solid fa-user-check"></i>
+                </div>
+                <div class="flex-grow-1 min-w-0">
+                    <div class="executor-name">{{ assignment.user.get_full_name|default:assignment.user.email }}</div>
+                    <div class="d-flex align-items-center gap-2 mt-1">
+                        <span class="badge bg-light text-muted border" style="font-size:0.65rem;">{% trans "Executor" %}</span>
+                        
+                        {# Status com permissão de alteração para o próprio executor #}
+                        {% if assignment.status != 'DONE' and assignment.user == user or assignment.status != 'DONE' and user.role == 'ADMIN' or assignment.status != 'DONE' and user.role == 'SUPERADMIN' %}
+                            <a href="#" 
+                               class="text-decoration-none {% if assignment.is_evaluated and user.role not in 'ADMIN,SUPERADMIN' %}pe-none{% endif %}"
+                               data-value="{{ assignment.id }}"
+                               data-bs-toggle="modal" 
+                               data-bs-target="#modalStatus"
+                               title="{% trans 'Change status' %}">
+                                <span class="status-pill status-{{ assignment.status|lower }} clickable-status">
+                                    {{ assignment.get_status_display }}
+                                    <i class="fa-solid fa-pen-to-square ms-1" style="font-size: 0.6rem; opacity: 0.7;"></i>
+                                </span>
+                            </a>
+                        {% else %}
+                            <span class="status-pill status-{{ assignment.status|lower }}">{{ assignment.get_status_display }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="ms-auto d-flex gap-2">
+                    {% if is_stakeholder or user == task.user or user.role == 'ADMIN' or user.role == 'SUPERADMIN' %}
+                        {% if assignment.status != 'DONE' %}
+                        <form action="{% url 'send_task_reminder' assignment.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill px-3" style="font-size: 0.75rem;">
+                                <i class="fa-solid fa-paper-plane me-1"></i>{% trans "Send Reminder" %}
+                            </button>
+                        </form>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if is_stakeholder or user.role == 'ADMIN' or user.role == 'SUPERADMIN' %}
+                        {% if assignment.is_final_approved %}
+                            <span class="text-success small"><i class="fa-solid fa-lock me-1"></i>{% trans "Approved" %}</span>
+                        {% elif assignment.status == 'DONE' or assignment.evaluated_by_me %}
+                            <a href="#"
+                               class="btn btn-sm rounded-pill px-3 {% if assignment.evaluated_by_me %}btn-success text-white{% else %}btn-primary{% endif %}"
+                               style="font-size: 0.75rem;"
+                               data-taskid="{{ assignment.id }}"
+                               data-evaluated="{{ assignment.evaluated_by_me|yesno:'true,false' }}"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalDone"
+                               title="{% if assignment.evaluated_by_me %}{% trans 'Update evaluation' %}{% else %}{% trans 'Evaluate' %}{% endif %}">
+                                <i class="fa-solid {% if assignment.evaluated_by_me %}fa-check-double{% else %}fa-pen-to-square{% endif %} me-1"></i>
+                                {% if assignment.evaluated_by_me %}{% trans 'Update evaluation' %}{% else %}{% trans 'Evaluate' %}{% endif %}
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Avaliações #}
+            <div class="mb-4 ms-2">
+                <h6 class="text-muted mt-3">{% trans "Current evaluations" %}</h6>
+                {% for rate in assignment.rate.all|dictsortreversed:"updated_at" %}
+                <div class="eval-row">
+                    {# Tipo #}
+                    <span class="eval-type-badge {% if rate.rate_type == 'SELF' %}badge-self{% else %}badge-stakeholder{% endif %}">
+                        {{ rate.get_rate_type_display }}
+                    </span>
+
+                    {# Quem avaliou + data #}
+                    <div class="eval-meta">
+                        <div class="evaluator">{{ rate.user.get_full_name|default:rate.user.email }}</div>
+                        <div class="eval-date">
+                            <i class="fa-regular fa-clock me-1"></i>{{ rate.updated_at|date:"d/m/Y H:i" }}
+                        </div>
+                    </div>
+
+                    {# Dimensões – apenas autoavaliação (executor) #}
+                    {% if rate.rate_type == 'SELF' %}
+                    <div class="dim-group">
+                        <div class="dim-chip">
+                            <span class="dim-chip-label">{% trans "Env" %}</span>
+                            <span class="dim-chip-val">{{ rate.environment|default_if_none:"–" }}</span>
+                        </div>
+                        <div class="dim-chip">
+                            <span class="dim-chip-label">{% trans "Cog" %}</span>
+                            <span class="dim-chip-val">{{ rate.cognition|default_if_none:"–" }}</span>
+                        </div>
+                        <div class="dim-chip">
+                            <span class="dim-chip-label">{% trans "Beh" %}</span>
+                            <span class="dim-chip-val">{{ rate.behavior|default_if_none:"–" }}</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {# Efetividade (estrelas) #}
+                    <div class="effectiveness-col">
+                        <span class="eff-label">{% trans "Effectiveness" %}</span>
+                        <div class="stars-sm">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= rate.effectiveness %}
+                                    <i class="fa-solid fa-star"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <i class="fa-solid fa-clipboard-question mb-2 d-block" style="font-size:1.5rem;opacity:0.3;"></i>
+                    {% trans "No evaluations yet for this executor." %}
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if assignment.review_history %}
+            <div class="mb-4 ms-2">
+                <h6 class="text-muted">{% trans "Review history" %}</h6>
+                {% for item in assignment.review_history %}
+                <div class="border rounded p-3 mb-2 bg-light">
+                    <div class="fw-bold">{% trans "Cycle" %} {{ item.review.cycle_number }} —
+                        <span class="badge {% if item.review.status == 'APPROVED' %}bg-success{% elif item.review.status == 'RETURNED' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">{{ item.review.get_status_display }}</span>
+                    </div>
+                    <div class="small text-muted">{{ item.review.created_at|date:"d/m/Y H:i" }} — {{ item.review.reviewed_by.get_full_name|default:item.review.reviewed_by.username }}</div>
+                    {% if item.review.comment %}<p class="my-2">{{ item.review.comment }}</p>{% endif %}
+                    {% if item.self_assessment %}
+                    <div class="small mt-2"><strong>{% trans "Self Assessment" %}:</strong>
+                        {% trans "Env" %} {{ item.self_assessment.environment }}/5 ·
+                        {% trans "Cog" %} {{ item.self_assessment.cognition }}/5 ·
+                        {% trans "Beh" %} {{ item.self_assessment.behavior }}/5 ·
+                        {% trans "Effectiveness" %} {{ item.self_assessment.effectiveness }}/5
+                        {% if item.self_assessment.rated_at %}— {{ item.self_assessment.rated_at|date:"d/m/Y H:i" }}{% endif %}
+                    </div>
+                    {% endif %}
+                    {% for rating in item.stakeholder_assessments %}
+                    <div class="small mt-1"><strong>{% trans "Stakeholder Evaluation" %}:</strong> {{ rating.reviewer_name }} — {% trans "Effectiveness" %} {{ rating.effectiveness }}/5{% if rating.rated_at %} — {{ rating.rated_at|date:"d/m/Y H:i" }}{% endif %}</div>
+                    {% endfor %}
+                    {% if not item.self_assessment and not item.stakeholder_assessments %}
+                    <div class="small text-muted mt-2">{% trans "No recorded evaluations for this review." %}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        {% endif %}
+    {% endfor %}
+    <div class="modal fade modal-lg"
+         id="modalDone"
+         tabindex="-1"
+         aria-labelledby="modalLabeldone"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="taskDone" action="{% url 'stakeholder_evaluate' %}" method="post">
+                    {% csrf_token %}
+                    <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{% trans "Task effectiveness" %}</h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <!-- Effectiveness -->
+                            <div class="mb-4 text-center">
+                                <label class="form-label fw-bold">{% trans "Effectiveness" %} (1-5)</label>
+                                <input type="hidden" name="effectiveness" id="eff_value" value="" />
+                                <div class="d-flex justify-content-center gap-1 mt-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="1">1</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="2">2</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="3">3</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="4">4</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="5">5</button>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4 pt-2 border-top d-flex justify-content-center gap-2">
+                                <button type="submit" class="btn btn-success px-5 fw-bold rounded-pill">
+                                    <i class="fa-solid fa-check-double me-2"></i> {% trans "Submit Assessment" %}
+                                </button>
+                                <button type="button" id="clearBtn" class="btn btn-outline-danger px-4 fw-bold rounded-pill d-none">
+                                    <i class="fa-solid fa-eraser me-2"></i> {% trans "Clear" %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock content %}
+
+{% block js %}
+    {# Modal de Status (conforme solicitado pelo usuário) #}
+    <div class="modal fade modal-lg" id="modalStatus" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 14px;">
+                <div class="modal-header border-bottom border-light">
+                    <h5 class="modal-title fw-bold" style="color: var(--primary-teal);">{% trans "Change status" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-4">
+                    <div class="container text-center pt-2">
+                        <div class="row g-2">
+                            <div class="col-6 col-md-3">
+                                <form method="post" action="{% url 'tasks_change' %}" class="d-grid">
+                                    {% csrf_token %}
+                                    <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                                    <input type="hidden" name="status" value="DOING" />
+                                    <button type="submit" class="btn status-doing border-0 shadow-sm rounded-3 py-3 h-100">
+                                        <i class="fa-solid fa-play mb-2 d-block fs-4"></i> {% trans "Doing" %}
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <form method="post" action="{% url 'tasks_change' %}" class="d-grid">
+                                    {% csrf_token %}
+                                    <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                                    <input type="hidden" name="status" value="PAUSED" />
+                                    <button type="submit" class="btn status-paused border-0 shadow-sm rounded-3 py-3 h-100">
+                                        <i class="fa-solid fa-pause mb-2 d-block fs-4"></i> {% trans "Paused" %}
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <form method="post" action="{% url 'tasks_change' %}" class="d-grid">
+                                    {% csrf_token %}
+                                    <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                                    <input type="hidden" name="status" value="CANCELED" />
+                                    <button type="submit" class="btn status-canceled border-0 shadow-sm rounded-3 py-3 h-100">
+                                        <i class="fa-solid fa-xmark mb-2 d-block fs-4"></i> {% trans "Canceled" %}
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="d-grid">
+                                    <button type="button" class="btn status-done border-0 shadow-sm rounded-3 py-3 h-100 d-flex flex-column align-items-center justify-content-center" 
+                                            style="background: #00875a; color: white;" 
+                                            data-bs-toggle="modal" data-bs-target="#modalDoneStatus">
+                                        <i class="fa-solid fa-check mb-2 fs-4"></i>
+                                        {% trans "Done" %}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal de Finalização (para o executor avaliar) #}
+    <div class="modal fade modal-lg" id="modalDoneStatus" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 14px;">
+                <form id="taskDoneExec" action="{% url 'tasks_change_done' %}" method="post">
+                    {% csrf_token %}
+                    <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                    <div class="modal-header border-bottom border-light">
+                        <h5 class="modal-title fw-bold" style="color: var(--primary-teal);">{% trans "Finish Task & Evaluate" %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body py-4">
+                        <div class="container px-md-4">
+                            <div class="mb-4 text-center">
+                                <label class="form-label fw-bold text-muted text-uppercase" style="font-size:0.75rem;">{% trans "Environment" %} (1-5)</label>
+                                <input type="hidden" name="environmentRadio" id="env_status_value" value="" />
+                                <div class="d-flex justify-content-center gap-2 mt-2">
+                                    {% for i in "12345" %}
+                                    <button type="button" class="btn btn-outline-secondary btn-dim-exec rounded-circle" style="width:40px;height:40px;" data-dim="env_status" data-value="{{ i }}">{{ i }}</button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="mb-4 text-center">
+                                <label class="form-label fw-bold text-muted text-uppercase" style="font-size:0.75rem;">{% trans "Cognition" %} (1-5)</label>
+                                <input type="hidden" name="cognitionRadio" id="cog_status_value" value="" />
+                                <div class="d-flex justify-content-center gap-2 mt-2">
+                                    {% for i in "12345" %}
+                                    <button type="button" class="btn btn-outline-secondary btn-dim-exec rounded-circle" style="width:40px;height:40px;" data-dim="cog_status" data-value="{{ i }}">{{ i }}</button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="mb-4 text-center">
+                                <label class="form-label fw-bold text-muted text-uppercase" style="font-size:0.75rem;">{% trans "Behavior" %} (1-5)</label>
+                                <input type="hidden" name="behaviorRadio" id="beh_status_value" value="" />
+                                <div class="d-flex justify-content-center gap-2 mt-2">
+                                    {% for i in "12345" %}
+                                    <button type="button" class="btn btn-outline-secondary btn-dim-exec rounded-circle" style="width:40px;height:40px;" data-dim="beh_status" data-value="{{ i }}">{{ i }}</button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="mb-4 text-center">
+                                <label class="form-label fw-bold text-primary text-uppercase" style="font-size:0.85rem;">{% trans "Effectiveness" %} (1-5)</label>
+                                <input type="hidden" name="effectiveness" id="eff_status_value" value="" />
+                                <div class="d-flex justify-content-center gap-2 mt-2">
+                                    {% for i in "12345" %}
+                                    <button type="button" class="btn btn-outline-primary btn-dim-exec rounded-circle fw-bold fs-5" style="width:50px;height:50px;" data-dim="eff_status" data-value="{{ i }}">{{ i }}</button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="text-center mt-5 pt-3 border-top">
+                                <button type="submit" class="btn btn-success px-5 py-2 fw-bold rounded-pill" style="background: var(--primary-teal); border: none; font-size:1.1rem;">
+                                    <i class="fa-solid fa-check-double me-2"></i> {% trans "Submit Assessment" %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Script para Modal de Status
+    $("#modalStatus").on("show.bs.modal", function (e) {
+        const tid = $(e.relatedTarget).data("value");
+        $(".taskuser_id").val(tid);
+    });
+
+    // Script para Modal de Done (Executor)
+    $(".btn-dim-exec").on("click", function() {
+        const dim = $(this).data("dim");
+        const val = $(this).data("value");
+        $(`#${dim}_value`).val(val);
+        $(`.btn-dim-exec[data-dim="${dim}"]`).removeClass("active btn-primary btn-secondary").addClass("btn-outline-secondary");
+        if (dim === 'eff_status') {
+            $(`.btn-dim-exec[data-dim="eff_status"]`).removeClass("btn-outline-secondary").addClass("btn-outline-primary");
+            $(this).removeClass("btn-outline-primary").addClass("active btn-primary text-white");
+        } else {
+            $(this).removeClass("btn-outline-secondary").addClass("active btn-secondary text-white");
+        }
+    });
+
+    $("#taskDoneExec").on("submit", function(e) {
+        const env = $("#env_status_value").val();
+        const cog = $("#cog_status_value").val();
+        const beh = $("#beh_status_value").val();
+        const eff = $("#eff_status_value").val();
+        if (env === "" || cog === "" || beh === "" || eff === "" || parseInt(eff) < 1) {
+            e.preventDefault();
+            alert("{% trans 'Please provide all ratings before submitting.' %}");
+            return false;
+        }
+    });
+
+    // Script original do Stakeholder (ajustado para não conflitar)
+    $("#modalDone").on("show.bs.modal", function (e) {
+        const botao = e.relatedTarget
+        const taskuser_id = botao.getAttribute('data-taskid')
+        const evaluated = botao.getAttribute('data-evaluated') === 'true'
+        $(".taskuser_id").val(taskuser_id);
+        const clearBtn = $("#clearBtn");
+        if (evaluated) {
+            clearBtn.removeClass("d-none");
+            clearBtn.data("taskuser-id", taskuser_id);
+        } else {
+            clearBtn.addClass("d-none");
+        }
+        $(`.btn-dim[data-dim="eff"]`).removeClass("active btn-primary").addClass("btn-outline-primary");
+        $("#eff_value").val("");
+    });
+
+    $("#clearBtn").on("click", function() {
+        const taskuserId = $(this).data("taskuser-id");
+        if (!taskuserId) return;
+        const csrf = $("#taskDone input[name='csrfmiddlewaretoken']").val();
+        const form = $("<form>", {method: "POST", action: `/tasks/stakeholder-clear-evaluate/${taskuserId}`});
+        form.append($("<input>", {type: "hidden", name: "csrfmiddlewaretoken", value: csrf}));
+        $(document.body).append(form);
+        form.trigger("submit");
+    });
+
+    $(".btn-dim").on("click", function() {
+        const dim = $(this).data("dim");
+        const val = $(this).data("value");
+        $(`#${dim}_value`).val(val);
+        $(`.btn-dim[data-dim="${dim}"]`).removeClass("active btn-primary").addClass("btn-outline-primary");
+        $(this).removeClass("btn-outline-primary").addClass("active btn-primary text-white");
+    });
+    </script>
+{% endblock js %}

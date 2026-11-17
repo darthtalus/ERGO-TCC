@@ -1,0 +1,90 @@
+{% extends 'base_auth.html' %}
+{% load static i18n %}
+{% block css %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+<div class="login-page d-flex flex-column min-vh-100 justify-content-center align-items-center px-3">
+
+  <div class="login-wrapper d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 w-100 mb-4">
+    <!-- Imagem de capa: oculta no mobile, visível a partir de md -->
+    <div class="d-none d-md-flex flex-column align-items-center">
+      <p class="cover-text"></p>
+      <img src="{% static 'images/cover.png' %}" class="cover-img" alt="Cover image">
+    </div>
+
+    <!-- Card de login -->
+    <div class="login-form-area d-flex flex-column align-items-center w-100">
+      <img src="{% static 'images/logo_horizontal.png' %}" class="logo mb-4" alt="logo horizontal">
+      <div class="login-card w-100">
+        <div class="d-flex justify-content-end mb-2 gap-2">
+          <form action="{% url 'set_language' %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.get_full_path }}">
+            <input name="language" type="hidden" value="pt-br">
+            <button type="submit" class="btn btn-link p-0 border-0 shadow-none" title="Português (Brasil)">
+              <img src="https://flagcdn.com/w40/br.png" width="24" alt="Brasil" style="border-radius: 2px;">
+            </button>
+          </form>
+          <form action="{% url 'set_language' %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.get_full_path }}">
+            <input name="language" type="hidden" value="en">
+            <button type="submit" class="btn btn-link p-0 border-0 shadow-none" title="English">
+              <img src="https://flagcdn.com/w40/us.png" width="24" alt="English" style="border-radius: 2px;">
+            </button>
+          </form>
+        </div>
+        {% include 'partials/_alerts.html' %}
+        <form action="{% url 'login' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.GET.next }}">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
+            <label for="username" class="label-login">{% trans "Username or Email" %}</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
+            <label for="password" class="label-login">{% trans "Password" %}</label>
+          </div>
+
+          <button type="submit" class="mt-3 w-100 btn btn-lg btn-primary prima">{% trans "Login" %}</button>
+          <div class="mt-3 text-center">
+            <a href="{% url 'password_reset' %}" class="create-account d-block mb-2">{% trans "Forgot password?" %}</a>
+            <a href="{% url 'register' %}" class="create-account d-block mb-2">{% trans "Create Account" %}</a>
+            <a href="#" class="create-account d-block mb-2" data-bs-toggle="modal" data-bs-target="#aboutErgoModal">{% trans "About ERGO" %}</a>
+            <a href="{% url 'privacy_policy' %}" class="create-account d-block">{% trans "Política de Privacidade" %}</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex footer-logos">
+    <img src="{% static 'images/logo_ufpb.png' %}" class="image-esquerda" alt="Logo UFPB">
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<!-- Modal Sobre o ERGO -->
+<div class="modal fade" id="aboutErgoModal" tabindex="-1" aria-labelledby="aboutErgoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="aboutErgoModalLabel">{% trans "About ERGO" %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: justify;">
+          {% blocktrans %}Conceived by Professor and Researcher <strong>Dr. Carlo Gabriel Porto Bellini</strong> (Porto-Bellini in citations), Full Professor of MIS/HCI at the Department of Business Administration at UFPB, ERGO is a specialized platform for monitoring productivity and well-being in professional environments. Currently, the system is hosted on the infrastructure of the <strong>STI (Superintendence of Information Technology)</strong> at UFPB and is managed and developed by the staff member <strong>Leonardo Américo Bezerra Viana</strong>, ensuring high availability and institutional security for data and users.{% endblocktrans %}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock js %}

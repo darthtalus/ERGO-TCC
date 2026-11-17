@@ -1,0 +1,395 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+  <link href="{% static 'css/dimensions.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block navbar %}
+  {% include 'partials/_navbar.html' %}
+{% endblock navbar %}
+{% block content %}
+  <div class="main text-center m-auto">
+    <div class="row">
+      <p>
+        Let us know what your day-to-day working conditions are like. To do so, it is important
+        that you provide the aspects you want to measure in each of the following dimensions:
+      </p>
+    </div>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col text-center">
+          <div class="card">
+            <div class="card-body">
+              <a href="#"
+                 class="link-primary"
+                 data-bs-toggle="modal"
+                 data-bs-target="#modalEnvironment">{{ dimensions.0 }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="col text-center">
+          <div class="card">
+            <div class="card-body">
+              <a href="#"
+                 class="link-warning"
+                 data-bs-toggle="modal"
+                 data-bs-target="#modalBehavior">{{ dimensions.1 }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="col text-center">
+          <div class="card">
+            <div class="card-body">
+              <a href="#"
+                 class="link-success"
+                 data-bs-toggle="modal"
+                 data-bs-target="#modalCognition">{{ dimensions.2 }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="{% url 'tasks_index' %}" class="mt-4 btn btn-primary">Start monitor</a>
+    </div>
+  </div>
+  <!-- Modal Environment-->
+  <div class="modal fade modal-lg"
+       id="modalEnvironment"
+       tabindex="-1"
+       aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Environment</h5>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Environment concerns issues external to the user and that, in some way,
+            have an impact on their effectiveness at work. e.g. temperature, noise pollution,
+            cleanliness, access to work tools (internet, computer, smartphone).
+          </p>
+          <form id="form-environment"
+                method="post"
+                action="{% url 'index_ajax' %}"
+                class="ajax">
+            {% csrf_token %}
+            {{ form.name }}
+            <input type="hidden" name="udid" value="{{ ud.id }}">
+            <input type="hidden" name="uduser_id" value="{{ user.id }}">
+            <input type="hidden" name="uddimension_id" value="{{ dimensions.0.id }}">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-floating">
+                  <input type="text" class="form-control" name="aspect_name" id="aspect_name">
+                  <label for="aspect_name">Aspect name</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-floating">
+                  <input type="text"
+                         class="form-control"
+                         name="aspect_value"
+                         id="aspect_value">
+                  <label for="aspect_value">Aspect value</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-info mt-2">+</button>
+              </div>
+            </div>
+          </form>
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <tbody id="table-environment" />
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Behavior-->
+  <div class="modal fade modal-lg"
+       id="modalBehavior"
+       tabindex="-1"
+       aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Behavior</h5>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Behavior can be understood as personal traits and attitude mechanisms that can
+            interfere with the effectiveness of the use of technology. For example, time to
+            respond to e-mail messages, use online services, organize tasks to be
+            accomplished, use technologies for non-work matters, send false information or
+            viruses, have several distractions throughout the day (answering messages shots,
+            excessive coffee breaks, smoking, etc.)
+          </p>
+          <form id="form-behavior"
+                method="post"
+                action="{% url 'index_ajax' %}"
+                class="ajax">
+            {% csrf_token %}
+            {{ form.name }}
+            <input type="hidden" name="udid" value="{{ ud.id }}">
+            <input type="hidden" name="uduser_id" value="{{ user.id }}">
+            <input type="hidden" name="uddimension_id" value="{{ dimensions.1.id }}">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-floating">
+                  <input type="text" class="form-control" name="aspect_name" id="aspect_name">
+                  <label for="aspect_name">Aspect name</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-floating">
+                  <input type="text"
+                         class="form-control"
+                         name="aspect_value"
+                         id="aspect_value">
+                  <label for="aspect_value">Aspect value</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-info mt-2">+</button>
+              </div>
+            </div>
+          </form>
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <tbody id="table-behavior" />
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Cognition-->
+  <div class="modal fade modal-lg"
+       id="modalCognition"
+       tabindex="-1"
+       aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cognition</h5>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nisi nunc,
+            ultrices quis massa nec, fermentum blandit justo. Donec vitae ipsum laoreet,
+            suscipit metus et, suscipit dui. Mauris facilisis lacus vel tellus dignissim pretium.
+          </p>
+          <form id="form-cognition"
+                method="post"
+                action="{% url 'index_ajax' %}"
+                class="ajax">
+            {% csrf_token %}
+            {{ form.name }}
+            <input type="hidden" name="udid" value="{{ ud.id }}">
+            <input type="hidden" name="uduser_id" value="{{ user.id }}">
+            <input type="hidden" name="uddimension_id" value="{{ dimensions.2.id }}">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-floating">
+                  <input type="text" class="form-control" name="aspect_name" id="aspect_name">
+                  <label for="aspect_name">Aspect name</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-floating">
+                  <input type="text"
+                         class="form-control"
+                         name="aspect_value"
+                         id="aspect_value">
+                  <label for="aspect_value">Aspect value</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-info mt-2">+</button>
+              </div>
+            </div>
+          </form>
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <tbody id="table-cognition" />
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block js %}
+  <script>
+  $('form').on('submit', function(e) {
+    $.ajaxSetup({
+      headers: {
+        "X-CSRFToken": $('[name=csrfmiddlewaretoken]').val()
+      }
+    })
+    let url = 'index/ajax'
+    let postData = $('#' + e.currentTarget.id).serialize()
+    console.log(postData)
+    let dimension = e.currentTarget.querySelector('[name=uddimension_id]').value
+    console.log(dimension)
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: postData,
+      success: function(response) {
+        if (dimension == 3) {
+          addItemCognition(response.data)
+        }
+        if (dimension == 2) {
+          addItemBehavior(response.data)
+        }
+        if (dimension == 1) {
+          addItemEnvironment(response.data)
+        }
+      },
+      error: function(xhr) {
+        console.log('Erro')
+      },
+      complete: function() {
+        console.log('complete')
+      }
+    })
+    e.preventDefault()
+  })
+
+  
+
+  function getTemplate(data) {
+    return '<tr>' +
+      '<th scope="row">' + data.nome + '</th>' + 
+      '<td>' + data.valor + '</td>' +
+    '</tr>'
+  }
+
+  function addItemCognition(data) {
+    const template = getTemplate(data)
+    $('table tbody#table-cognition').append(template)
+  }
+
+  function addItemBehavior(data) {
+    const template = getTemplate(data)
+    $('table tbody#table-behavior').append(template)
+  }
+
+  function addItemEnvironment(data) {
+    const template = getTemplate(data)
+    $('table tbody#table-environment').append(template)
+  }
+
+
+  $('#modalCognition').on('show.bs.modal', function (e) {
+    let url = 'index/ajax'
+    let postData = { user_id: $('#form-cognition input[name=uduser_id]').val(), dimension_id: $('#form-cognition input[name=uddimension_id]').val()}
+    $.ajax({
+      url: url,
+      type: 'GET',
+      data: postData,
+      success: function(response) {
+        try {
+          user_aspects = JSON.parse(response.data)
+          $('table tbody#table-cognition').html("")
+          user_aspects.forEach(function (arrayItem) {
+            addItemCognition(arrayItem.fields)
+          })
+        } catch (err) {
+          console.log(err)
+        }
+        
+      },
+      error: function(xhr) {
+        console.log('Erro')
+      },
+      complete: function() {
+        console.log('complete')
+      }
+    })
+  })
+
+  $('#modalBehavior').on('show.bs.modal', function (e) {
+    let url = 'index/ajax'
+    let postData = { user_id: $('#form-behavior input[name=uduser_id]').val(), dimension_id: $('#form-behavior input[name=uddimension_id]').val()}
+    $.ajax({
+      url: url,
+      type: 'GET',
+      data: postData,
+      success: function(response) {
+        try {
+          user_aspects = JSON.parse(response.data)  
+          $('table tbody#table-behavior').html("")
+          user_aspects.forEach(function (arrayItem) {
+            addItemBehavior(arrayItem.fields)
+          })        
+        } catch (err) {
+          console.log(err)
+        }
+        
+       
+      },
+      error: function(xhr) {
+        console.log('Erro')
+      },
+      complete: function() {
+        console.log('complete')
+      }
+    })
+  })
+
+  $('#modalEnvironment').on('show.bs.modal', function (e) {
+    let url = 'index/ajax'
+    let postData = { user_id: $('#form-environment input[name=uduser_id]').val(), dimension_id: $('#form-environment input[name=uddimension_id]').val()}
+    $.ajax({
+      url: url,
+      type: 'GET',
+      data: postData,
+      success: function(response) {
+        try {
+          user_aspects = JSON.parse(response.data)
+          console.log(user_aspects)
+          $('table tbody#table-environment').html("")
+          user_aspects.forEach(function (arrayItem) {
+            addItemEnvironment(arrayItem.fields)
+          })
+        } catch (err) {
+          console.log(err)
+        }
+        
+      },
+      error: function(xhr) {
+        console.log('Erro')
+      },
+      complete: function() {
+        console.log('complete')
+      }
+    })
+  })
+  </script>
+{% endblock js %}

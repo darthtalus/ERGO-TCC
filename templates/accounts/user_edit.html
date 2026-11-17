@@ -1,0 +1,541 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #1A4645;
+            --soft-teal: #75A7A6;
+            --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f4; }
+
+        .edit-container { max-width: 900px; margin: 0 auto; }
+
+        /* ── Header ── */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+            padding: 1.25rem 1.5rem;
+            border-radius: 14px;
+            color: white;
+            margin-bottom: 1.25rem;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(26,70,69,0.2);
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: -60%; right: -5%;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .page-header .label { font-size: 0.68rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; }
+        .page-header h1 { font-size: 1.25rem; font-weight: 700; margin: 0; white-space: nowrap; }
+
+        .btn-back {
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 8px;
+            padding: 0.4rem 1rem;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .btn-back:hover { background: rgba(255,255,255,0.22); color: white; }
+
+        /* ── Avatar ── */
+        .user-avatar {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary-teal), var(--soft-teal));
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.2rem; flex-shrink: 0;
+        }
+
+        /* ── Card ── */
+        .edit-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #eef2f2;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .edit-section { padding: 1.25rem 1.5rem; }
+        .edit-section + .edit-section { border-top: 1px solid #f0f4f4; }
+
+        .section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--soft-teal);
+            margin-bottom: 1rem;
+        }
+
+        /* ── Inputs ── */
+        .form-label {
+            font-size: 0.72rem !important;
+            font-weight: 600;
+            color: #868e96;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+        .form-control, .form-select {
+            font-size: 0.88rem !important;
+            border: 1px solid #e9ecef !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 0.75rem !important;
+            background: #f8fafa !important;
+            box-shadow: none !important;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--soft-teal) !important;
+            background: white !important;
+            box-shadow: 0 0 0 3px rgba(117,167,166,0.15) !important;
+        }
+
+        /* ── Switch ── */
+        .form-check-input:checked {
+            background-color: #00875a;
+            border-color: #00875a;
+        }
+        .form-check-label { font-size: 0.88rem; }
+
+        /* ── Botão salvar ── */
+        .btn-save {
+            background: var(--primary-teal);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 0.55rem 1.5rem;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-save:hover { background: #2c5e5c; color: white; transform: translateY(-1px); }
+        .btn-save:active { transform: translateY(0); }
+
+        /* ── Botão reset por email ── */
+        .btn-email-reset {
+            font-size: 0.8rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            color: #868e96;
+            padding: 0.4rem 1rem;
+            transition: all 0.2s;
+            background: white;
+        }
+        .btn-email-reset:hover { border-color: var(--soft-teal); color: var(--primary-teal); background: #f0f9f9; }
+
+        /* ── Danger zone ── */
+        .danger-section {
+            padding: 1rem 1.5rem;
+            background: #fff5f5;
+            border-top: 1px solid #ffe3e3;
+        }
+        .btn-del {
+            font-size: 0.8rem;
+            border: 1px solid #ffd8d8;
+            border-radius: 8px;
+            color: #e03131;
+            background: white;
+            padding: 0.4rem 1rem;
+            transition: all 0.2s;
+        }
+        .btn-del:hover { background: #ffe3e3; border-color: #e03131; color: #c92a2a; }
+
+        /* ── Tasks Summary Card ── */
+        .tasks-summary-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #eef2f2;
+            overflow: hidden;
+            animation: fadeIn 0.4s ease-out 0.1s both;
+        }
+        .tasks-summary-header {
+            background: linear-gradient(135deg, #1e3a5f, #2a5298);
+            padding: 1rem 1.5rem;
+            color: white;
+        }
+        .tasks-summary-header h2 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .tasks-summary-header .label {
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+        .task-counter-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .tasks-summary-table { margin: 0; }
+        .tasks-summary-table thead th {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--soft-teal);
+            border-bottom: 2px solid #eef2f2;
+            padding: 0.75rem 1rem;
+            background: #fafcfc;
+        }
+        .tasks-summary-table tbody td {
+            font-size: 0.83rem;
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+            color: #2d3436;
+            border-bottom: 1px solid #f0f4f4;
+        }
+        .tasks-summary-table tbody tr:last-child td { border-bottom: none; }
+        .tasks-summary-table tbody tr:hover { background: #f8fafa; }
+        .task-id-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #868e96;
+        }
+        .task-link {
+            color: #1a3a5c;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .task-link:hover { color: var(--primary-teal); }
+        .role-badge-executor {
+            background: #e8f4fd;
+            color: #1565c0;
+            border: 1px solid #bbdefb;
+            border-radius: 20px;
+            padding: 0.2rem 0.65rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        .role-badge-stakeholder {
+            background: #f3e5f5;
+            color: #6a1b9a;
+            border: 1px solid #e1bee7;
+            border-radius: 20px;
+            padding: 0.2rem 0.65rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        .status-pill {
+            border-radius: 20px;
+            padding: 0.2rem 0.65rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        .status-pill-doing { background: #FFB800; color: #1A4645; }
+        .status-pill-done  { background: #7ACF87; color: #fff; }
+        .status-pill-paused { background: #D95335; color: #fff; }
+        .status-pill-canceled { background: #FF5934; color: #fff; }
+        .status-pill-none { background: #e9ecef; color: #868e96; }
+        .tasks-empty-state {
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: #adb5bd;
+        }
+        .tasks-empty-state i { font-size: 2rem; margin-bottom: 0.5rem; display: block; opacity: 0.4; }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="container py-3 edit-container">
+
+    {# Header #}
+    <div class="page-header mb-3">
+        <div class="d-flex justify-content-between align-items-center position-relative" style="z-index:1;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="user-avatar">
+                    <i class="fa-solid fa-user-pen"></i>
+                </div>
+                <div>
+                    <div class="label">{% trans "Edit User" %}</div>
+                    <h1>{{ user_to_edit.get_full_name|default:user_to_edit.username }}</h1>
+                </div>
+            </div>
+            <a href="{% url 'user_list' %}" class="btn btn-back ms-3">
+                <i class="fa-solid fa-chevron-left me-1"></i>{% trans "Back" %}
+            </a>
+        </div>
+    </div>
+
+    {% include 'partials/_alerts.html' %}
+
+    <div class="edit-card">
+        <form method="post">
+            {% csrf_token %}
+
+            {# Dados pessoais #}
+            <div class="edit-section">
+                <div class="section-title">{% trans "Personal Information" %}</div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "First Name" %}</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Last Name" %}</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Email" %}</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "birthdate" %}</label>
+                        {{ form.birthdate }}
+                    </div>
+                </div>
+            </div>
+
+            {# Organização #}
+            <div class="edit-section">
+                <div class="section-title">{% trans "Organization" %}</div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Company" %}</label>
+                        {{ form.company }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Country" %}</label>
+                        {{ form.country }}
+                    </div>
+                </div>
+            </div>
+
+            {# Acesso #}
+            <div class="edit-section">
+                <div class="section-title">{% trans "Access & Security" %}</div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Profile / Role" %}</label>
+                        {{ form.role }}
+                        {% if form.role.help_text %}
+                            <small class="text-muted d-block mt-1" style="font-size:0.72rem;">{{ form.role.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "New Password" %}</label>
+                        {{ form.new_password }}
+                        {% if form.new_password.help_text %}
+                            <small class="text-muted d-block mt-1" style="font-size:0.72rem;">{% trans "Leave empty to keep current" %}</small>
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check form-switch">
+                            {{ form.is_active }}
+                            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                                {% trans "Active Account (Uncheck to block user)" %}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Ações #}
+            <div class="edit-section d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <a href="{% url 'admin_send_password_reset' user_to_edit.id %}" class="btn btn-email-reset">
+                    <i class="fa-solid fa-envelope me-2"></i>{% trans "Send Reset Link by Email" %}
+                </a>
+                <button type="submit" class="btn btn-save">
+                    <i class="fa-solid fa-floppy-disk me-2"></i>{% trans "Save Changes" %}
+                </button>
+            </div>
+        </form>
+
+        {# Danger zone — apenas SuperAdmin #}
+        {% if user.role == 'SUPERADMIN' and user_to_edit.id != user.id %}
+        <div class="danger-section d-flex justify-content-between align-items-center">
+            <div>
+                <div class="section-title mb-0" style="color:#e03131;">{% trans "Danger Zone" %}</div>
+                <small class="text-muted" style="font-size:0.75rem;">{% trans "This action cannot be undone." %}</small>
+            </div>
+            <a href="{% url 'user_delete' user_to_edit.id %}" class="btn btn-del">
+                <i class="fa-solid fa-trash me-1"></i>{% trans "Delete User" %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    {# ── Tasks Summary ── #}
+    <div class="tasks-summary-card mt-3 mb-4">
+        <div class="tasks-summary-header">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <div class="label">{% trans "Overview" %}</div>
+                    <h2><i class="fa-solid fa-list-check me-2"></i>{% trans "Tasks Summary" %}</h2>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <span class="task-counter-badge">
+                        <i class="fa-solid fa-person-running"></i>
+                        {% trans "Executor" %}: <strong>{{ executor_count }}</strong>
+                    </span>
+                    <span class="task-counter-badge">
+                        <i class="fa-solid fa-eye"></i>
+                        {% trans "Stakeholder" %}: <strong>{{ stakeholder_count }}</strong>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        {% if task_participations %}
+        <div class="table-responsive">
+            <table class="table tasks-summary-table table-borderless table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="?sort=task__id&amp;order={% if current_sort == 'task__id' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "ID" %}
+                                {% if current_sort == 'task__id' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=task__name&amp;order={% if current_sort == 'task__name' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Task" %}
+                                {% if current_sort == 'task__name' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=type&amp;order={% if current_sort == 'type' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Role" %}
+                                {% if current_sort == 'type' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th class="text-center">
+                            <a href="?sort=status&amp;order={% if current_sort == 'status' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Status" %}
+                                {% if current_sort == 'status' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th class="text-center">
+                            <a href="?sort=task__created_at&amp;order={% if current_sort == 'task__created_at' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Created" %}
+                                {% if current_sort == 'task__created_at' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participation in task_participations %}
+                    <tr>
+                        <td>
+                            <span class="task-id-badge">#{{ participation.task.id }}</span>
+                        </td>
+                        <td>
+                            <a href="{% url 'task_history' task_id=participation.task.id %}" class="task-link" title="{% trans 'View History' %}">
+                                {{ participation.task.name }}
+                                <i class="fa-solid fa-clock-rotate-left ms-1 small text-muted"></i>
+                            </a>
+                        </td>
+                        <td>
+                            {% if participation.type == 'EXECUTOR' %}
+                                <span class="role-badge-executor">
+                                    <i class="fa-solid fa-person-running me-1"></i>{% trans "Executor" %}
+                                </span>
+                            {% else %}
+                                <span class="role-badge-stakeholder">
+                                    <i class="fa-solid fa-eye me-1"></i>{% trans "Stakeholder" %}
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if participation.type == 'EXECUTOR' %}
+                                {% if participation.status == 'DOING' %}
+                                    <span class="status-pill status-pill-doing">
+                                        <i class="fa-solid fa-play me-1"></i>{% trans "Doing" %}
+                                    </span>
+                                {% elif participation.status == 'DONE' %}
+                                    <span class="status-pill status-pill-done">
+                                        <i class="fa-solid fa-check me-1"></i>{% trans "Done" %}
+                                    </span>
+                                {% elif participation.status == 'PAUSED' %}
+                                    <span class="status-pill status-pill-paused">
+                                        <i class="fa-solid fa-pause me-1"></i>{% trans "Paused" %}
+                                    </span>
+                                {% elif participation.status == 'CANCELED' %}
+                                    <span class="status-pill status-pill-canceled">
+                                        <i class="fa-solid fa-xmark me-1"></i>{% trans "Canceled" %}
+                                    </span>
+                                {% else %}
+                                    <span class="status-pill status-pill-none">—</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="status-pill status-pill-none" style="color:#6a1b9a; background:#f3e5f5; border:1px solid #e1bee7;">
+                                    <i class="fa-solid fa-eye me-1"></i>{% trans "Watching" %}
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center" style="font-size:0.75rem; color:#868e96;">
+                            {{ participation.task.created_at|date:"d/m/Y" }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="tasks-empty-state">
+            <i class="fa-solid fa-inbox"></i>
+            <p class="mb-0" style="font-size:0.85rem;">{% trans "No tasks found." %}</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+</main>
+{% endblock content %}
+

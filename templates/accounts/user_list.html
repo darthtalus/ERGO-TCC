@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <style>
+        :root {
+            --primary-teal: #1A4645;
+            --soft-teal: #75A7A6;
+            --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f4; }
+
+        .users-container { max-width: 100%; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* ── Header ── */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+            padding: 1.25rem 1.5rem;
+            border-radius: 14px;
+            color: white;
+            margin-bottom: 1.25rem;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(26,70,69,0.2);
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: -60%; right: -5%;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .page-header .label { font-size: 0.68rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; }
+        .page-header h1 { font-size: 1.25rem; font-weight: 700; margin: 0; white-space: nowrap; }
+        .page-header-left { flex-shrink: 0; }
+
+        .btn-new-user {
+            font-size: 0.82rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            border-radius: 8px;
+            padding: 0.45rem 1rem;
+            transition: all 0.2s;
+        }
+        .btn-new-user:hover {
+            background: rgba(255,255,255,0.25);
+            color: white;
+        }
+
+        /* ── Card da tabela ── */
+        .table-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #eef2f2;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Tabela ── */
+        #users-table thead th {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--soft-teal);
+            background: #f8fafa;
+            border-bottom: 2px solid #eef2f2;
+            padding: 0.5rem 0.5rem;
+            white-space: nowrap;
+        }
+        #users-table thead th a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        #users-table thead th a i {
+            font-size: 0.65rem;
+        }
+        #users-table tbody td {
+            font-size: 0.82rem;
+            padding: 0.4rem 0.5rem;
+            vertical-align: middle;
+            border-color: #f4f7f7;
+            color: #2d3436;
+            white-space: nowrap;
+        }
+        #users-table tbody tr { transition: background 0.15s; }
+        #users-table tbody tr:hover { background: #f8fafa; }
+
+        .user-link {
+            font-weight: 600;
+            color: var(--primary-teal);
+            text-decoration: none;
+        }
+        .user-link:hover { color: var(--soft-teal); text-decoration: underline; }
+
+        /* ── Role badges ── */
+        .role-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .role-superadmin { background: #ffe0e0; color: #c92a2a; }
+        .role-admin      { background: #e7f5ff; color: #1971c2; }
+        .role-default    { background: #f3f3f3; color: #868e96; }
+
+        /* ── Status ── */
+        .status-pill {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .status-active  { background: #e3fcef; color: #00875a; }
+        .status-blocked { background: #f3f3f3; color: #868e96; }
+
+        /* ── Botão delete ── */
+        .btn-del {
+            font-size: 0.75rem;
+            border: 1px solid #ffd8d8;
+            border-radius: 7px;
+            color: #e03131;
+            background: #fff5f5;
+            padding: 0.3rem 0.6rem;
+            transition: all 0.2s;
+        }
+        .btn-del:hover { background: #ffe3e3; border-color: #e03131; color: #c92a2a; }
+
+        /* ── DataTables overrides ── */
+        .dataTables_wrapper .dataTables_filter input {
+            font-size: 0.82rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 0.35rem 0.75rem;
+        }
+        .dataTables_wrapper .dataTables_length select {
+            font-size: 0.82rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 0.25rem 0.5rem;
+        }
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_paginate {
+            font-size: 0.78rem;
+            padding: 0.75rem 1rem;
+        }
+        .dataTables_wrapper .paginate_button {
+            border-radius: 6px !important;
+            font-size: 0.78rem !important;
+        }
+        .dataTables_wrapper .paginate_button.current {
+            background: var(--primary-teal) !important;
+            border-color: var(--primary-teal) !important;
+            color: white !important;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="py-3 users-container">
+
+    {# Header #}
+    <div class="page-header mb-3">
+        <div class="d-flex justify-content-between align-items-center position-relative" style="z-index:1;">
+            <div class="page-header-left">
+                <div class="label">{% trans "Administration" %}</div>
+                <h1><i class="fa-solid fa-users me-2 opacity-75"></i>{% trans "Registered Users" %}</h1>
+            </div>
+            <a href="{% url 'register' %}" class="btn btn-new-user ms-3 flex-shrink-0">
+                <i class="fa-solid fa-user-plus me-2"></i>{% trans "Register New User" %}
+            </a>
+        </div>
+    </div>
+
+    {% include 'partials/_alerts.html' %}
+
+    {# Tabela #}
+    <div class="table-card">
+        <div class="table-responsive">
+            <table id="users-table" class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="?sort=username&amp;order={% if current_sort == 'username' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Username" %}
+                                {% if current_sort == 'username' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=full_name&amp;order={% if current_sort == 'full_name' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Full Name" %}
+                                {% if current_sort == 'full_name' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=email&amp;order={% if current_sort == 'email' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Email" %}
+                                {% if current_sort == 'email' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=role&amp;order={% if current_sort == 'role' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Profile" %}
+                                {% if current_sort == 'role' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=date_joined&amp;order={% if current_sort == 'date_joined' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                CADASTRO
+                                {% if current_sort == 'date_joined' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=last_login&amp;order={% if current_sort == 'last_login' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Last Login" %}
+                                {% if current_sort == 'last_login' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=is_active&amp;order={% if current_sort == 'is_active' and current_order == 'asc' %}desc{% else %}asc{% endif %}" class="text-decoration-none text-muted">
+                                {% trans "Status" %}
+                                {% if current_sort == 'is_active' %}
+                                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-sort"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        {% if user.role == 'SUPERADMIN' %}
+                        <th>{% trans "Actions" %}</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user_item in users %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'user_edit' user_item.id %}" class="user-link">
+                                {{ user_item.username }}
+                            </a>
+                        </td>
+                        <td>{{ user_item.first_name }} {{ user_item.last_name }}</td>
+                        <td class="text-muted">{{ user_item.email }}</td>
+                        <td>
+                            <span class="role-badge
+                                {% if user_item.role == 'SUPERADMIN' %}role-superadmin
+                                {% elif user_item.role == 'ADMIN' %}role-admin
+                                {% else %}role-default{% endif %}">
+                                {{ user_item.get_role_display }}
+                            </span>
+                        </td>
+                        <td data-order="{{ user_item.date_joined|date:'U' }}" class="text-muted">
+                            {{ user_item.date_joined|date:"d/m/Y" }}
+                        </td>
+                        <td data-order="{% if user_item.last_login %}{{ user_item.last_login|date:'U' }}{% else %}0{% endif %}">
+                            {% if user_item.last_login %}
+                                <span class="text-muted">{{ user_item.last_login|date:"d/m/Y H:i" }}</span>
+                            {% else %}
+                                <span class="text-muted" style="font-size:0.75rem;">{% trans "Never" %}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if user_item.is_active %}
+                                <span class="status-pill status-active">{% trans "Active" %}</span>
+                            {% else %}
+                                <span class="status-pill status-blocked">{% trans "Blocked" %}</span>
+                            {% endif %}
+                        </td>
+                        {% if user.role == 'SUPERADMIN' %}
+                        <td>
+                            {% if user_item.id != user.id %}
+                            <a href="{% url 'user_delete' user_item.id %}" class="btn btn-del">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="{% if user.role == 'SUPERADMIN' %}8{% else %}7{% endif %}" class="text-center py-4 text-muted">
+                            <i class="fa-solid fa-users-slash d-block mb-2" style="font-size:1.5rem;opacity:0.3;"></i>
+                            {% trans "No users found." %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</main>
+{% endblock content %}
+
+{% block js %}
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#users-table').DataTable({
+            "pageLength": 15,
+            "ordering": false,
+            "language": {
+                "search": "{% trans 'Search:' %}",
+                "searchPlaceholder": "{% trans 'Search users...' %}",
+                "lengthMenu": "{% trans 'Show _MENU_ entries' %}",
+                "info": "{% trans 'Showing _START_ to _END_ of _TOTAL_ entries' %}",
+                "infoEmpty": "{% trans 'Showing 0 to 0 of 0 entries' %}",
+                "infoFiltered": "{% trans '(filtered from _MAX_ total entries)' %}",
+                "paginate": {
+                    "first": "{% trans 'First' %}",
+                    "last": "{% trans 'Last' %}",
+                    "next": "{% trans 'Next' %}",
+                    "previous": "{% trans 'Previous' %}"
+                },
+                "zeroRecords": "{% trans 'No matching records found' %}"
+            }
+        });
+    });
+</script>
+{% endblock js %}

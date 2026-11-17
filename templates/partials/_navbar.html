@@ -1,0 +1,31 @@
+{% load static i18n %}
+<!-- Navbar -->
+{% if user.is_authenticated %}
+<header class="navbar navbar-expand-md bd-navbar topbar justify-content-between p-2">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars fs-2" style="color: #1A4645;"></i>
+    </button>
+    <div class="navbar-nav-scroll ms-auto">
+        <ul class="navbar-nav bd-navbar-nav flex-row">
+            <li class="nav-item">
+                <a class="navbar-link" href="{% url 'profile' %}">
+                    <img src="{% static 'images/ico-user.png' %}" class="me-1" style="max-height: 24px; max-width: 30px;" alt="">
+                    <span style="color: #F68800 !important;">{{ user.username }}</span>
+                </a>
+            </li>
+            <li class="nav-item me-3">
+                <a class="navbar-link" href="javascript:{document.getElementById('logout').submit()}">
+                    <img src="{% static 'images/ico-logout.png' %}" class="me-1" style="max-height: 24px; max-width: 30px;" alt="">
+                    <span style="color: #F68800 !important;">{% trans "Logout" %}</span>
+                </a>
+
+
+                <form action="{% url 'logout' %}" method="post" id="logout" class="d-none">
+                    {% csrf_token %}
+                </form>
+            </li>
+
+        </ul>
+    </div>
+</header>
+{% endif %}

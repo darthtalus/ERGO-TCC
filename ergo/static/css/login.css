@@ -1,0 +1,204 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  /* rtl:raw:
+  */
+  /* rtl:remove */
+  left: 0;
+  z-index: 100;
+  /* Behind the navbar */
+  padding: 0 0;
+  /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.prima {
+  background: #F68800;
+  border: none;
+  border-radius: 11px;
+}
+
+.prima:hover {
+  background: #b46300 !important;
+  border: none;
+  border-radius: 11px;
+}
+
+.prima:focus {
+  background: #b46300 !important;
+}
+
+.login-card {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.25);
+  border-radius: 22px;
+  padding: 28px;
+}
+
+input[type="password"],
+input[type="text"],
+select.form-select {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #75A7A6;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+input[type="password"]:focus,
+input[type="text"]:focus,
+select.form-select:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+select {
+  border: 0px !important;
+  border-bottom: 1px solid #75A7A6 !important;
+  border-radius: 0px !important;
+  background: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right #ffffff !important;
+}
+
+.label-login {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #75A7A6;
+}
+
+.create-account {
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  text-align: center;
+  color: #1A4645;
+  margin-top: 20px;
+  display: block;
+}
+
+.logo {
+  height: 84px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.center-vertical {
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+
+.flex-item {
+  justify-content: center;
+}
+
+.cover-text {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 48px;
+  color: #1A4645;
+}
+
+.cover {
+  display: flex;
+  margin: 50px;
+}
+
+p {
+  max-width: 466px;
+}
+
+/* Imagem de capa - tamanho desktop */
+.cover-img {
+  height: 318px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Área do formulário de login: largura máxima no desktop */
+.login-form-area {
+  max-width: 420px;
+}
+
+/* Logos do rodapé */
+.image-esquerda {
+  margin: 20px 0;
+  max-height: 60px;
+  object-fit: contain;
+}
+
+.image-direita {
+  margin: 100px 0px 0px 40px;
+}
+
+.register-card {
+  background-color: #F68800;
+}
+
+.spacing {
+  margin: 10px;
+}
+
+/* ─── Responsividade Mobile ─────────────────────────────────── */
+@media (max-width: 767.98px) {
+  /* Card de login ocupa a tela toda com padding lateral */
+  .login-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  /* Área do formulário: largura total no mobile */
+  .login-form-area {
+    max-width: 100%;
+  }
+
+  /* Logo menor no mobile */
+  .logo {
+    height: 64px;
+  }
+
+  /* Fontes menores no mobile */
+  .label-login {
+    font-size: 16px;
+  }
+
+  .create-account {
+    font-size: 16px;
+  }
+
+  /* Espaçamento do wrapper entre cover e form */
+  .login-wrapper {
+    gap: 1.5rem !important;
+  }
+
+  /* Footer logos centralizados */
+  .footer-logos {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .image-esquerda {
+    margin: 16px auto;
+  }
+}

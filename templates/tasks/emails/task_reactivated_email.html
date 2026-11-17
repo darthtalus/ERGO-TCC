@@ -1,0 +1,32 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .header { background-color: #f0f9ff; padding: 10px; text-align: center; border-bottom: 1px solid #bae6fd; }
+        .content { padding: 20px; }
+        .footer { font-size: 0.8em; color: #777; text-align: center; margin-top: 20px; }
+        .button { display: inline-block; padding: 10px 20px; background-color: #0284c7; color: #ffffff !important; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 style="color: #0369a1;">{% trans "Task Reactivated" %}</h2>
+        </div>
+        <div class="content">
+            <p>{% trans "Hello," %} {{ recipient_name }},</p>
+            <p>{% blocktrans with executor=executor_name task=task_name %}The task <strong>{{ task }}</strong> has been reactivated and is now <strong>In Progress</strong> again by <strong>{{ executor }}</strong>.{% endblocktrans %}</p>
+            <p>{% trans "You are receiving this notification because the task was previously canceled." %}</p>
+            <center>
+                <a href="{{ history_url }}" class="button" style="color: #ffffff !important;">{% trans "View History" %}</a>
+            </center>
+        </div>
+        <div class="footer">
+            <p>{% trans "This is an automated message from Ergo. Please do not reply to this email." %}</p>
+        </div>
+    </div>
+</body>
+</html>

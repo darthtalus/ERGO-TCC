@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
+
+{% block css %}
+<style>
+    :root { --doc-primary:#1A4645; --doc-soft:#75A7A6; }
+    .doc-wrap { max-width: 1080px; margin: 0 auto; }
+    .doc-header { background:linear-gradient(135deg,var(--doc-primary),#2c5e5c); color:#fff; border-radius:14px; padding:1.4rem 1.6rem; box-shadow:0 6px 20px rgba(26,70,69,.18); }
+    .doc-header h1 { font-size:1.35rem; margin:0; font-weight:700; }
+    .doc-header p { margin:.35rem 0 0; opacity:.86; }
+    .doc-nav { background:#fff; border-radius:12px; padding:1rem 1.2rem; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+    .doc-nav a { color:var(--doc-primary); text-decoration:none; margin-right:1rem; line-height:2; white-space:nowrap; }
+    .doc-section { background:#fff; border-radius:14px; padding:1.5rem; margin:1.25rem 0; box-shadow:0 2px 12px rgba(0,0,0,.06); border-left:4px solid var(--doc-soft); }
+    .doc-section h2 { color:var(--doc-primary); font-size:1.08rem; font-weight:750; text-transform:uppercase; letter-spacing:.05em; border-bottom:1px solid #edf1f1; padding-bottom:.55rem; }
+    .doc-section h3 { font-size:.98rem; font-weight:700; margin-top:1.2rem; }
+    .doc-section p,.doc-section li,.doc-section td,.doc-section th { font-size:.93rem; line-height:1.6; color:#4f5959; }
+    .doc-note { background:#f3f8f8; border-left:3px solid var(--doc-soft); padding:.85rem 1rem; border-radius:8px; }
+    .doc-warning { background:#fff8e8; border-left:3px solid #d9a323; padding:.85rem 1rem; border-radius:8px; }
+    .doc-code { background:#172020; color:#eaf4f4; border-radius:8px; padding:.75rem 1rem; font-family:monospace; overflow:auto; }
+    .doc-table { width:100%; border-collapse:collapse; }
+    .doc-table th,.doc-table td { border-bottom:1px solid #e9eeee; padding:.55rem; text-align:left; vertical-align:top; }
+    .doc-actions { display:flex; justify-content:center; gap:.75rem; margin:2rem 0; }
+    .doc-btn { text-decoration:none; border-radius:8px; padding:.55rem 1rem; border:1px solid #cfdada; color:var(--doc-primary); background:#fff; }
+    .doc-btn-primary { background:var(--doc-primary); color:#fff; border-color:var(--doc-primary); }
+</style>
+{% endblock css %}
+
+{% block content %}
+<main class="container py-3 doc-wrap">
+    {% if CURRENT_LANGUAGE|slice:":2" == "pt" %}
+        {% include "tasks/documentation_pt.html" %}
+    {% else %}
+        {% include "tasks/documentation_en.html" %}
+    {% endif %}
+</main>
+{% endblock content %}

@@ -1,0 +1,84 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Ergo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">ERGO</div>
+        </div>
+        <div class="content">
+            <h1>{% blocktrans with name=user.first_name %}Hello, {{ name }}!{% endblocktrans %}</h1>
+            <p>{% blocktrans %}Welcome to <strong>Ergo</strong>. We are happy to have you with us.{% endblocktrans %}</p>
+            <p>{% blocktrans with username=user.username %}Your account has been successfully created with the username: <strong>{{ username }}</strong>{% endblocktrans %}</p>
+            <p>{% trans "You can now access all the features of our system to manage your projects and tasks more efficiently." %}</p>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="{{ request.scheme }}://{{ request.get_host }}/login" class="button" style="color: #ffffff;">{% trans "Access My Account" %}</a>
+                <p style="font-size: 11px; color: #999; margin-top: 10px;">
+                    {% trans "Or copy this link:" %} {{ request.scheme }}://{{ request.get_host }}/login
+                </p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>{% trans "&copy; 2026 Ergo. All rights reserved." %}</p>
+            <p>{% trans "If you did not create this account, please ignore this email." %}</p>
+        </div>
+    </div>
+</body>
+</html>

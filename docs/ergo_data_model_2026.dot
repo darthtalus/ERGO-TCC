@@ -1,0 +1,45 @@
+digraph ERGODataModel {
+  graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.35", ranksep="0.65", fontname="Arial", label="ERGO v5 — core data and workflow audit", labelloc="t"];
+  node [shape=record, style="filled", fillcolor="#f5fbfa", color="#1A4645", fontname="Arial", fontsize=9];
+  edge [color="#587877", arrowsize=0.7, fontname="Arial", fontsize=8];
+
+  user [label="{user|id\lusername / email\lrole / is_superuser\l}", fillcolor="#d9efed"];
+  task [label="{task|id\lname / description\lduration / difficulty 0–5\lowner_id / created_at\l}", fillcolor="#e6f5f3"];
+  assignment [label="{task_assignment|id\ltask_id / user_id\ltype EXECUTOR|STAKEHOLDER\lstatus DOING|PAUSED|CANCELED|DONE|NONE\l|UNIQUE task+user+type\l}"];
+  evaluation [label="{task_evaluation|id\ltaskuser_id / user_id\lrate_type SELF|STAKEHOLDER\lABC + effectiveness 1–5\lcreated_at / updated_at\l|UNIQUE assignment+author+type\l}"];
+  effectiveness [label="{daily_effectiveness|id\luser_id\lday\leffectiveness\l}"];
+  history [label="{measurement_history|id\leffectiveness_id\ldimension\lparametrized\l}"];
+
+  comment [label="{task_comment|task_id / user_id\lcontent\lprivate attachment\lcreated_at\l}", fillcolor="#fff7e5"];
+  review [label="{task_review|taskuser_id / reviewed_by_id\lstatus\lcycle_number\levaluation_snapshot JSON\lcreated_at\l|append-only\l}", fillcolor="#fff7e5"];
+  startcheck [label="{task_start_checklist|taskuser_id / answered_by_id\lrisk_score 0–6\lrecommendations\lcreated_at\l}", fillcolor="#fff7e5"];
+  template [label="{task_template|owner_id\lname / duration\ldifficulty 0–5\lchecklist text\l}", fillcolor="#f7efff"];
+  item [label="{task_checklist_item|task_id\ltext / position\lis_completed\lcompleted_by / completed_at\l}", fillcolor="#f7efff"];
+  rule [label="{recurring_task_rule|owner_id / template_id\lfrequency\lnext_run / anchor_day\lis_active\l}", fillcolor="#f7efff"];
+  occurrence [label="{recurring_task_occurrence|rule_id\lscheduled_for\ltask_id\l|UNIQUE rule+date\l}", fillcolor="#f7efff"];
+  sensor [label="{sensor_reading|user_id / captured_at\lsource\ltemperature / humidity\lnoise / lux / AQI\l}", fillcolor="#edf0ff"];
+  token [label="{sensor_api_token|user_id (one-to-one)\lprefix / key_hash\lis_active / last_used_at\l}", fillcolor="#edf0ff"];
+
+  user -> task [label="owns"];
+  user -> assignment [label="participates"];
+  task -> assignment [label="has"];
+  assignment -> evaluation [label="assessments"];
+  user -> evaluation [label="authors"];
+  user -> effectiveness [label="records"];
+  effectiveness -> history [label="dimension snapshot"];
+
+  task -> comment;
+  user -> comment;
+  assignment -> review [label="cycles"];
+  user -> review [label="reviews"];
+  assignment -> startcheck;
+  user -> startcheck;
+  user -> template;
+  template -> rule;
+  user -> rule;
+  rule -> occurrence;
+  occurrence -> task [label="creates"];
+  task -> item;
+  user -> sensor;
+  user -> token [label="owns"];
+}

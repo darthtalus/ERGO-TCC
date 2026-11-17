@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-teal: #1A4645;
+        --soft-teal: #75A7A6;
+        --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    body { font-family: 'Inter', sans-serif; background-color: #f0f4f4; }
+
+    .profile-container { max-width: 680px; margin: 0 auto; }
+
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+        padding: 1.25rem 1.5rem;
+        border-radius: 14px;
+        color: white;
+        margin-bottom: 1.25rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(26,70,69,0.2);
+    }
+    .page-header::after {
+        content: '';
+        position: absolute;
+        top: -60%; right: -5%;
+        width: 200px; height: 200px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+    }
+    .page-header .label { font-size: 0.68rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; }
+    .page-header h1 { font-size: 1.25rem; font-weight: 700; margin: 0; }
+
+    .profile-avatar {
+        width: 48px; height: 48px;
+        border-radius: 12px;
+        background: linear-gradient(45deg, var(--primary-teal), var(--soft-teal));
+        display: flex; align-items: center; justify-content: center;
+        color: white; font-size: 1.2rem; flex-shrink: 0;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 14px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid #eef2f2;
+        overflow: hidden;
+        animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-section {
+        padding: 1.25rem 1.5rem;
+    }
+    .profile-section + .profile-section {
+        border-top: 1px solid #f0f4f4;
+    }
+    .section-title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--soft-teal);
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        font-size: 0.72rem !important;
+        font-weight: 600;
+        color: #868e96;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.3rem;
+    }
+    .form-control, .form-select {
+        font-size: 0.88rem !important;
+        border: 1px solid #e9ecef !important;
+        border-radius: 8px !important;
+        padding: 0.5rem 0.75rem !important;
+        background: #f8fafa !important;
+        box-shadow: none !important;
+        transition: border-color 0.2s, background 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: var(--soft-teal) !important;
+        background: white !important;
+        box-shadow: 0 0 0 3px rgba(117,167,166,0.15) !important;
+    }
+
+    .btn-save {
+        background: var(--primary-teal);
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        padding: 0.55rem 1.5rem;
+        transition: background 0.2s, transform 0.1s;
+    }
+    .btn-save:hover {
+        background: #2c5e5c;
+        color: white;
+        transform: translateY(-1px);
+    }
+    .btn-save:active { transform: translateY(0); }
+
+    .btn-cancel {
+        font-size: 0.85rem;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        color: #868e96;
+        padding: 0.45rem 1.2rem;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+    .btn-cancel:hover {
+        border-color: var(--soft-teal);
+        color: var(--primary-teal);
+        background: #f0f9f9;
+    }
+
+    .rating-stars {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    .my-star {
+        font-size: 1.5rem;
+        color: var(--soft-teal);
+        cursor: pointer;
+        transition: transform 0.1s;
+    }
+    .my-star:hover {
+        transform: scale(1.1);
+        color: var(--primary-teal);
+    }
+    .my-star.active {
+        color: var(--primary-teal);
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="container py-3 profile-container">
+
+    <div class="page-header mb-3">
+        <div class="d-flex align-items-center gap-3 position-relative" style="z-index:1;">
+            <div class="profile-avatar">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </div>
+            <div>
+                <div class="label">{% trans "Aspect Modification" %}</div>
+                <h1>{% trans "Edit Aspect:" %} {{ aspect.nome }}</h1>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partials/_alerts.html' %}
+
+    <div class="profile-card">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.dimension.as_hidden }}
+
+            <div class="profile-section">
+                <div class="section-title">{% trans "Aspect Information" %}</div>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">{% trans "Name" %}</label>
+                        {{ form.nome }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Unit" %}</label>
+                        {% with field=form.unidade %}
+                        <select name="{{ field.html_name }}"
+                                class="form-select"
+                                required=""
+                                id="{{ field.id_for_label }}">
+                            {% for choice in field %}
+                                {% if choice.data.value in allowed_units %}
+                                    <option value="{{ choice.data.value }}" {% if choice.data.selected %}selected{% endif %}>{{ choice.choice_label }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        {% endwith %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Absolute Value" %}</label>
+                        {{ form.valor }}
+                    </div>
+                    
+                    <div class="col-12">
+                        <label class="form-label">{% trans "Parametrized Value (Impact 1-5)" %}</label>
+                        <input type="hidden" name="parametrized" id="id_parametrized" value="{{ aspect.parametrized|default:3 }}">
+                        <div class="rating-stars">
+                            {% with p=aspect.parametrized|default:3 %}
+                            <i class="my-star fa-solid fa-circle {% if p >= 1 %}active{% endif %}" data-star="1"></i>
+                            <i class="my-star {% if p >= 2 %}fa-solid active{% else %}fa-regular{% endif %} fa-circle" data-star="2"></i>
+                            <i class="my-star {% if p >= 3 %}fa-solid active{% else %}fa-regular{% endif %} fa-circle" data-star="3"></i>
+                            <i class="my-star {% if p >= 4 %}fa-solid active{% else %}fa-regular{% endif %} fa-circle" data-star="4"></i>
+                            <i class="my-star {% if p >= 5 %}fa-solid active{% else %}fa-regular{% endif %} fa-circle" data-star="5"></i>
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section d-flex justify-content-end gap-2">
+                <a href="{% url 'params' %}" class="btn btn-cancel">{% trans "Cancel" %}</a>
+                <button type="submit" class="btn btn-save">
+                    <i class="fa-solid fa-floppy-disk me-2"></i>{% trans "Save Changes" %}
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+</main>
+{% endblock content %}
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const stars = document.querySelectorAll(".my-star");
+    const paramInput = document.querySelector("#id_parametrized");
+
+    stars.forEach((element) => {
+        element.addEventListener("click", () => {
+            const star = parseInt(element.dataset.star);
+            paramInput.value = star;
+
+            stars.forEach((el) => {
+                const s = parseInt(el.dataset.star);
+                el.classList.remove("fa-regular", "fa-solid", "active");
+                if (s <= star) {
+                    el.classList.add("fa-solid", "active");
+                } else {
+                    el.classList.add("fa-regular");
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock js %}

@@ -1,0 +1,627 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load widget_tweaks %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-teal: #1A4645;
+        --soft-teal: #75A7A6;
+        --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    body { font-family: 'Inter', sans-serif; background-color: #f0f4f4; }
+
+    .profile-container { max-width: 850px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+        padding: 1.25rem 1.5rem;
+        border-radius: 14px;
+        color: white;
+        margin-bottom: 1.25rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(26,70,69,0.2);
+    }
+    .page-header::after {
+        content: '';
+        position: absolute;
+        top: -60%; right: -5%;
+        width: 200px; height: 200px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+    }
+    .page-header .label { font-size: 0.68rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; }
+    .page-header h1 { font-size: 1.25rem; font-weight: 700; margin: 0; }
+
+    /* ── Avatar/Icon ── */
+    .profile-avatar {
+        width: 48px; height: 48px;
+        border-radius: 12px;
+        background: linear-gradient(45deg, var(--primary-teal), var(--soft-teal));
+        display: flex; align-items: center; justify-content: center;
+        color: white; font-size: 1.2rem; flex-shrink: 0;
+    }
+
+    /* ── Card principal ── */
+    .profile-card {
+        background: white;
+        border-radius: 14px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid #eef2f2;
+        overflow: hidden;
+        animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Seção interna ── */
+    .profile-section {
+        padding: 1.25rem 1.5rem;
+    }
+    .profile-section + .profile-section {
+        border-top: 1px solid #f0f4f4;
+    }
+    .section-title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--soft-teal);
+        margin-bottom: 1rem;
+    }
+
+    /* ── Inputs ── */
+    .form-label {
+        font-size: 0.72rem !important;
+        font-weight: 600;
+        color: #868e96;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.3rem;
+        display: block;
+    }
+    .form-control, .form-select {
+        font-size: 0.88rem !important;
+        border: 1px solid #e9ecef !important;
+        border-radius: 8px !important;
+        padding: 0.5rem 0.75rem !important;
+        background: #f8fafa !important;
+        box-shadow: none !important;
+        transition: border-color 0.2s, background 0.2s;
+        width: 100%;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: var(--soft-teal) !important;
+        background: white !important;
+        box-shadow: 0 0 0 3px rgba(117,167,166,0.15) !important;
+    }
+
+    /* ── Buttons ── */
+    .btn-save {
+        background: var(--primary-teal);
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        padding: 0.55rem 1.5rem;
+        transition: background 0.2s, transform 0.1s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .btn-save:hover {
+        background: #2c5e5c;
+        color: white;
+        transform: translateY(-1px);
+    }
+    .btn-save:active { transform: translateY(0); }
+
+    .btn-cancel {
+        font-size: 0.85rem;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        color: #868e96;
+        padding: 0.45rem 1.2rem;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .btn-cancel:hover {
+        border-color: var(--soft-teal);
+        color: var(--primary-teal);
+        background: #f0f9f9;
+    }
+
+    /* ── Stars ── */
+    .rating-stars {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    .my-star {
+        font-size: 1.2rem;
+        color: var(--soft-teal);
+        cursor: pointer;
+        transition: transform 0.1s;
+    }
+    .my-star:hover {
+        transform: scale(1.1);
+        color: var(--primary-teal);
+    }
+
+    /* ── Table Styling ── */
+    .roles-table {
+        background: #f8fafa;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .roles-table th {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        color: #868e96;
+        letter-spacing: 0.5px;
+        padding: 0.75rem 1rem;
+        border: none;
+    }
+    .roles-table td {
+        padding: 0.75rem 1rem;
+        font-size: 0.88rem;
+        border-top: 1px solid #eef2f2;
+    }
+
+    /* ── Custom Toggle ── */
+    .form-switch .form-check-input {
+        width: 2.5em;
+        height: 1.25em;
+        cursor: pointer;
+    }
+    .form-switch .form-check-input:checked {
+        background-color: var(--soft-teal);
+        border-color: var(--soft-teal);
+    }
+
+    .hidden { display: none !important; }
+</style>
+{% endblock css %}
+
+{% block content %}
+<main>
+    <div class="container py-3 profile-container">
+
+        {# Header #}
+        <div class="page-header mb-3">
+            <div class="d-flex align-items-center gap-3 position-relative" style="z-index:1;">
+                <div class="profile-avatar">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <div>
+                    <div class="label">{% trans "Gestão de Tarefas" %}</div>
+                    <h1>
+                        {% if form.instance.id %}
+                            {% trans "Edit task" %}
+                        {% else %}
+                            {% trans "New task" %}
+                        {% endif %}
+                    </h1>
+                </div>
+            </div>
+            {% if form.instance.id %}
+            <div class="position-absolute top-50 end-0 translate-middle-y me-4 d-none d-md-block" style="z-index:2;">
+                <a href="{% url 'task_join_requests' form.instance.id %}" class="btn btn-light btn-sm fw-bold px-3" style="border-radius: 8px; color: var(--primary-teal); border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <i class="fa-solid fa-share-nodes me-1"></i> {% trans "Compartilhar" %}
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        {% include 'partials/_alerts.html' %}
+
+        {% if not form.instance.id %}
+        <div class="profile-card mb-3">
+            <div class="profile-section d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div>
+                    <div class="section-title mb-1">{% trans "Task planning" %}</div>
+                    <p class="text-muted small mb-0">{% trans "Use task models when the activity is repetitive or should follow a standard checklist." %}</p>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{% url 'upgrades_templates' %}" class="btn btn-cancel"><i class="fa-solid fa-copy me-1"></i>{% trans "Task models" %}</a>
+                    <a href="{% url 'upgrades_recurring' %}" class="btn btn-cancel"><i class="fa-solid fa-repeat me-1"></i>{% trans "Recurring tasks" %}</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="profile-card">
+            <form action="" method="post" novalidate>
+                {% csrf_token %}
+
+                {# Seção: Detalhes #}
+                <div class="profile-section">
+                    <div class="section-title">{% trans "Detalhes da Tarefa" %}</div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            {% trans "Task name" as trans_task_name %}
+                            <label class="form-label" for="{{ form.name.id_for_label }}">{{ trans_task_name }}</label>
+                            {% if form.name.errors %}
+                                {% render_field form.name class="form-control is-invalid" placeholder=trans_task_name %}
+                            {% else %}
+                                {% render_field form.name class="form-control" placeholder=trans_task_name %}
+                            {% endif %}
+                            {% for error in form.name.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+                        </div>
+
+                        <div class="col-12">
+                            {% trans "Task description" as trans_task_desc %}
+                            <label class="form-label" for="{{ form.description.id_for_label }}">{{ trans_task_desc }}</label>
+                            {% if form.description.errors %}
+                                {% render_field form.description class="form-control is-invalid" placeholder=trans_task_desc %}
+                            {% else %}
+                                {% render_field form.description class="form-control" placeholder=trans_task_desc %}
+                            {% endif %}
+                            {% for error in form.description.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                {# Seção: Planejamento #}
+                <div class="profile-section">
+                    <div class="section-title">{% trans "Estimated time to completion" %}</div>
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label">{% trans "Days" %}</label>
+                            {% render_field form.dias class="form-select" %}
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">{% trans "Hours" %}</label>
+                            {% render_field form.horas class="form-select" %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-center w-100">{% trans "Estimated task difficulty" %}</label>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="text-muted me-3" style="font-size: 0.75rem; font-weight: 500;">{% trans "Easy" %}</span>
+                                <div class="rating-stars">
+                                    <i class="my-star fa-solid fa-circle" data-star="1"></i>
+                                    <i class="my-star fa-regular fa-circle" data-star="2"></i>
+                                    <i class="my-star fa-regular fa-circle" data-star="3"></i>
+                                    <i class="my-star fa-regular fa-circle" data-star="4"></i>
+                                    <i class="my-star fa-regular fa-circle" data-star="5"></i>
+                                </div>
+                                <span class="text-muted ms-3" style="font-size: 0.75rem; font-weight: 500;">{% trans "Hard" %}</span>
+                            </div>
+                            {% render_field form.difficulty class="hidden" %}
+                        </div>
+                    </div>
+                </div>
+
+                {# Seção: Papéis #}
+                <div class="profile-section">
+                    <div class="section-title">{% trans "Roles" %}</div>
+                    
+                    <div class="row g-3 align-items-end mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">{% trans "Role" %}</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="">----</option>
+                                {% for role in roles %}
+                                    <option value="{{ role.value }}">{{ role.label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4" id="user-selection-container">
+                            <label class="form-label">{% trans "User" %}</label>
+                            <select class="form-select" id="user" name="user">
+                                <option value="">----</option>
+                                {% for user in users %}
+                                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                            {% trans "New user email" as trans_email %}
+                            <input type="email" class="form-control hidden" id="invite-email" placeholder="{{ trans_email }}">
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check form-switch pb-2">
+                                <input class="form-check-input" type="checkbox" id="toggle-invite">
+                                <label class="form-check-label ms-2" for="toggle-invite" style="font-size: 0.72rem; font-weight: 600; color: #868e96; text-transform: uppercase;">{% trans "Invite?" %}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button id="add-role" type="button" class="btn btn-save w-100" style="background: var(--soft-teal); min-height: 38px;">
+                                <i class="fa-solid fa-plus"></i>
+                                {% trans "Add" %}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="roles-table-container">
+                        <table class="table roles-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>{% trans "Role" %}</th>
+                                    <th>{% trans "User" %}</th>
+                                    <th style="width: 50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="content-role">
+                                {# Dynamically populated #}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="invitations-container"></div>
+                    <ul id="form-list" class="hidden">
+                        {{ formset.as_ul }}
+                    </ul>
+                </div>
+
+                {# Footer do Card #}
+                <div class="profile-section d-flex justify-content-between align-items-center">
+                    <div>
+                        {% if form.instance.id %}
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteTaskModal" style="border-radius: 8px; font-weight: 600; font-size: 0.85rem; padding: 0.55rem 1.25rem;">
+                                <i class="fa-solid fa-trash-can me-2"></i>{% trans "Delete Task" %}
+                            </button>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'tasks_index' %}" class="btn btn-cancel">{% trans "Cancel" %}</a>
+                        <button type="submit" class="btn btn-save">
+                            <i class="fa-solid fa-check me-2"></i>
+                            {% if form.instance.id %}
+                                {% trans "Update task" %}
+                            {% else %}
+                                {% trans "Create task" %}
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+{# Modal de Confirmação #}
+{% if form.instance.id %}
+<!-- Modal de Confirmação de Exclusão da Tarefa -->
+<div class="modal fade" id="deleteTaskModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+            <div class="modal-body text-center p-4">
+                <div class="mb-3" style="font-size: 3rem; color: #dc3545;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h5 class="fw-bold mb-2">{% trans "Delete Task?" %}</h5>
+                <p class="text-muted" style="font-size: 0.9rem;">
+                    {% trans "Are you sure you want to permanently delete this task and all related data? This action cannot be undone." %}
+                </p>
+                <div class="fw-bold p-2 bg-light rounded mb-4" style="font-size: 1rem; color: #2d3436;">
+                    {{ form.instance.name }}
+                </div>
+                
+                <form action="{% url 'tasks_delete' task_id=form.instance.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-light flex-grow-1" data-bs-dismiss="modal" style="border-radius: 8px; font-weight: 600;">{% trans "No, Keep it" %}</button>
+                        <button type="submit" class="btn btn-danger flex-grow-1" style="border-radius: 8px; font-weight: 600;">{% trans "Yes, Delete" %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow" style="border-radius: 14px;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" style="font-size: 1.1rem;">{% trans "Confirm Removal" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3">
+                <p class="text-muted" style="font-size: 0.9rem;">{% trans "Are you sure you want to remove this entry from the task?" %}</p>
+                <div class="p-3 bg-light rounded-3">
+                    <div class="small text-uppercase text-muted fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">{% trans "User" %}</div>
+                    <div class="fw-bold mb-3" id="modal-delete-user" style="font-size: 0.95rem;"></div>
+                    <div class="small text-uppercase text-muted fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">{% trans "Role" %}</div>
+                    <div class="fw-bold" id="modal-delete-role" style="font-size: 0.95rem;"></div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-cancel border-0" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+                <button type="button" class="btn btn-danger px-4" id="confirm-delete-btn" style="border-radius: 8px; font-weight: 600;">{% trans "Remove" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    
+    function updateStars(stars, valor) {
+        stars.forEach((el) => {
+            el.classList.remove("fa-regular", "fa-solid");
+            el.dataset.star <= valor
+                ? el.classList.add("fa-solid")
+                : el.classList.add("fa-regular");
+        });
+    }
+
+    const stars = document.querySelectorAll(".my-star");
+    const difficultyInput = document.querySelector("#id_difficulty");
+    
+    updateStars(stars, difficultyInput.value || 1);
+
+    stars.forEach((element) => {
+        element.addEventListener("click", () => {
+            const star = element.dataset.star;
+            difficultyInput.value = star;
+            updateStars(stars, star);
+        });
+    });
+
+    const toggleInvite = document.getElementById('toggle-invite');
+    const userSelect = document.getElementById('user');
+    const inviteEmailInput = document.getElementById('invite-email');
+
+    toggleInvite.addEventListener('change', () => {
+        if (toggleInvite.checked) {
+            userSelect.classList.add('hidden');
+            inviteEmailInput.classList.remove('hidden');
+        } else {
+            userSelect.classList.remove('hidden');
+            inviteEmailInput.classList.add('hidden');
+        }
+    });
+
+    let total = document.getElementById('id_form-TOTAL_FORMS');
+    let roles = [];
+    let invitations = [];
+    let content = document.getElementById('content-role');
+    let invContainer = document.getElementById('invitations-container');
+
+    function renderRoles() {
+        content.innerHTML = '';
+        invContainer.innerHTML = '';
+        let index = 0;
+        
+        roles.forEach((role, i) => {
+            let html = `<tr>
+                          <td>${role.role.text}<input type="hidden" name="form-${index}-type" id="id_form_${index}_type" value="${role.role.value}"></td>
+                          <td>${role.user.text}<input type="hidden" name="form-${index}-user" id="id_form_${index}user" value="${role.user.value}"></td>
+                          <td class="text-end">
+                            <button type="button" class="btn btn-link p-0 text-danger remove-role" data-index="${i}">
+                              <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                          </td>
+                        </tr>`;
+            content.innerHTML += html;
+            index++;
+        });
+        total.value = index;
+
+        let invIndex = 0;
+        invitations.forEach((inv, i) => {
+            let html = `<tr class="bg-light">
+                          <td>${inv.role.text} <span class="badge bg-soft-teal text-teal" style="background: rgba(117,167,166,0.1); color: var(--primary-teal); font-weight:500;">{% trans "Invite" %}</span><input type="hidden" name="invite_role_${invIndex}" value="${inv.role.value}"></td>
+                          <td>${inv.email}<input type="hidden" name="invite_email_${invIndex}" value="${inv.email}"></td>
+                          <td class="text-end">
+                            <button type="button" class="btn btn-link p-0 text-danger remove-invitation" data-index="${i}">
+                              <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                          </td>
+                        </tr>`;
+            content.innerHTML += html;
+            invIndex++;
+        });
+
+        invContainer.innerHTML = `<input type="hidden" name="total_invitations" value="${invIndex}">`;
+    }
+
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+    let itemToDelete = null;
+
+    content.addEventListener('click', (e) => {
+        const roleBtn = e.target.closest('.remove-role');
+        const invBtn = e.target.closest('.remove-invitation');
+
+        if (roleBtn) {
+            const index = roleBtn.dataset.index;
+            const role = roles[index];
+            document.getElementById('modal-delete-user').textContent = role.user.text;
+            document.getElementById('modal-delete-role').textContent = role.role.text;
+            itemToDelete = { type: 'role', index: index };
+            deleteModal.show();
+        } else if (invBtn) {
+            const index = invBtn.dataset.index;
+            const inv = invitations[index];
+            document.getElementById('modal-delete-user').textContent = inv.email;
+            document.getElementById('modal-delete-role').textContent = inv.role.text + ' (Invite)';
+            itemToDelete = { type: 'invitation', index: index };
+            deleteModal.show();
+        }
+    });
+
+    confirmDeleteBtn.addEventListener('click', () => {
+        if (itemToDelete) {
+            if (itemToDelete.type === 'role') {
+                roles.splice(itemToDelete.index, 1);
+            } else {
+                invitations.splice(itemToDelete.index, 1);
+            }
+            renderRoles();
+            deleteModal.hide();
+            itemToDelete = null;
+        }
+    });
+
+    // Carregar roles existentes
+    if (total) {
+        for (let z = 0; z < total.value; z++) {
+            const sroletype = document.getElementById(`id_form-${z}-type`);
+            const sroleuser = document.getElementById(`id_form-${z}-user`);
+            if (sroletype && sroleuser) {
+                const roleOption = sroletype.options[sroletype.selectedIndex];
+                const UserOption = sroleuser.options[sroleuser.selectedIndex];
+                if (roleOption && UserOption && roleOption.value && UserOption.value) {
+                    roles.push({
+                        role: { value: roleOption.value, text: roleOption.text },
+                        user: { value: UserOption.value, text: UserOption.text }
+                    });
+                }
+            }
+        }
+    }
+    renderRoles();
+
+    const addRoleButton = document.querySelector("#add-role");
+    addRoleButton.addEventListener("click", () => {
+        const eRole = document.getElementById('role');
+        const roleOption = eRole.options[eRole.selectedIndex];
+        const roleValue = roleOption.value;
+        const roleText = roleOption.text;
+
+        if (!roleValue) return;
+
+        if (toggleInvite.checked) {
+            const email = inviteEmailInput.value;
+            if (email) {
+                let check = invitations.find(i => i.email === email && i.role.value === roleValue);
+                if (check === undefined) {
+                    invitations.push({ role: { value: roleValue, text: roleText }, email: email });
+                    inviteEmailInput.value = '';
+                }
+            }
+        } else {
+            const eUser = document.getElementById('user');
+            const UserOption = eUser.options[eUser.selectedIndex];
+            const userValue = UserOption.value;
+            const userText = UserOption.text;
+
+            if (userValue) {
+                let check = roles.find(r => r.role.value === roleValue && r.user.value === userValue);
+                if (check === undefined) {
+                    roles.push({ role: { value: roleValue, text: roleText }, user: { value: userValue, text: userText } });
+                }
+            }
+        }
+        renderRoles();
+    });
+});
+</script>
+{% endblock js %}

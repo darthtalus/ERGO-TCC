@@ -1,0 +1,56 @@
+{% load i18n %}
+{% if dimension %}
+<table class="custom-table">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 30%">{% trans "Name" %}</th>
+        <th scope="col" style="width: 15%">{% trans "Absolute" %}</th>
+        <th scope="col" style="width: 15%">{% trans "Unit" %}</th>
+        <th scope="col" style="width: 25%">{% trans "Parametrized" %}</th>
+        <th scope="col" class="text-end" style="width: 15%">{% trans "Actions" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for aspect in dimension %}
+        <tr>
+          <td class="fw-medium">{{ aspect.nome }}</td>
+          <td>{{ aspect.valor }}</td>
+          <td>{{ aspect.unidade_display }}</td>
+          <td class="rating-icons">
+            {% for i in aspect.range %}
+              <a href="{% url 'changeparam' aspect.id i %}?{{ request.GET.urlencode }}">
+                <i class="fa-solid fa-circle"></i>
+              </a>
+            {% endfor %}
+            {% for i in aspect.completerange %}
+              <a href="{% url 'changeparam' aspect.id i|add:aspect.parametrized|add:1 %}?{{ request.GET.urlencode }}">
+                <i class="fa-regular fa-circle"></i>
+              </a>
+            {% endfor %}
+          </td>
+          <td class="text-end">
+            <a href="{% url 'edit_aspect' pk=aspect.id %}" class="action-icon me-2" title="{% trans 'Edit' %}">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            {% if aspect.watched %}
+              <a href="{% url 'changewatch' aspect.id 0 %}?{{ request.GET.urlencode }}" class="action-icon me-2" title="{% trans 'Unwatch' %}">
+                <i class="fa-regular fa-eye"></i>
+              </a>
+            {% else %}
+              <a href="{% url 'changewatch' aspect.id 1 %}?{{ request.GET.urlencode }}" class="action-icon me-2" title="{% trans 'Watch' %}">
+                <i class="fa-regular fa-eye-slash"></i>
+              </a>
+            {% endif %}
+            <a href="{% url 'delete_aspect' pk=aspect.id %}" class="action-icon text-danger" title="{% trans 'Delete' %}" onclick="return confirm('{% trans "Are you sure you want to delete this parameter?" %}')">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="text-center py-4">
+    <p class="text-muted mb-0" style="font-size: 0.85rem;">{% trans "No parameters registered yet." %}</p>
+</div>
+{% endif %}

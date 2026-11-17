@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static i18n widget_tweaks %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/tasks.css' %}?v={{ APP_VERSION }}" />{% endblock css %}
+{% block content %}
+<main>
+  <div class="container py-4 dashboard-container" style="max-width:720px">
+    {% include 'partials/_alerts.html' %}
+    <div class="border-bottom pb-3 mb-4">
+      <h1 class="h3 mb-1">{{ task.name }}</h1>
+      <p class="text-muted mb-0">{% trans "Add an executor or stakeholder" %}</p>
+    </div>
+    <div class="card border-0 shadow-sm"><div class="card-body p-4">
+      <form action="{% url 'tasks_role_new' task.id %}" method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="mb-3">
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% render_field field class="form-select" %}
+            {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+          </div>
+        {% endfor %}
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+          <a href="{% url 'tasks_roles' task.id %}" class="btn btn-outline-secondary">{% trans "Cancel" %}</a>
+        </div>
+      </form>
+    </div></div>
+  </div>
+</main>
+{% endblock content %}

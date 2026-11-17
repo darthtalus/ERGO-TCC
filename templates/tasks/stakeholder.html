@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% load static i18n task_extras %}
+ 
+{% block css %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}?v={{ APP_VERSION }}" />
+  <link rel="stylesheet" href="{% static 'css/tasks.css' %}?v={{ APP_VERSION }}" />
+{% endblock css %}
+
+{% block content %}
+  <main>
+    <div class="container-fluid py-3 dashboard-container">
+    {% include 'partials/_alerts.html' %}
+    {% include 'partials/_add.html' %}
+
+    <div class="mt-3">
+        {% include 'partials/_cards.html' %}
+        {% include 'partials/_search_bar.html' %}
+        {% include 'partials/_status_filters.html' %}
+    </div>
+
+    <div class="inbox-card mb-4">
+      <div class="d-flex align-items-center mb-3">
+          <img class="me-2" src="{% static 'images/ico-inbox.svg' %}" width="28px" height="28px" alt="Inbox" />
+          <h5 class="m-0 fw-bold" style="color: var(--primary-teal);">{% trans "Stakeholder" %}</h5>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-borderless table-hover align-middle">
+          <thead>
+            <tr>
+              <th scope="col">
+                <a href="?{% if current_sort == 'task__id' and current_order == 'asc' %}{% url_replace sort='task__id' order='desc' %}{% else %}{% url_replace sort='task__id' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "ID" %}
+                  {% if current_sort == 'task__id' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col">
+                <a href="?{% if current_sort == 'task__name' and current_order == 'asc' %}{% url_replace sort='task__name' order='desc' %}{% else %}{% url_replace sort='task__name' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Tasks" %}
+                  {% if current_sort == 'task__name' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              {% if user.role == 'ADMIN' or user.role == 'SUPERADMIN' %}
+              <th scope="col">
+                <a href="?{% if current_sort == 'stakeholder_name' and current_order == 'asc' %}{% url_replace sort='stakeholder_name' order='desc' %}{% else %}{% url_replace sort='stakeholder_name' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Stakeholder" %}
+                  {% if current_sort == 'stakeholder_name' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              {% endif %}
+              <th scope="col">
+                <a href="?{% if current_sort == 'user__first_name' and current_order == 'asc' %}{% url_replace sort='user__first_name' order='desc' %}{% else %}{% url_replace sort='user__first_name' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Executor" %}
+                  {% if current_sort == 'user__first_name' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col">
+                <a href="?{% if current_sort == 'status' and current_order == 'asc' %}{% url_replace sort='status' order='desc' %}{% else %}{% url_replace sort='status' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Status" %}
+                  {% if current_sort == 'status' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col" class="text-center">
+                <a href="?{% if current_sort == 'is_evaluated' and current_order == 'asc' %}{% url_replace sort='is_evaluated' order='desc' %}{% else %}{% url_replace sort='is_evaluated' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Evaluate" %}
+                  {% if current_sort == 'is_evaluated' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col" class="text-center">
+                <a href="?{% if current_sort == 'task__created_at' and current_order == 'asc' %}{% url_replace sort='task__created_at' order='desc' %}{% else %}{% url_replace sort='task__created_at' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Created" %}
+                  {% if current_sort == 'task__created_at' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task_user in stakeholder_tasks_all %}
+              <tr>
+                <td class="text-muted fw-bold">#{{ task_user.task.id }}</td>
+                <td class="fw-semibold">
+                  <a href="{% url 'task_history' task_id=task_user.task.id %}" class="text-decoration-none" style="color: #2d3436;" title="{% trans 'View History' %}">
+                    {{ task_user.task.name }}
+                    <i class="fa-solid fa-clock-rotate-left small ms-1 text-muted"></i>
+                  </a>
+                </td>
+                {% if user.role == 'ADMIN' or user.role == 'SUPERADMIN' %}
+                <td>{{ task_user.task.stakeholder }}</td>
+                {% endif %}
+                <td>{{ task_user.user }}</td>
+                <td>
+                  <span class="badge rounded-pill status status-{{ task_user.status | lower }} px-3 py-2" style="font-size: 0.65rem; letter-spacing: 0.5px;">
+                    {{ task_user.get_status_display }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  {% if task_user.is_final_approved %}
+                    <span class="text-success small"><i class="fa-solid fa-lock me-1"></i> {% trans "Approved" %}</span>
+                  {% elif task_user.status == 'CANCELED' %}
+                    <span class="text-muted small"><i class="fa-solid fa-ban me-1"></i> {% trans "Canceled" %}</span>
+                  {% elif task_user.status == 'PAUSED' %}
+                    <span class="text-muted small"><i class="fa-solid fa-pause me-1"></i> {% trans "Paused" %}</span>
+                  {% elif task_user.status == 'DONE' or task_user.evaluated_by_me or user.role in 'ADMIN,SUPERADMIN' %}
+                    <a href="#"
+                       class="btn {% if task_user.evaluated_by_me %}text-success{% endif %}"
+                       data-taskid="{{ task_user.id }}"
+                       data-evaluated="{{ task_user.evaluated_by_me|yesno:'true,false' }}"
+                       data-bs-toggle="modal"
+                       data-bs-target="#modalDone"
+                       title="{% if task_user.evaluated_by_me %}{% trans 'Update evaluation' %}{% else %}{% trans 'Evaluate' %}{% endif %}">
+                      <i class="fa-solid {% if task_user.evaluated_by_me %}fa-check-double{% else %}fa-pen-to-square{% endif %}"></i>
+                    </a>
+                  {% else %}
+                    <span class="text-muted small"><i class="fa-solid fa-hourglass-start me-1"></i> {% trans "Waiting" %}</span>
+                  {% endif %}
+                </td>
+                <td class="text-center text-muted" style="font-size: 0.75rem;">
+                  {{ task_user.task.created_at|date:"d/m/Y" }}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="7" class="text-center text-muted py-4">{% trans "No tasks found." %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% include 'partials/_pagination.html' with page_obj=stakeholder_tasks_all %}
+    </div>
+    </div>
+  </main>
+
+
+
+    <div class="modal fade modal-lg"
+         id="modalDone"
+         tabindex="-1"
+         aria-labelledby="modalLabeldone"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="taskDone" action="{% url 'stakeholder_evaluate' %}" method="post">
+                    {% csrf_token %}
+                    <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{% trans "Task effectiveness" %}</h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <!-- Effectiveness -->
+                            <div class="mb-4 text-center">
+                                <label class="form-label fw-bold">{% trans "Effectiveness" %} (1-5)</label>
+                                <input type="hidden" name="effectiveness" id="eff_value" value="" />
+                                <div class="d-flex justify-content-center gap-1 mt-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="1">1</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="2">2</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="3">3</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="4">4</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-dim" data-dim="eff" data-value="5">5</button>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4 pt-2 border-top d-flex justify-content-center gap-2">
+                                <button type="submit" class="btn btn-success px-5 fw-bold rounded-pill">
+                                    <i class="fa-solid fa-check-double me-2"></i> {% trans "Submit Assessment" %}
+                                </button>
+                                <button type="button" id="clearBtn" class="btn btn-outline-danger px-4 fw-bold rounded-pill d-none">
+                                    <i class="fa-solid fa-eraser me-2"></i> {% trans "Clear" %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primario" data-bs-dismiss="modal">{% trans "Close" %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+    <script>
+    $("#modalDone").on("show.bs.modal", function (e) {
+        const botao = e.relatedTarget
+        const taskuser_id = botao.getAttribute('data-taskid')
+        const evaluated = botao.getAttribute('data-evaluated') === 'true'
+        
+        $(".taskuser_id").attr("value", taskuser_id);
+        
+        // Handle Clear button
+        const clearBtn = $("#clearBtn");
+        if (evaluated) {
+            clearBtn.removeClass("d-none");
+            clearBtn.data("taskuser-id", taskuser_id);
+        } else {
+            clearBtn.addClass("d-none");
+        }
+    });
+
+    $("#clearBtn").on("click", function() {
+        const taskuserId = $(this).data("taskuser-id");
+        if (!taskuserId) return;
+        const csrf = $("#taskDone input[name='csrfmiddlewaretoken']").val();
+        const form = $("<form>", {method: "POST", action: `/tasks/stakeholder-clear-evaluate/${taskuserId}`});
+        form.append($("<input>", {type: "hidden", name: "csrfmiddlewaretoken", value: csrf}));
+        $(document.body).append(form);
+        form.trigger("submit");
+    });
+
+    $(".btn-dim").on("click", function() {
+        const dim = $(this).data("dim");
+        const val = $(this).data("value");
+        
+        // Update hidden input
+        $(`#${dim}_value`).val(val);
+        
+        // Update button states
+        $(`.btn-dim[data-dim="${dim}"]`).removeClass("active btn-primary btn-secondary").addClass("btn-outline-secondary");
+        // Special class for effectiveness
+        if (dim === 'eff') {
+            $(`.btn-dim[data-dim="eff"]`).removeClass("btn-outline-secondary").addClass("btn-outline-primary");
+            $(this).removeClass("btn-outline-primary").addClass("active btn-primary");
+        } else {
+            $(this).removeClass("btn-outline-secondary").addClass("active btn-secondary text-white");
+        }
+    });
+
+    $(document).ready(function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const taskuserId = urlParams.get('evaluate');
+        if (taskuserId) {
+            const btn = $(`[data-taskid="${taskuserId}"]`);
+            if (btn.length) {
+                btn.click();
+            }
+        }
+    });
+    </script>
+{% endblock js %}

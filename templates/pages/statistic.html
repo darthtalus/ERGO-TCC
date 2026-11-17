@@ -1,0 +1,388 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-teal: #1A4645;
+        --soft-teal: #75A7A6;
+        --accent-teal: #E8F2F2;
+        --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    body { font-family: 'Inter', sans-serif; background-color: #f4f7f7; color: #2d3436; }
+
+    .dashboard-container { max-width: 1100px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+        padding: 1.5rem 2rem;
+        border-radius: 16px;
+        color: white;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(26,70,69,0.15);
+    }
+    .page-header::after {
+        content: '';
+        position: absolute;
+        top: -50%; right: -5%;
+        width: 250px; height: 250px;
+        background: rgba(255,255,255,0.04);
+        border-radius: 50%;
+    }
+    .page-header h1 { font-size: 1.5rem; font-weight: 800; margin: 0; }
+    .page-header .label { font-size: 0.7rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; font-weight: 600; }
+
+    .btn-back {
+        font-size: 0.75rem;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: white;
+        transition: all 0.2s ease;
+        padding: 0.5rem 1rem;
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.2); color: white; }
+
+    /* ── Cards ── */
+    .stat-card {
+        background: white;
+        border-radius: 14px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid #eef2f2;
+        padding: 1.25rem;
+        transition: transform 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); }
+
+    .summary-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1rem;
+    }
+    .summary-value { font-size: 1.75rem; font-weight: 800; color: var(--primary-teal); line-height: 1; margin-bottom: 0.25rem; }
+    .summary-label { font-size: 0.65rem; color: var(--soft-teal); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+
+    /* ── Chart ── */
+    .chart-box { padding: 1.5rem; }
+    .chart-container { height: 180px; position: relative; }
+
+    /* ── History List (Compact) ── */
+    .history-section-title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 1rem;
+        padding-left: 0.5rem;
+        border-left: 4px solid var(--soft-teal);
+    }
+
+    .history-item {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #eef2f2;
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+        transition: all 0.2s;
+    }
+    .history-item:hover { border-color: var(--soft-teal); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+
+    .history-header {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .date-info { display: flex; align-items: center; gap: 0.75rem; }
+    .date-circle {
+        width: 36px; height: 36px;
+        background: var(--accent-teal);
+        border-radius: 10px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        color: var(--primary-teal); font-weight: 800; line-height: 1;
+    }
+    .date-circle .d { font-size: 1rem; }
+    .date-circle .m { font-size: 0.55rem; text-transform: uppercase; }
+
+    .score-badge {
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        color: white;
+    }
+    .bg-score-1 { background: #ef5350; }
+    .bg-score-2 { background: #ffa726; }
+    .bg-score-3 { background: #fbc02d; }
+    .bg-score-4 { background: #66bb6a; }
+    .bg-score-5 { background: #26a69a; }
+
+    /* ── Aspect Compact View ── */
+    .aspect-grid {
+        padding: 1rem;
+        background: #fcfdfd;
+        border-top: 1px solid #f1f5f5;
+    }
+    .aspect-dim-box {
+        background: white;
+        padding: 0.75rem;
+        border-radius: 10px;
+        border: 1px solid #f0f4f4;
+    }
+    .aspect-dim-title {
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: var(--soft-teal);
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }
+    .aspect-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        padding: 0.35rem 0;
+        border-bottom: 1px dashed #f0f4f4;
+    }
+    .aspect-row:last-child { border-bottom: none; }
+    .aspect-name { color: #555; }
+    .aspect-val { font-weight: 700; color: var(--primary-teal); }
+
+    .btn-finish-stats {
+        background: var(--primary-teal);
+        color: white;
+        border-radius: 30px;
+        padding: 0.8rem 2rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(26,70,69,0.2);
+    }
+    .btn-finish-stats:hover { background: #2c5e5c; color: white; transform: translateY(-2px); }
+
+    @media (max-width: 768px) {
+        .chart-container { height: 220px; }
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="container py-4 dashboard-container">
+
+    {# Header #}
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center position-relative" style="z-index:1;">
+            <div>
+                <div class="label">{% trans "Performance Hub" %}</div>
+                <h1>{% trans "My Statistics & Insights" %}</h1>
+            </div>
+            <a href="{% url 'tasks_index' %}" class="btn btn-back rounded-pill px-3">
+                <i class="fa-solid fa-arrow-left me-1"></i> {% trans "Back" %}
+            </a>
+        </div>
+    </div>
+
+    {% include 'partials/_alerts.html' %}
+
+    <div class="row g-4">
+        {# Left Column: History #}
+        <div class="col-lg-8">
+            {# History List #}
+            <div class="history-section-title">{% trans "Daily Logs" %}</div>
+            <div class="history-list mb-4">
+                {% for entry in all_effectiveness %}
+                <div class="history-item">
+                    <div class="history-header" data-bs-toggle="collapse" data-bs-target="#collapse-{{ entry.id }}">
+                        <div class="date-info">
+                            <div class="date-circle">
+                                <span class="d">{{ entry.day|date:"d" }}</span>
+                                <span class="m">{{ entry.day|date:"M" }}</span>
+                            </div>
+                            <div>
+                                <div class="text-muted" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase;">
+                                    {% trans "Entry Score" %}
+                                </div>
+                                <span class="score-badge bg-score-{{ entry.effectiveness }}">
+                                    {{ entry.effectiveness }} / 5
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-muted small">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+
+                    <div id="collapse-{{ entry.id }}" class="collapse">
+                        <div class="aspect-grid">
+                            <div class="row g-2">
+                                {% regroup entry.history.all by get_dimension_display as dimension_list %}
+                                {% for dim in dimension_list %}
+                                <div class="col-md-4">
+                                    <div class="aspect-dim-box">
+                                        <div class="aspect-dim-title">{{ dim.grouper }}</div>
+                                        {% for item in dim.list %}
+                                        <div class="aspect-row">
+                                            <span class="aspect-name">{{ item.nome }}</span>
+                                            <span class="aspect-val">{{ item.valor }}</span>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="col-12 text-center py-2 text-muted small">
+                                    {% trans "No individual aspects tracked." %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="stat-card text-center py-5">
+                    <i class="fa-solid fa-chart-line mb-3 text-muted" style="font-size: 3rem;"></i>
+                    <p class="text-muted">{% trans "Start finishing your days to see data here." %}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            {# Graph Card #}
+            <div class="stat-card chart-box">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="fw-bold m-0" style="color: var(--primary-teal);">{% trans "Effectiveness Trend" %}</h5>
+                    <div class="text-muted small">{% trans "Visual analytics" %}</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="graph"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {# Right Column: Summary Cards #}
+        <div class="col-lg-4">
+            <div class="row g-3">
+                <div class="col-6 col-lg-12">
+                    <div class="stat-card summary-box">
+                        <span class="summary-value">{{ card_executor_count }}</span>
+                        <span class="summary-label">{% trans "My Tasks (Executor)" %}</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-12">
+                    <div class="stat-card summary-box">
+                        <span class="summary-value">{{ card_stakeholder_count }}</span>
+                        <span class="summary-label">{% trans "As Stakeholder" %}</span>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="stat-card p-3">
+                        <h6 class="fw-bold mb-3 small text-uppercase" style="color: var(--soft-teal);">{% trans "Full Overview" %}</h6>
+                        <div class="d-flex flex-column gap-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="small"><i class="fa-solid fa-circle text-primary me-2" style="font-size: 8px;"></i>{% trans "Doing" %}</span>
+                                <span class="fw-bold">{{ status_counts.DOING }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="small"><i class="fa-solid fa-circle text-success me-2" style="font-size: 8px;"></i>{% trans "Done" %}</span>
+                                <span class="fw-bold">{{ status_counts.DONE }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="small"><i class="fa-solid fa-circle text-warning me-2" style="font-size: 8px;"></i>{% trans "Paused" %}</span>
+                                <span class="fw-bold">{{ status_counts.PAUSED }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="small"><i class="fa-solid fa-circle text-danger me-2" style="font-size: 8px;"></i>{% trans "Canceled" %}</span>
+                                <span class="fw-bold">{{ status_counts.CANCELED }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {# Action Card #}
+                <div class="col-12 mt-2">
+                    <div class="stat-card bg-light border-0 text-center py-4 d-flex flex-column align-items-center gap-3">
+                        <div class="text-muted small px-3">
+                            {% trans "Ready to log today's progress?" %}
+                        </div>
+                        <a href="#" class="btn-finish-stats" data-bs-toggle="modal" data-bs-target="#modalFinalizarDia">
+                            <i class="fa-solid fa-calendar-check me-2"></i>{% trans "Finish Day" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</main>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/chart.umd.min.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const effects = [{% for ef in all_effectiveness %}"{{ ef.effectiveness }}",{% endfor %}].reverse();
+    const days = [{% for ef in all_effectiveness %}"{{ ef.day|date:'d/m' }}",{% endfor %}].reverse();
+    
+    new Chart(
+        document.getElementById('graph'),
+        {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [
+                    {
+                        label: '{% trans "Daily Effectiveness" %}',
+                        data: effects,
+                        borderColor: '#75A7A6',
+                        backgroundColor: 'rgba(117, 167, 166, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#1A4645',
+                        pointRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        max: 5,
+                        min: 0,
+                        ticks: { stepSize: 1, font: { family: 'Inter', size: 10 } },
+                        grid: { color: '#f0f4f4' }
+                    },
+                    x: {
+                        ticks: { font: { family: 'Inter', size: 10 } },
+                        grid: { display: false }
+                    }
+                }
+            }
+        }
+    );
+
+    // Toggle chevron icon
+    document.querySelectorAll('.collapse').forEach(el => {
+        el.addEventListener('show.bs.collapse', function () {
+            this.previousElementSibling.querySelector('.fa-chevron-down').classList.replace('fa-chevron-down', 'fa-chevron-up');
+        });
+        el.addEventListener('hide.bs.collapse', function () {
+            this.previousElementSibling.querySelector('.fa-chevron-up').classList.replace('fa-chevron-up', 'fa-chevron-down');
+        });
+    });
+});
+</script>
+{% endblock js %}

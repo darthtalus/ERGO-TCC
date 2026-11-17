@@ -1,0 +1,25 @@
+{% load i18n static %}
+<!-- Modal Finalizar Dia (Pergunta se parâmetros são os mesmos) -->
+<div class="modal fade model-lg" id="modalFinalizarDia" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 14px;">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pb-0">
+        <i class="fa-solid fa-clipboard-question text-muted mb-3" style="font-size: 3rem;"></i>
+        <p class="fs-5 fw-semibold" style="color: var(--primary-teal);">{% trans "Are the parameter values still the same?" %}</p>
+      </div>
+      <div class="modal-footer border-0 justify-content-center pt-4 pb-4">
+        <a href="{% url 'end_change_params' %}" class="btn btn-light px-4" style="border-radius: 8px;">{% trans "NO" %}</a>
+        <a href="#" class="btn btn-success px-4" style="background: var(--primary-teal); border: none; border-radius: 8px;" data-bs-toggle="modal" data-bs-target="#modalEfetividade">{% trans "YES" %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Efetividade (Nota 1-5) -->
+{% include "partials/_end-day.html" %}
+
+<!-- Scripts necessários -->
+<script src="{% static 'js/effectiveness.js' %}"></script>

@@ -1,0 +1,77 @@
+{% load i18n task_extras %}
+{% if page_obj.paginator.num_pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+  <ul class="pagination justify-content-center pagination-premium">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?{% url_replace page=1 %}" aria-label="First">
+          <i class="fa-solid fa-angles-left"></i>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?{% url_replace page=page_obj.previous_page_number %}" aria-label="Previous">
+          <i class="fa-solid fa-angle-left"></i>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link"><i class="fa-solid fa-angles-left"></i></span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link"><i class="fa-solid fa-angle-left"></i></span>
+      </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link">
+        {% blocktrans with number=page_obj.number total=page_obj.paginator.num_pages %}Page {{ number }} of {{ total }}{% endblocktrans %}
+      </span>
+    </li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?{% url_replace page=page_obj.next_page_number %}" aria-label="Next">
+          <i class="fa-solid fa-angle-right"></i>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?{% url_replace page=page_obj.paginator.num_pages %}" aria-label="Last">
+          <i class="fa-solid fa-angles-right"></i>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link"><i class="fa-solid fa-angle-right"></i></span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link"><i class="fa-solid fa-angles-right"></i></span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+<style>
+    .pagination-premium .page-link {
+        color: var(--primary-teal);
+        border: 1px solid #eef2f2;
+        padding: 0.5rem 0.85rem;
+        font-size: 0.9rem;
+        background: white;
+        transition: all 0.2s;
+    }
+    .pagination-premium .page-item.active .page-link {
+        background-color: var(--primary-teal);
+        border-color: var(--primary-teal);
+        color: white;
+    }
+    .pagination-premium .page-link:hover {
+        background-color: #f8fafa;
+        color: #1a4645;
+    }
+    .pagination-premium .page-item.disabled .page-link {
+        color: #dee2e6;
+        background-color: #fff;
+        border-color: #eef2f2;
+    }
+</style>
+{% endif %}

@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-teal: #1A4645;
+        --soft-teal: #75A7A6;
+        --accent-teal: #E8F2F2;
+        --card-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    body { font-family: 'Inter', sans-serif; background-color: #f4f7f7; color: #2d3436; overflow-x: hidden; }
+
+    .reports-container { max-width: 1400px; margin: 0 auto; }
+
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        color: white;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(26,70,69,0.1);
+    }
+    .page-header h1 { font-size: 1.25rem; font-weight: 800; margin: 0; }
+    .page-header .label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-weight: 600; }
+
+    .report-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: var(--card-shadow);
+        border: 1px solid #eef2f2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        transition: transform 0.2s;
+    }
+    .report-card:hover { transform: translateY(-3px); }
+
+    .report-info {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .icon-box {
+        width: 34px; height: 34px;
+        background: var(--accent-teal);
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--primary-teal);
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+
+    .report-title { font-size: 0.85rem; font-weight: 700; color: var(--primary-teal); margin-bottom: 0.25rem; }
+    .report-desc { font-size: 0.7rem; line-height: 1.4; color: #636e72; margin-bottom: 0; }
+
+    .btn-export {
+        background: var(--primary-teal);
+        color: white;
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        transition: all 0.3s;
+        border: none;
+        width: 100%;
+    }
+    .btn-export:hover {
+        background: #2c5e5c;
+        color: white;
+    }
+
+    .alert-info-custom {
+        background: #f8fbfa;
+        border: 1px solid #e0eeeb;
+        border-radius: 8px;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.65rem;
+        color: #4a6665;
+        margin-bottom: 0.75rem;
+    }
+    
+    .back-link-box { margin-top: 1.5rem; }
+</style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="container py-4 reports-container">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div>
+            <div class="label">{% trans "Administrative Area" %}</div>
+            <h1>{% trans "Data Export & Reports" %}</h1>
+        </div>
+    </div>
+
+    {% include 'partials/_alerts.html' %}
+
+    <div class="row g-3">
+        {# Card 1: Statistical Dashboard #}
+        <div class="col-md-3">
+            <div class="report-card">
+                <div>
+                    <div class="report-info">
+                        <div class="icon-box" style="background: #fff7ed; color: #ea580c;">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <div class="report-title">{% trans "Statistical Dashboard" %}</div>
+                            <p class="report-desc">
+                                {% trans "View visual insights, trends, and comparative charts." %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert-info-custom" style="background: #fffcf9; border-color: #ffedd5;">
+                        {% trans "Includes effectiveness and ABC factors analysis." %}
+                    </div>
+                </div>
+                <a href="{% url 'dashboard_estatisticas' %}" class="btn-export" style="background: #ea580c;">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i> {% trans "Open Dashboard" %}
+                </a>
+            </div>
+        </div>
+
+        {# Card 2: Daily Summary (NEW) #}
+        <div class="col-md-3">
+            <div class="report-card">
+                <div>
+                    <div class="report-info">
+                        <div class="icon-box" style="background: #f0fdf4; color: #16a34a;">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <div class="report-title">{% trans "Daily Summary (Compact)" %}</div>
+                            <p class="report-desc">
+                                {% trans "One row per day/user with effectiveness and ABC averages." %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert-info-custom" style="background: #f0fdf4; border-color: #dcfce7;">
+                        {% trans "Simplified view for quick performance analysis." %}
+                    </div>
+                </div>
+                <a href="{% url 'export_daily_summary_csv' %}" class="btn-export" style="background: #16a34a;">
+                    <i class="fa-solid fa-file-export"></i> {% trans "Download CSV" %}
+                </a>
+            </div>
+        </div>
+
+        {# Card 3: Effectiveness History #}
+        <div class="col-md-3">
+            <div class="report-card">
+                <div>
+                    <div class="report-info">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-file-csv"></i>
+                        </div>
+                        <div>
+                            <div class="report-title">{% trans "Effectiveness History (Detailed)" %}</div>
+                            <p class="report-desc">
+                                {% trans "Complete CSV with all daily scores and parameters." %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert-info-custom">
+                        {% trans "Formatted for SPSS, R, or Excel. One row per aspect per day." %}
+                    </div>
+                </div>
+                <a href="{% url 'export_effectiveness_csv' %}" class="btn-export">
+                    <i class="fa-solid fa-download"></i> {% trans "Download CSV" %}
+                </a>
+            </div>
+        </div>
+
+        {# Card 4: Task Evaluations #}
+        <div class="col-md-3">
+            <div class="report-card">
+                <div>
+                    <div class="report-info">
+                        <div class="icon-box" style="background: #eef2ff; color: #4f46e5;">
+                            <i class="fa-solid fa-tasks"></i>
+                        </div>
+                        <div>
+                            <div class="report-title">{% trans "Task Evaluations (Full)" %}</div>
+                            <p class="report-desc">
+                                {% trans "Export all evaluations made for individual tasks." %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert-info-custom">
+                        {% trans "Includes scores for Environment, Cognition, Behavior, Effectiveness and Evaluation Type." %}
+                    </div>
+                </div>
+                <a href="{% url 'export_task_evaluations_csv' %}" class="btn-export" style="background: #4f46e5;">
+                    <i class="fa-solid fa-download"></i> {% trans "Download CSV" %}
+                </a>
+            </div>
+        </div>
+
+        {# Integrated analysis report #}
+        <div class="col-md-3">
+            <div class="report-card">
+                <div>
+                    <div class="report-info">
+                        <div class="icon-box" style="background: #ecfeff; color: #0f766e;">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <div class="report-title">{% trans "Ergonomic Analysis and Workflow" %}</div>
+                            <p class="report-desc">
+                                {% trans "Open recommendations, Kanban, task models, environment readings and common charts." %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert-info-custom" style="background: #ecfeff; border-color: #ccfbf1;">
+                        {% trans "Includes line, bar, doughnut, histogram and scatter charts." %}
+                    </div>
+                </div>
+                <a href="{% url 'upgrades_dashboard' %}" class="btn-export" style="background: #0f766e;">
+                    <i class="fa-solid fa-chart-pie"></i> {% trans "Open analysis" %}
+                </a>
+            </div>
+        </div>
+
+        {# Integrated analytical PDF #}
+        <div class="col-md-3">
+            <div class="report-card">
+                <div>
+                    <div class="report-info">
+                        <div class="icon-box" style="background: #fef2f2; color: #dc2626;">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <div class="report-title">{% trans "Analytical PDF" %}</div>
+                            <p class="report-desc">
+                                {% trans "Generate a PDF with summary, recommendations and the main charts." %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert-info-custom" style="background: #fef2f2; border-color: #fee2e2;">
+                        {% trans "Useful for meetings, monitoring and research documentation." %}
+                    </div>
+                </div>
+                <a href="{% url 'upgrades_report_pdf' %}" class="btn-export" style="background: #dc2626;">
+                    <i class="fa-solid fa-download"></i> {% trans "Download PDF" %}
+                </a>
+            </div>
+        </div>
+
+        {% if user.role == 'SUPERADMIN' or user.role == 'ADMIN' %}
+        {# Card 5: Complete Research Export (admin only) #}
+        <div class="col-md-3">
+            <div class="report-card" style="border: 2px solid #1A4645;">
+                <div>
+                    <div class="report-info">
+                        <div class="icon-box" style="background: #1A4645; color: white;">
+                            <i class="fa-solid fa-flask"></i>
+                        </div>
+                        <div>
+                            <div class="report-title">{% trans "Complete Research Export" %}</div>
+                            <p class="report-desc">
+                                {% trans "All data in one CSV: users, daily records, aspects, task evaluations and aggregated stats." %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert-info-custom" style="background: #e8f2f2; border-color: #1A4645;">
+                        {% trans "Designed for scientific research. One row per day per user with demographics, ABC dimensions, self and stakeholder evaluations, and global user statistics." %}
+                    </div>
+                </div>
+                <a href="{% url 'export_complete_csv' %}" class="btn-export" style="background: #1A4645;">
+                    <i class="fa-solid fa-flask"></i> {% trans "Download CSV" %}
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="text-center back-link-box">
+        <a href="{% url 'tasks_index' %}" class="text-muted small text-decoration-none">
+            <i class="fa-solid fa-arrow-left me-1"></i> {% trans "Back to Main" %}
+        </a>
+    </div>
+</div>
+</main>
+{% endblock content %}

@@ -1,0 +1,362 @@
+{% extends 'base.html' %}
+{% load task_extras i18n %}
+{% load static %}
+{% block css %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}?v={{ APP_VERSION }}" />
+  <link rel="stylesheet" href="{% static 'css/tasks.css' %}?v={{ APP_VERSION }}" />
+{% endblock css %}
+{% block content %}
+  <main>
+    <div class="container-fluid py-3 dashboard-container">
+    {% include 'partials/_alerts.html' %}
+    {% include 'partials/_add.html' %}
+
+    <div class="mt-3">
+        {% include 'partials/_cards.html' %}
+        {% include 'partials/_search_bar.html' %}
+        {% include 'partials/_status_filters.html' %}
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <a class="btn btn-outline-secondary btn-sm rounded-pill" href="{% url 'upgrades_dashboard' %}">
+        <i class="fa-solid fa-chart-line me-1"></i>{% trans "Analysis and workflow" %}
+      </a>
+      <a class="btn btn-outline-secondary btn-sm rounded-pill" href="{% url 'upgrades_kanban' %}">
+        <i class="fa-solid fa-table-columns me-1"></i>{% trans "Kanban board" %}
+      </a>
+      <a class="btn btn-outline-secondary btn-sm rounded-pill" href="{% url 'upgrades_templates' %}">
+        <i class="fa-solid fa-copy me-1"></i>{% trans "Task models" %}
+      </a>
+    </div>
+
+    <div class="inbox-card mb-4">
+      <div class="d-flex align-items-center mb-3">
+          <img class="me-2" src="{% static 'images/ico-inbox.svg' %}" width="28px" height="28px" alt="Inbox" />
+          <h5 class="m-0 fw-bold" style="color: var(--primary-teal);">{% trans "My tasks" %}</h5>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-borderless table-hover align-middle">
+          <thead>
+            <tr>
+              <th scope="col">
+                <a href="?{% if current_sort == 'task__id' and current_order == 'asc' %}{% url_replace sort='task__id' order='desc' %}{% else %}{% url_replace sort='task__id' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "ID" %}
+                  {% if current_sort == 'task__id' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col">
+                <a href="?{% if current_sort == 'task__name' and current_order == 'asc' %}{% url_replace sort='task__name' order='desc' %}{% else %}{% url_replace sort='task__name' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "My tasks" %}
+                  {% if current_sort == 'task__name' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col">
+                <a href="?{% if current_sort == 'stakeholder_name' and current_order == 'asc' %}{% url_replace sort='stakeholder_name' order='desc' %}{% else %}{% url_replace sort='stakeholder_name' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Stakeholders" %}
+                  {% if current_sort == 'stakeholder_name' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col">
+                <a href="?{% if current_sort == 'executor_name' and current_order == 'asc' %}{% url_replace sort='executor_name' order='desc' %}{% else %}{% url_replace sort='executor_name' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Executors" %}
+                  {% if current_sort == 'executor_name' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col" class="text-center">
+                <a href="?{% if current_sort == 'status' and current_order == 'asc' %}{% url_replace sort='status' order='desc' %}{% else %}{% url_replace sort='status' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Status" %}
+                  {% if current_sort == 'status' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+              <th scope="col" class="text-center">
+                <a href="?{% if current_sort == 'task__created_at' and current_order == 'asc' %}{% url_replace sort='task__created_at' order='desc' %}{% else %}{% url_replace sort='task__created_at' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Created" %}
+                  {% if current_sort == 'task__created_at' %}
+                    <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
+                  {% else %}
+                    <i class="fa-solid fa-sort"></i>
+                  {% endif %}
+                </a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task_user in my_tasks_executor %}
+              <tr>
+                <td class="text-muted fw-bold">#{{ task_user.task.id }}</td>
+                <td class="fw-semibold">
+                  <a href="{% url 'task_history' task_id=task_user.task.id %}" class="text-decoration-none" style="color: #2d3436;" title="{% trans 'View History' %}">
+                    {{ task_user.task.name }}
+                    <i class="fa-solid fa-clock-rotate-left small ms-1 text-muted"></i>
+                  </a>
+                  <div class="small mt-1">
+                    <a href="{% url 'upgrades_task_collaboration' task_user.task.id %}" class="text-decoration-none text-muted">
+                      <i class="fa-solid fa-comments me-1"></i>{% trans "Discussion and review" %}
+                    </a>
+                  </div>
+                </td>
+                <td>{{ task_user.task.stakeholder }}</td>
+                <td>{{ task_user.task|executor_display:user }}</td>
+                <td class="text-center">
+                  <a href="#"
+                     class="text-decoration-none {% if task_user.is_evaluated and user.role not in 'ADMIN,SUPERADMIN' %}pe-none text-muted{% endif %}"
+                     data-value="{{ task_user.id }}"
+                     data-task="{{ task_user.task }}"
+                     {% if not task_user.is_evaluated or user.role in 'ADMIN,SUPERADMIN' %}
+                     data-bs-toggle="modal"
+                     data-bs-target="#modalStatus"
+                     {% endif %}>
+                    <span class="badge rounded-pill status status-{{ task_user.status | lower }} px-3 py-2" style="font-size: 0.65rem; letter-spacing: 0.5px;">
+                      {% if task_user.is_evaluated %}
+                        <i class="fa-solid fa-lock me-1"></i>
+                      {% endif %}
+                      
+                      {% for key,value in icons.items %}
+                        {% if key == task_user.status.lower %}
+                          <i class="fa-solid fa-{{ value }}"></i>
+                        {% endif %}
+                      {% endfor %}
+                      
+                      {{ task_user.get_status_display }}
+                    </span>
+                  </a>
+                </td>
+                <td class="text-center text-muted" style="font-size: 0.75rem;">
+                  {{ task_user.task.created_at|date:"d/m/Y" }}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6" class="text-center text-muted py-4">{% trans "No tasks found." %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% include 'partials/_pagination.html' with page_obj=my_tasks_executor %}
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+      {% if has_parameters %}
+        <a href="#" class="btn-finish-day" data-bs-toggle="modal" data-bs-target="#modalFinalizarDia">
+          <i class="fa-solid fa-calendar-check me-2"></i>{% trans "Finish the day" %}
+        </a>
+      {% else %}
+        <div class="text-center p-3 bg-light border rounded shadow-sm" style="max-width: 500px;">
+          <p class="text-muted mb-3">
+            <i class="fa-solid fa-triangle-exclamation text-warning me-2"></i>
+            {% trans "You need to define at least one parameter in EACH dimension (Environment, Cognition, and Behavior) before finishing the day." %}
+          </p>
+          <a href="{% url 'params' %}" class="btn btn-primary rounded-pill px-4">
+             <i class="fa-solid fa-gear me-2"></i> {% trans "Go to Settings" %}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    </div>
+  </main>
+
+
+  <div class="modal fade modal-lg" id="modalStatus" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 14px;">
+        <div class="modal-header border-bottom border-light">
+          <h5 class="modal-title fw-bold" style="color: var(--primary-teal);">{% trans "Change status" %}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body pb-4">
+          <div class="container text-center pt-2">
+            <div class="row g-2">
+              <div class="col-6 col-md-3">
+                <form method="post" action="{% url 'tasks_change' %}" class="ajax d-grid">
+                  {% csrf_token %}
+                  <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                  <input type="hidden" name="status" value="DOING" />
+                  <button type="submit" class="btn status-doing border-0 shadow-sm rounded-3 py-3 h-100">
+                    <i class="fa-solid fa-play mb-2 d-block fs-4"></i> {% trans "Doing" %}
+                  </button>
+                </form>
+              </div>
+              <div class="col-6 col-md-3">
+                <form method="post" action="{% url 'tasks_change' %}" class="ajax d-grid">
+                  {% csrf_token %}
+                  <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                  <input type="hidden" name="status" value="PAUSED" />
+                  <button type="submit" class="btn status-paused border-0 shadow-sm rounded-3 py-3 h-100">
+                    <i class="fa-solid fa-pause mb-2 d-block fs-4"></i> {% trans "Paused" %}
+                  </button>
+                </form>
+              </div>
+              <div class="col-6 col-md-3">
+                <form method="post" action="{% url 'tasks_change' %}" class="ajax d-grid">
+                  {% csrf_token %}
+                  <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                  <input type="hidden" name="status" value="CANCELED" />
+                  <button type="submit" class="btn status-canceled border-0 shadow-sm rounded-3 py-3 h-100">
+                    <i class="fa-solid fa-xmark mb-2 d-block fs-4"></i> {% trans "Canceled" %}
+                  </button>
+                </form>
+              </div>
+              <div class="col-6 col-md-3">
+                <form method="post" action="{% url 'tasks_change' %}" class="ajax d-grid">
+                  {% csrf_token %}
+                  <input class="taskuser_id" type="hidden" name="taskuser_id" />
+                  <input type="hidden" name="status" value="DONE" />
+                  <a href="#" class="btn btn-success border-0 shadow-sm rounded-3 py-3 h-100 d-flex flex-column align-items-center justify-content-center" style="background: #00875a;" data-bs-toggle="modal" data-bs-target="#modalDone">
+                    <i class="fa-solid fa-check mb-2 fs-4"></i>
+                    {% trans "Done" %}
+                  </a>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade modal-lg" id="modalDone" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 14px;">
+        <form id="taskDone" action="{% url 'tasks_change_done' %}" method="post">
+          {% csrf_token %}
+          <input class="taskuser_id" type="hidden" name="taskuser_id" />
+          <div class="modal-header border-bottom border-light">
+            <h5 class="modal-title fw-bold" style="color: var(--primary-teal);">{% trans "Task effectiveness" %}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body py-4">
+            <div class="container px-md-4">
+              <!-- Environment -->
+              <div class="mb-4 text-center">
+                <label class="form-label fw-bold text-muted text-uppercase" style="font-size:0.75rem;">{% trans "Environment" %} (1-5)</label>
+                <input type="hidden" name="environmentRadio" id="env_value" value="" />
+                <div class="d-flex justify-content-center gap-2 mt-2">
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="env" data-value="1">1</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="env" data-value="2">2</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="env" data-value="3">3</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="env" data-value="4">4</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="env" data-value="5">5</button>
+                </div>
+              </div>
+
+              <!-- Cognition -->
+              <div class="mb-4 text-center">
+                <label class="form-label fw-bold text-muted text-uppercase" style="font-size:0.75rem;">{% trans "Cognition" %} (1-5)</label>
+                <input type="hidden" name="cognitionRadio" id="cog_value" value="" />
+                <div class="d-flex justify-content-center gap-2 mt-2">
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="cog" data-value="1">1</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="cog" data-value="2">2</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="cog" data-value="3">3</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="cog" data-value="4">4</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="cog" data-value="5">5</button>
+                </div>
+              </div>
+
+              <!-- Behavior -->
+              <div class="mb-4 text-center">
+                <label class="form-label fw-bold text-muted text-uppercase" style="font-size:0.75rem;">{% trans "Behavior" %} (1-5)</label>
+                <input type="hidden" name="behaviorRadio" id="beh_value" value="" />
+                <div class="d-flex justify-content-center gap-2 mt-2">
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="beh" data-value="1">1</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="beh" data-value="2">2</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="beh" data-value="3">3</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="beh" data-value="4">4</button>
+                  <button type="button" class="btn btn-outline-secondary btn-dim rounded-circle" style="width:40px;height:40px;" data-dim="beh" data-value="5">5</button>
+                </div>
+              </div>
+
+              <!-- Effectiveness -->
+              <div class="mb-4 text-center">
+                <label class="form-label fw-bold text-primary text-uppercase" style="font-size:0.85rem;">{% trans "Effectiveness" %} (1-5)</label>
+                <input type="hidden" name="effectiveness" id="eff_value" value="" />
+                <div class="d-flex justify-content-center gap-2 mt-2">
+                  <button type="button" class="btn btn-outline-primary btn-dim rounded-circle fw-bold fs-5" style="width:50px;height:50px;" data-dim="eff" data-value="1">1</button>
+                  <button type="button" class="btn btn-outline-primary btn-dim rounded-circle fw-bold fs-5" style="width:50px;height:50px;" data-dim="eff" data-value="2">2</button>
+                  <button type="button" class="btn btn-outline-primary btn-dim rounded-circle fw-bold fs-5" style="width:50px;height:50px;" data-dim="eff" data-value="3">3</button>
+                  <button type="button" class="btn btn-outline-primary btn-dim rounded-circle fw-bold fs-5" style="width:50px;height:50px;" data-dim="eff" data-value="4">4</button>
+                  <button type="button" class="btn btn-outline-primary btn-dim rounded-circle fw-bold fs-5" style="width:50px;height:50px;" data-dim="eff" data-value="5">5</button>
+                </div>
+              </div>
+
+              <div class="text-center mt-5 pt-3 border-top">
+                <button type="submit" class="btn btn-success px-5 py-2 fw-bold rounded-pill" style="background: var(--primary-teal); border: none; font-size:1.1rem;">
+                  <i class="fa-solid fa-check-double me-2"></i> {% trans "Submit Assessment" %}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block js %}
+  <script src="{% static 'js/chart.umd.min.js' %}"></script>
+  <script>
+  $("#modalStatus").on("show.bs.modal", function (e) {
+    $(".taskuser_id").attr("value", $(e.relatedTarget).data("value"));
+  });
+  $("#modalDone").on("show.bs.modal", function (e) {
+    $(".taskuser_id").attr("value", $(e.relatedTarget).data("value"));
+  });
+
+  $(".btn-dim").on("click", function() {
+    const dim = $(this).data("dim");
+    const val = $(this).data("value");
+    
+    // Update hidden input
+    $(`#${dim}_value`).val(val);
+    
+    // Update button states
+    $(`.btn-dim[data-dim="${dim}"]`).removeClass("active btn-primary btn-secondary").addClass("btn-outline-secondary");
+    // Special class for effectiveness
+    if (dim === 'eff') {
+       $(`.btn-dim[data-dim="eff"]`).removeClass("btn-outline-secondary").addClass("btn-outline-primary");
+       $(this).removeClass("btn-outline-primary").addClass("active btn-primary text-white");
+    } else {
+       $(this).removeClass("btn-outline-secondary").addClass("active btn-secondary text-white");
+    }
+  });
+
+  // Validation for Done Modal
+  $("#taskDone").on("submit", function(e) {
+    const env = $("#env_value").val();
+    const cog = $("#cog_value").val();
+    const beh = $("#beh_value").val();
+    const eff = $("#eff_value").val();
+
+    if (env === "" || cog === "" || beh === "" || eff === "" || parseInt(eff) < 1) {
+      e.preventDefault();
+      alert("{% trans 'Please provide all ratings before submitting.' %}");
+      return false;
+    }
+  });
+  </script>
+
+{% endblock js %}

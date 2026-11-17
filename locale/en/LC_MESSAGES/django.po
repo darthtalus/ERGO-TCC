@@ -1,0 +1,3502 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: tasks/models.py:20
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-31 09:27-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounts/forms.py:8
+msgid "Leave blank to keep current password"
+msgstr ""
+
+#: accounts/forms.py:9 templates/accounts/user_edit.html:352
+msgid "New Password"
+msgstr ""
+
+#: accounts/forms.py:35
+msgid "Only SuperAdmins can change user roles."
+msgstr ""
+
+#: accounts/forms.py:37
+msgid "Only SuperAdmins can change user passwords."
+msgstr ""
+
+#: accounts/forms.py:42
+msgid "Only SuperAdmins can block other SuperAdmins."
+msgstr ""
+
+#: accounts/forms.py:49 accounts/views.py:154
+msgid "Password must be at least 6 characters long."
+msgstr ""
+
+#: accounts/forms.py:51 accounts/views.py:158
+msgid "Password must contain at least one letter and one number."
+msgstr ""
+
+#: accounts/models.py:24
+msgid "SuperAdmin"
+msgstr ""
+
+#: accounts/models.py:25
+msgid "Admin"
+msgstr ""
+
+#: accounts/models.py:26
+msgid "Usuario"
+msgstr ""
+
+#: accounts/models.py:98
+msgid ""
+"The groups this user belongs to. A user will get all permissions granted to "
+"each of their groups."
+msgstr ""
+
+#: accounts/models.py:101
+msgid "groups"
+msgstr ""
+
+#: accounts/models.py:107
+msgid "Specific permissions for this user."
+msgstr ""
+
+#: accounts/models.py:110
+msgid "user permissions"
+msgstr ""
+
+#: accounts/models.py:113
+msgid "email address"
+msgstr ""
+
+#: accounts/models.py:114
+msgid "role"
+msgstr ""
+
+#: accounts/models.py:115
+msgid "company"
+msgstr ""
+
+#: accounts/models.py:116 templates/accounts/profile.html:197
+#: templates/accounts/register.html:242 templates/accounts/user_edit.html:319
+msgid "birthdate"
+msgstr ""
+
+#: accounts/models.py:117
+msgid "country"
+msgstr ""
+
+#: accounts/views.py:21 accounts/views.py:84
+msgid "Access denied."
+msgstr ""
+
+#: accounts/views.py:121 accounts/views.py:325
+msgid "Bot detected."
+msgstr ""
+
+#: accounts/views.py:130 accounts/views.py:333
+msgid "Incorrect CAPTCHA code! Please try again."
+msgstr ""
+
+#: accounts/views.py:148
+msgid "Passwords do not match"
+msgstr ""
+
+#: accounts/views.py:162
+msgid "Username is being used"
+msgstr ""
+
+#: accounts/views.py:166
+msgid "Email is being used"
+msgstr ""
+
+#: accounts/views.py:188
+#, python-format
+msgid "You have been added to the task \"%(name)s\"!"
+msgstr ""
+
+#: accounts/views.py:190
+msgid "The invitation linked to this registration has expired."
+msgstr ""
+
+#: accounts/views.py:199
+msgid "Welcome to Ergo!"
+msgstr ""
+
+#: accounts/views.py:213
+msgid "User created successfully"
+msgstr ""
+
+#: accounts/views.py:233
+msgid "You are now logged in"
+msgstr ""
+
+#: accounts/views.py:239
+#, python-format
+msgid "Happy Birthday, %(name)s! 🎂"
+msgstr ""
+
+#: accounts/views.py:247
+msgid "Invalid credentials"
+msgstr ""
+
+#: accounts/views.py:260
+msgid "You are now logged out"
+msgstr ""
+
+#: accounts/views.py:343
+msgid ""
+"There was a technical problem sending the reset email. Please try again "
+"later or contact support."
+msgstr ""
+
+#: accounts/views.py:350
+msgid "Action not allowed."
+msgstr ""
+
+#: accounts/views.py:356
+msgid "The user does not have an email address registered."
+msgstr ""
+
+#: accounts/views.py:371
+#, python-format
+msgid "Reset email successfully sent to %(email)s."
+msgstr ""
+
+#: accounts/views.py:374
+msgid "Error sending email. Please check SMTP settings."
+msgstr ""
+
+#: accounts/views.py:382
+msgid "Only SuperAdmins can delete users."
+msgstr ""
+
+#: accounts/views.py:388
+msgid "The main administrator (ID=1) cannot be deleted."
+msgstr ""
+
+#: accounts/views.py:392
+msgid "You cannot delete your own account."
+msgstr ""
+
+#: accounts/views.py:400
+msgid "Invalid password. Deletion cancelled."
+msgstr ""
+
+#: accounts/views.py:425
+#, python-format
+msgid ""
+"User %(username)s has been deleted. Tasks were reassigned to the "
+"administrator."
+msgstr ""
+
+#: accounts/views.py:429
+msgid "An error occurred while deleting the user."
+msgstr ""
+
+#: accounts/views.py:441
+msgid "Your profile has been updated successfully."
+msgstr ""
+
+#: tasks/models.py:16 templates/accounts/user_edit.html:499
+#: templates/pages/statistic.html:290
+#: templates/partials/_status_filters.html:13 templates/tasks/index.html:184
+#: templates/tasks/task_history.html:443
+msgid "Doing"
+msgstr ""
+
+#: tasks/models.py:17 templates/accounts/user_edit.html:507
+#: templates/pages/statistic.html:298
+#: templates/partials/_status_filters.html:19 templates/tasks/index.html:194
+#: templates/tasks/stakeholder.html:131 templates/tasks/task_history.html:453
+msgid "Paused"
+msgstr ""
+
+#: tasks/models.py:18 templates/accounts/user_edit.html:511
+#: templates/pages/statistic.html:302
+#: templates/partials/_status_filters.html:31 templates/tasks/index.html:204
+#: templates/tasks/stakeholder.html:129 templates/tasks/task_history.html:463
+msgid "Canceled"
+msgstr ""
+
+#: tasks/models.py:19 templates/accounts/user_edit.html:503
+#: templates/pages/statistic.html:294
+#: templates/partials/_status_filters.html:25 templates/tasks/index.html:215
+#: templates/tasks/task_history.html:473
+msgid "Done"
+msgstr ""
+
+#: tasks/models.py:23 templates/accounts/user_edit.html:409
+#: templates/accounts/user_edit.html:491 templates/partials/_cards.html:24
+#: templates/tasks/documentation.html:254 templates/tasks/stakeholder.html:27
+#: templates/tasks/stakeholder.html:57
+msgid "Stakeholder"
+msgstr ""
+
+#: tasks/models.py:24 templates/accounts/user_edit.html:405
+#: templates/accounts/user_edit.html:487 templates/tasks/stakeholder.html:68
+#: templates/tasks/task_history.html:263
+#: templates/tasks/task_join_requests.html:374
+msgid "Executor"
+msgstr ""
+
+#: tasks/models.py:72 templates/tasks/documentation.html:201
+#: user_aspects/views.py:636
+msgid "Self Assessment"
+msgstr ""
+
+#: tasks/models.py:73 templates/tasks/documentation.html:202
+#: templates/tasks/documentation.html:241 user_aspects/views.py:636
+msgid "Stakeholder Evaluation"
+msgstr ""
+
+#: tasks/models.py:134
+msgid "Pending"
+msgstr ""
+
+#: tasks/models.py:135
+msgid "Approved"
+msgstr ""
+
+#: tasks/models.py:136
+msgid "Rejected"
+msgstr ""
+
+#: tasks/views.py:495
+#, python-format
+msgid "Task \"%(name)s\" deleted successfully."
+msgstr ""
+
+#: tasks/views.py:536
+msgid "Role exists"
+msgstr ""
+
+#: tasks/views.py:556
+msgid "Role deleted"
+msgstr ""
+
+#: tasks/views.py:574
+msgid "Status cannot be changed (already evaluated by stakeholder)"
+msgstr ""
+
+#: tasks/views.py:588 tasks/views.py:680
+msgid "Status updated"
+msgstr ""
+
+#: tasks/views.py:606
+msgid "Task already evaluated by stakeholder"
+msgstr ""
+
+#: tasks/views.py:619 tasks/views.py:662 templates/tasks/index.html:339
+#: templates/tasks/task_history.html:573
+msgid "Please provide all ratings before submitting."
+msgstr ""
+
+#: tasks/views.py:637
+msgid "Status and evaluation updated"
+msgstr ""
+
+#: tasks/views.py:655
+msgid "Task must be completed before evaluation"
+msgstr ""
+
+#: tasks/views.py:695
+msgid "Evaluation cleared"
+msgstr ""
+
+#: tasks/views.py:714
+#, python-format
+msgid "Invitation to participate in task: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:750
+#, python-format
+msgid "Task reactivated: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:789
+#, python-format
+msgid "Task canceled: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:828
+#, python-format
+msgid "Task completed and ready for evaluation: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:867
+#, python-format
+msgid "New task assigned: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:906
+#, python-format
+msgid "Task evaluated: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:943
+#, python-format
+msgid "Reminder: Task not yet completed: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:975
+msgid "This invitation has already been accepted."
+msgstr ""
+
+#: tasks/views.py:979
+msgid ""
+"This invitation link has expired (48 hours limit). Please ask for a new "
+"invitation."
+msgstr ""
+
+#: tasks/views.py:994
+#, python-format
+msgid "You have been added to the task '%(task_name)s' as %(role)s."
+msgstr ""
+
+#: tasks/views.py:1005
+msgid "Please login with your account to join the task."
+msgstr ""
+
+#: tasks/views.py:1110
+msgid "This task is already completed."
+msgstr ""
+
+#: tasks/views.py:1118
+#, python-format
+msgid "Reminder sent to %(executor)s."
+msgstr ""
+
+#: tasks/views.py:1122
+msgid "Failed to send reminder."
+msgstr ""
+
+#: tasks/views.py:1151
+msgid "Link de compartilhamento ativado."
+msgstr ""
+
+#: tasks/views.py:1155
+msgid "Link de compartilhamento desativado."
+msgstr ""
+
+#: tasks/views.py:1160
+msgid "Novo link gerado com sucesso."
+msgstr ""
+
+#: tasks/views.py:1189
+msgid "Por favor, informe seu e-mail."
+msgstr ""
+
+#: tasks/views.py:1199
+msgid "Solicitação enviada! O responsável pela tarefa analisará seu pedido."
+msgstr ""
+
+#: tasks/views.py:1204
+msgid "Você já solicitou participação nesta tarefa."
+msgstr ""
+
+#: tasks/views.py:1246
+#, python-format
+msgid "Nova solicitação de participação: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:1328
+#, python-format
+msgid "Solicitação de %(email)s aprovada como %(role)s."
+msgstr ""
+
+#: tasks/views.py:1341
+#, python-format
+msgid "Solicitação de %(email)s recusada."
+msgstr ""
+
+#: tasks/views.py:1359
+#, python-format
+msgid "Solicitação aprovada: %(task_name)s"
+msgstr ""
+
+#: tasks/views.py:1361
+#, python-format
+msgid "Solicitação recusada: %(task_name)s"
+msgstr ""
+
+#: templates/404.html:75
+msgid "Página não encontrada"
+msgstr ""
+
+#: templates/404.html:77
+msgid ""
+"A página que você está procurando pode ter sido removida, alterada ou está "
+"temporariamente indisponível."
+msgstr ""
+
+#: templates/404.html:81 templates/500.html:81
+msgid "Voltar ao Início"
+msgstr ""
+
+#: templates/500.html:75
+msgid "Erro interno do servidor"
+msgstr ""
+
+#: templates/500.html:77
+msgid ""
+"Ocorreu um erro inesperado. Nossa equipe técnica já foi notificada e estamos "
+"trabalhando para resolver."
+msgstr ""
+
+#: templates/accounts/emails/password_reset_email.html:2
+#, python-format
+msgid ""
+"Hello, %(name)s.\n"
+"\n"
+"We received a request to reset the password for your account linked to the "
+"email %(email)s.\n"
+"\n"
+"To reset your password, click the link below:"
+msgstr ""
+
+#: templates/accounts/emails/password_reset_email.html:10
+msgid ""
+"If you did not request a password reset, please ignore this email. Your "
+"password will remain the same until you access the link above and create a "
+"new one.\n"
+"\n"
+"Best regards,\n"
+"Ergo Team"
+msgstr ""
+
+#: templates/accounts/emails/password_reset_subject.txt:1
+msgid "[Ergo] Password Reset Request"
+msgstr ""
+
+#: templates/accounts/emails/welcome_email.html:67
+#, python-format
+msgid "Hello, %(name)s!"
+msgstr ""
+
+#: templates/accounts/emails/welcome_email.html:68
+msgid "Welcome to <strong>Ergo</strong>. We are happy to have you with us."
+msgstr ""
+
+#: templates/accounts/emails/welcome_email.html:69
+#, python-format
+msgid ""
+"Your account has been successfully created with the username: "
+"<strong>%(username)s</strong>"
+msgstr ""
+
+#: templates/accounts/emails/welcome_email.html:70
+msgid ""
+"You can now access all the features of our system to manage your projects "
+"and tasks more efficiently."
+msgstr ""
+
+#: templates/accounts/emails/welcome_email.html:72
+msgid "Access My Account"
+msgstr ""
+
+#: templates/accounts/emails/welcome_email.html:74
+msgid "Or copy this link:"
+msgstr ""
+
+#: templates/accounts/emails/welcome_email.html:79
+msgid "&copy; 2026 Ergo. All rights reserved."
+msgstr ""
+
+#: templates/accounts/emails/welcome_email.html:80
+msgid "If you did not create this account, please ignore this email."
+msgstr ""
+
+#: templates/accounts/login.html:44
+msgid "Username or Email"
+msgstr ""
+
+#: templates/accounts/login.html:48 templates/accounts/register.html:518
+msgid "Password"
+msgstr ""
+
+#: templates/accounts/login.html:51
+#: templates/accounts/password_reset_complete.html:20
+#: templates/accounts/register.html:208
+msgid "Login"
+msgstr ""
+
+#: templates/accounts/login.html:53
+msgid "Forgot password?"
+msgstr ""
+
+#: templates/accounts/login.html:54 templates/accounts/register.html:557
+msgid "Create Account"
+msgstr ""
+
+#: templates/accounts/login.html:55 templates/accounts/login.html:76
+#: templates/tasks/documentation.html:122
+msgid "About ERGO"
+msgstr ""
+
+#: templates/accounts/login.html:56 templates/partials/_sidebarmenu.html:96
+msgid "Política de Privacidade"
+msgstr "Privacy Policy"
+
+#: templates/accounts/login.html:81
+msgid ""
+"Conceived by Professor and Researcher <strong>Dr. Carlo Gabriel Porto "
+"Bellini</strong> (Porto-Bellini in citations), Full Professor of MIS/HCI at "
+"the Department of Business Administration at UFPB, ERGO is a specialized "
+"platform for monitoring productivity and well-being in professional "
+"environments. Currently, the system is hosted on the infrastructure of the "
+"<strong>STI (Superintendence of Information Technology)</strong> at UFPB and "
+"is managed and developed by the staff member <strong>Leonardo Américo "
+"Bezerra Viana</strong>, ensuring high availability and institutional "
+"security for data and users."
+msgstr ""
+
+#: templates/accounts/login.html:85 templates/tasks/stakeholder.html:208
+#: templates/tasks/task_history.html:415
+msgid "Close"
+msgstr ""
+
+#: templates/accounts/password_reset_complete.html:16
+msgid "Password Changed!"
+msgstr ""
+
+#: templates/accounts/password_reset_complete.html:17
+msgid ""
+"Your password has been successfully reset. You can now log in with your new "
+"credential."
+msgstr ""
+
+#: templates/accounts/password_reset_confirm.html:20
+msgid "Create New Password"
+msgstr ""
+
+#: templates/accounts/password_reset_confirm.html:37
+msgid "Change Password"
+msgstr ""
+
+#: templates/accounts/password_reset_confirm.html:40
+msgid "Invalid Link"
+msgstr ""
+
+#: templates/accounts/password_reset_confirm.html:41
+msgid "This password reset link is invalid or has expired."
+msgstr ""
+
+#: templates/accounts/password_reset_confirm.html:43
+msgid "Request New Link"
+msgstr ""
+
+#: templates/accounts/password_reset_done.html:22
+msgid "Link Sent!"
+msgstr ""
+
+#: templates/accounts/password_reset_done.html:23
+msgid ""
+"If an account with this email exists, we have sent a link to reset your "
+"password."
+msgstr ""
+
+#: templates/accounts/password_reset_done.html:24
+msgid "Please check your inbox and also your spam folder."
+msgstr ""
+
+#: templates/accounts/password_reset_done.html:27
+#: templates/accounts/password_reset_form.html:50
+msgid "Back to Login"
+msgstr ""
+
+#: templates/accounts/password_reset_form.html:16
+msgid "Forgot your password?"
+msgstr ""
+
+#: templates/accounts/password_reset_form.html:17
+msgid "Enter your email address to receive a reset link."
+msgstr ""
+
+#: templates/accounts/password_reset_form.html:23
+#: templates/accounts/profile.html:193 templates/accounts/register.html:234
+#: templates/accounts/user_edit.html:315 templates/accounts/user_list.html:224
+#: user_aspects/views.py:443
+msgid "Email"
+msgstr ""
+
+#: templates/accounts/password_reset_form.html:34
+#: templates/accounts/register.html:536
+msgid "Refresh"
+msgstr ""
+
+#: templates/accounts/password_reset_form.html:38
+#: templates/accounts/register.html:540
+msgid "Enter the code"
+msgstr ""
+
+#: templates/accounts/password_reset_form.html:44
+#: templates/accounts/register.html:548
+msgid "Leave this field empty"
+msgstr ""
+
+#: templates/accounts/password_reset_form.html:48
+msgid "Send Link"
+msgstr ""
+
+#: templates/accounts/profile.html:168 templates/partials/_sidebarmenu.html:66
+msgid "My Profile"
+msgstr ""
+
+#: templates/accounts/profile.html:182 templates/accounts/register.html:223
+#: templates/accounts/user_edit.html:304
+msgid "Personal Information"
+msgstr ""
+
+#: templates/accounts/profile.html:185 templates/accounts/register.html:226
+#: templates/accounts/user_edit.html:307
+msgid "First Name"
+msgstr ""
+
+#: templates/accounts/profile.html:189 templates/accounts/register.html:230
+#: templates/accounts/user_edit.html:311
+msgid "Last Name"
+msgstr ""
+
+#: templates/accounts/profile.html:205 templates/accounts/register.html:250
+#: templates/accounts/user_edit.html:327
+msgid "Organization"
+msgstr ""
+
+#: templates/accounts/profile.html:208 templates/accounts/register.html:253
+#: templates/accounts/user_edit.html:330
+#: templates/params/dashboard_estatisticas.html:144 user_aspects/views.py:333
+#: user_aspects/views.py:391 user_aspects/views.py:445
+#: user_aspects/views.py:839
+msgid "Company"
+msgstr ""
+
+#: templates/accounts/profile.html:212 templates/accounts/register.html:257
+#: templates/accounts/user_edit.html:334
+#: templates/params/dashboard_estatisticas.html:153 user_aspects/views.py:334
+#: user_aspects/views.py:392 user_aspects/views.py:446
+#: user_aspects/views.py:840
+msgid "Country"
+msgstr ""
+
+#: templates/accounts/profile.html:220
+msgid "Access Level"
+msgstr ""
+
+#: templates/accounts/profile.html:227
+msgid "Roles can only be changed by an administrator."
+msgstr ""
+
+#: templates/accounts/profile.html:235 templates/accounts/user_edit.html:375
+#: templates/params/edit.html:221
+msgid "Save Changes"
+msgstr ""
+
+#: templates/accounts/profile.html:243 templates/accounts/register.html:515
+msgid "Security"
+msgstr ""
+
+#: templates/accounts/profile.html:244
+msgid "Want to change your password?"
+msgstr ""
+
+#: templates/accounts/profile.html:247
+msgid "Reset Password"
+msgstr ""
+
+#: templates/accounts/register.html:198
+msgid "Account"
+msgstr ""
+
+#: templates/accounts/register.html:199 templates/accounts/user_list.html:189
+msgid "Register New User"
+msgstr ""
+
+#: templates/accounts/register.html:204 templates/accounts/user_edit.html:291
+#: templates/pages/statistic.html:190
+#: templates/params/dashboard_estatisticas.html:125
+#: templates/tasks/documentation.html:280 templates/tasks/task_history.html:228
+#: templates/tasks/tutorials.html:131
+msgid "Back"
+msgstr ""
+
+#: templates/accounts/register.html:238 templates/accounts/user_list.html:204
+#: user_aspects/views.py:441
+msgid "Username"
+msgstr ""
+
+#: templates/accounts/register.html:259
+msgid "Please choose an option"
+msgstr ""
+
+#: templates/accounts/register.html:520
+msgid "Min 6 chars, letters & numbers."
+msgstr ""
+
+#: templates/accounts/register.html:523
+msgid "Confirm Password"
+msgstr ""
+
+#: templates/accounts/user_delete_confirm.html:39
+msgid "Confirm Deletion"
+msgstr ""
+
+#: templates/accounts/user_delete_confirm.html:50
+msgid "This action is irreversible."
+msgstr ""
+
+#: templates/accounts/user_delete_confirm.html:50
+msgid ""
+"Tasks will be reassigned to the administrator, but profile data and "
+"effectiveness history will be permanently removed."
+msgstr ""
+
+#: templates/accounts/user_delete_confirm.html:56
+msgid "Enter <strong>your</strong> password to confirm:"
+msgstr ""
+
+#: templates/accounts/user_delete_confirm.html:57
+msgid "Admin Password"
+msgstr ""
+
+#: templates/accounts/user_delete_confirm.html:62
+msgid "Delete Permanently"
+msgstr ""
+
+#: templates/accounts/user_delete_confirm.html:65
+#: templates/params/edit.html:219 templates/params/new_behavior.html:226
+#: templates/params/new_cognition.html:231
+#: templates/params/new_environment.html:220 templates/tasks/edit.html:364
+#: templates/tasks/edit.html:428 templates/tasks/new.html:316
+msgid "Cancel"
+msgstr ""
+
+#: templates/accounts/user_edit.html:286
+msgid "Edit User"
+msgstr ""
+
+#: templates/accounts/user_edit.html:342
+msgid "Access & Security"
+msgstr ""
+
+#: templates/accounts/user_edit.html:345
+msgid "Profile / Role"
+msgstr ""
+
+#: templates/accounts/user_edit.html:355
+msgid "Leave empty to keep current"
+msgstr ""
+
+#: templates/accounts/user_edit.html:362
+msgid "Active Account (Uncheck to block user)"
+msgstr ""
+
+#: templates/accounts/user_edit.html:372
+msgid "Send Reset Link by Email"
+msgstr ""
+
+#: templates/accounts/user_edit.html:384
+msgid "Danger Zone"
+msgstr ""
+
+#: templates/accounts/user_edit.html:385
+msgid "This action cannot be undone."
+msgstr ""
+
+#: templates/accounts/user_edit.html:388
+msgid "Delete User"
+msgstr ""
+
+#: templates/accounts/user_edit.html:399
+msgid "Overview"
+msgstr "Overview"
+
+#: templates/accounts/user_edit.html:400
+msgid "Tasks Summary"
+msgstr "Tasks Summary"
+
+#: templates/accounts/user_edit.html:422 templates/tasks/created_by_me.html:37
+#: templates/tasks/index.html:35 templates/tasks/stakeholder.html:36
+msgid "ID"
+msgstr ""
+
+#: templates/accounts/user_edit.html:432
+msgid "Task"
+msgstr "Task"
+
+#: templates/accounts/user_edit.html:442 templates/tasks/edit.html:300
+#: templates/tasks/edit.html:337 templates/tasks/edit.html:423
+#: templates/tasks/new.html:270 templates/tasks/new.html:299
+#: user_aspects/views.py:444
+msgid "Role"
+msgstr ""
+
+#: templates/accounts/user_edit.html:452 templates/accounts/user_list.html:264
+#: templates/tasks/created_by_me.html:87 templates/tasks/index.html:75
+#: templates/tasks/stakeholder.html:78
+msgid "Status"
+msgstr ""
+
+#: templates/accounts/user_edit.html:462 templates/tasks/created_by_me.html:97
+#: templates/tasks/index.html:85 templates/tasks/stakeholder.html:98
+msgid "Created"
+msgstr ""
+
+#: templates/accounts/user_edit.html:479 templates/params/index.html:175
+#: templates/tasks/created_by_me.html:113
+#: templates/tasks/emails/task_canceled_email.html:24
+#: templates/tasks/emails/task_evaluated_email.html:24
+#: templates/tasks/emails/task_reactivated_email.html:24
+#: templates/tasks/index.html:100 templates/tasks/stakeholder.html:113
+msgid "View History"
+msgstr ""
+
+#: templates/accounts/user_edit.html:518
+msgid "Watching"
+msgstr "Watching"
+
+#: templates/accounts/user_edit.html:533 templates/tasks/created_by_me.html:145
+#: templates/tasks/index.html:137 templates/tasks/stakeholder.html:152
+msgid "No tasks found."
+msgstr ""
+
+#: templates/accounts/user_list.html:185
+msgid "Administration"
+msgstr ""
+
+#: templates/accounts/user_list.html:186
+msgid "Registered Users"
+msgstr ""
+
+#: templates/accounts/user_list.html:214 user_aspects/views.py:442
+msgid "Full Name"
+msgstr ""
+
+#: templates/accounts/user_list.html:234
+msgid "Profile"
+msgstr ""
+
+#: templates/accounts/user_list.html:254 user_aspects/views.py:337
+#: user_aspects/views.py:395 user_aspects/views.py:449
+#: user_aspects/views.py:843
+msgid "Last Login"
+msgstr ""
+
+#: templates/accounts/user_list.html:273
+#: templates/params/manage_predefined_aspects.html:184
+#: templates/params/manage_unit_list.html:156 templates/partials/_param.html:10
+msgid "Actions"
+msgstr ""
+
+#: templates/accounts/user_list.html:302
+msgid "Never"
+msgstr ""
+
+#: templates/accounts/user_list.html:307
+msgid "Active"
+msgstr ""
+
+#: templates/accounts/user_list.html:309
+msgid "Blocked"
+msgstr ""
+
+#: templates/accounts/user_list.html:326
+msgid "No users found."
+msgstr ""
+
+#: templates/accounts/user_list.html:348
+msgid "Search:"
+msgstr ""
+
+#: templates/accounts/user_list.html:349
+msgid "Search users..."
+msgstr ""
+
+#: templates/accounts/user_list.html:350
+msgid "Show _MENU_ entries"
+msgstr ""
+
+#: templates/accounts/user_list.html:351
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr ""
+
+#: templates/accounts/user_list.html:352
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
+
+#: templates/accounts/user_list.html:353
+msgid "(filtered from _MAX_ total entries)"
+msgstr ""
+
+#: templates/accounts/user_list.html:355
+msgid "First"
+msgstr ""
+
+#: templates/accounts/user_list.html:356
+msgid "Last"
+msgstr ""
+
+#: templates/accounts/user_list.html:357
+msgid "Next"
+msgstr ""
+
+#: templates/accounts/user_list.html:358
+msgid "Previous"
+msgstr ""
+
+#: templates/accounts/user_list.html:360
+msgid "No matching records found"
+msgstr ""
+
+#: templates/lockout.html:72
+msgid "Acesso Bloqueado"
+msgstr ""
+
+#: templates/lockout.html:74
+msgid ""
+"Por motivos de segurança, sua conta ou endereço IP foi temporariamente "
+"bloqueado devido a múltiplas tentativas de login incorretas."
+msgstr ""
+
+#: templates/lockout.html:75
+msgid "Por favor, aguarde alguns minutos antes de tentar novamente."
+msgstr ""
+
+#: templates/lockout.html:79
+msgid "Voltar ao Login"
+msgstr ""
+
+#: templates/pages/privacy_policy.html:12
+msgid "POLÍTICA DE PRIVACIDADE E TRANSPARÊNCIA"
+msgstr "PRIVACY POLICY AND TRANSPARENCY"
+
+#: templates/pages/privacy_policy.html:14
+msgid "Plataforma Ergo – CCSA / UFPB"
+msgstr "Ergo Platform – CCSA / UFPB"
+
+#: templates/pages/privacy_policy.html:15
+msgid "Última atualização: Maio de 2026"
+msgstr "Last updated: May 2026"
+
+#: templates/pages/privacy_policy.html:18
+msgid ""
+"Bem-vindo(a) à plataforma Ergo. Esta Política de Privacidade foi criada para "
+"demonstrar o nosso compromisso com a transparência, a segurança e a proteção "
+"dos seus dados pessoais, em estrita conformidade com a Lei Geral de Proteção "
+"de Dados (Lei nº 13.709/2018 - LGPD)."
+msgstr ""
+"Welcome to the Ergo platform. This Privacy Policy was created to demonstrate "
+"our commitment to transparency, security, and the protection of your "
+"personal data, in strict compliance with Brazil's General Data Protection "
+"Law (Law No. 13.709/2018 - LGPD)."
+
+#: templates/pages/privacy_policy.html:20
+msgid ""
+"Quando você utiliza o Ergo para avaliar fatores ambientais, cognitivos e "
+"comportamentais, coletamos apenas as informações estritamente necessárias "
+"para a prestação do serviço e para o desenvolvimento da pesquisa "
+"institucional."
+msgstr ""
+"When you use Ergo to evaluate environmental, cognitive, and behavioral "
+"factors, we collect only the information strictly necessary for service "
+"delivery and for the development of institutional research."
+
+#: templates/pages/privacy_policy.html:22
+msgid "1. QUAIS DADOS COLETAMOS E PARA QUAL FINALIDADE?"
+msgstr "1. WHAT DATA DO WE COLLECT AND FOR WHAT PURPOSE?"
+
+#: templates/pages/privacy_policy.html:23
+msgid ""
+"Para que o sistema funcione e os relatórios estatísticos sejam gerados, "
+"coletamos duas categorias de dados:"
+msgstr ""
+"For the system to function and statistical reports to be generated, we "
+"collect two categories of data:"
+
+#: templates/pages/privacy_policy.html:25
+#, fuzzy
+#| msgid ""
+#| "<strong>Dados de Autenticação e Perfil:</strong> Nome de usuário, Nome "
+#| "Completo, Data Nascimento, Organização, País e E-mail.<br>\n"
+#| "<em>Finalidade:</em> Garantir a segurança do acesso, identificar o "
+#| "usuário na plataforma e gerenciar o perfil individual."
+msgid ""
+"<strong>Dados de Autenticação e Perfil:</strong> Nome de usuário, Nome "
+"Completo, Data Nascimento, Organização, País e E-mail.<br>\n"
+"        <em>Finalidade:</em> Garantir a segurança do acesso, identificar o "
+"usuário na plataforma e gerenciar o perfil individual."
+msgstr ""
+"<strong>Authentication and Profile Data:</strong> Username, Full Name, Birth "
+"Date, Organization, Country, and Email.<br>\n"
+"<em>Purpose:</em> Ensure access security, identify the user on the platform, "
+"and manage the individual profile."
+
+#: templates/pages/privacy_policy.html:27
+#, fuzzy
+#| msgid ""
+#| "<strong>Dados de Diagnóstico Ergonomico (Formulários):</strong> Respostas "
+#| "sobre o ambiente físico (temperatura, ruído, luminosidade), aspectos "
+#| "cognitivos (foco, conhecimento técnico) e comportamentais (pausas, uso de "
+#| "redes sociais).<br>\n"
+#| "<em>Finalidade:</em> Calcular os índices de Efetividade Diária e gerar "
+#| "relatórios estatísticos agregados para fins acadêmicos e de pesquisa no "
+#| "âmbito da UFPB."
+msgid ""
+"<strong>Dados de Diagnóstico Ergonomico (Formulários):</strong> Respostas "
+"sobre o ambiente físico (temperatura, ruído, luminosidade), aspectos "
+"cognitivos (foco, conhecimento técnico) e comportamentais (pausas, uso de "
+"redes sociais).<br>\n"
+"        <em>Finalidade:</em> Calcular os índices de Efetividade Diária e "
+"gerar relatórios estatísticos agregados para fins acadêmicos e de pesquisa "
+"no âmbito da UFPB."
+msgstr ""
+"<strong>Ergonomic Diagnostic Data (Forms):</strong> Responses about the "
+"physical environment (temperature, noise, lighting), cognitive aspects "
+"(focus, technical knowledge), and behavioral aspects (breaks, social media "
+"use).<br>\n"
+"<em>Purpose:</em> Calculate Daily Effectiveness indexes and generate "
+"aggregated statistical reports for academic and research purposes at UFPB."
+
+#: templates/pages/privacy_policy.html:31
+msgid "2. USO DE COOKIES (DIREITO À INFORMAÇÃO)"
+msgstr "2. USE OF COOKIES (RIGHT TO INFORMATION)"
+
+#: templates/pages/privacy_policy.html:32
+msgid ""
+"Em respeito ao princípio da transparência da LGPD, informamos que a "
+"plataforma Ergo não utiliza cookies de marketing, anúncios, rastreamento "
+"comportamental ou serviços de publicidade de terceiros."
+msgstr ""
+"In respect of the LGPD transparency principle, we inform that the Ergo "
+"platform does not use marketing cookies, advertisements, behavioral "
+"tracking, or third-party advertising services."
+
+#: templates/pages/privacy_policy.html:33
+msgid ""
+"Utilizamos exclusivamente <strong>Cookies Estritamente Necessários</strong>, "
+"que incluem:"
+msgstr ""
+"We exclusively use <strong>Strictly Necessary Cookies</strong>, which "
+"include:"
+
+#: templates/pages/privacy_policy.html:35
+msgid ""
+"<strong>Cookies de Sessão:</strong> Temporários e essenciais para manter "
+"você logado de forma segura enquanto navega pelas páginas do sistema."
+msgstr ""
+"<strong>Session Cookies:</strong> Temporary and essential to keep you safely "
+"logged in while browsing the system pages."
+
+#: templates/pages/privacy_policy.html:36
+msgid ""
+"<strong>Cookies de Segurança (CSRF Token):</strong> Mecanismos obrigatórios "
+"para blindar os formulários do sistema contra ataques externos e submissões "
+"maliciosas de dados."
+msgstr ""
+"<strong>Security Cookies (CSRF Token):</strong> Mandatory mechanisms to "
+"protect the system forms against external attacks and malicious data "
+"submissions."
+
+#: templates/pages/privacy_policy.html:40
+msgid "Nota Legal:"
+msgstr "Legal Notice:"
+
+#: templates/pages/privacy_policy.html:40
+msgid ""
+"Por serem componentes técnicos vitais para a estabilidade e segurança da "
+"aplicação, o uso destes cookies baseia-se na base legal de Execução de "
+"Serviço/Contrato e Legítimo Interesse, dispensando a exibição de banners "
+"invasivos de consentimento (\"Aceitar/Recusar\"), uma vez que o sistema não "
+"pode funcionar sem eles."
+msgstr ""
+"As they are vital technical components for the stability and security of the "
+"application, the use of these cookies is based on the legal basis of Service "
+"Execution/Contract and Legitimate Interest, waiving the display of intrusive "
+"consent banners (\"Accept/Reject\"), since the system cannot function "
+"without them."
+
+#: templates/pages/privacy_policy.html:43
+msgid "3. BASE LEGAL PARA O TRATAMENTO DE DADOS"
+msgstr "3. LEGAL BASIS FOR DATA PROCESSING"
+
+#: templates/pages/privacy_policy.html:44
+msgid ""
+"A plataforma Ergo trata os seus dados fundamentada nas seguintes hipóteses "
+"legais da LGPD:"
+msgstr ""
+"The Ergo platform processes your data based on the following LGPD legal "
+"hypotheses:"
+
+#: templates/pages/privacy_policy.html:46
+msgid ""
+"<strong>Execução de Contrato ou Procedimentos Preliminares (Art. 7º, V):</"
+"strong> Necessária para a prestação do serviço logado e entrega dos "
+"relatórios individuais."
+msgstr ""
+"<strong>Contract Execution or Preliminary Procedures (Art. 7, V):</strong> "
+"Necessary for providing the logged-in service and delivering individual "
+"reports."
+
+#: templates/pages/privacy_policy.html:47
+msgid ""
+"<strong>Realização de Estudos por Órgão de Pesquisa (Art. 7º, IV):</strong> "
+"Para fins estatísticos institucionais, garantindo que, sempre que possível, "
+"os dados sejam analisados de forma agregada."
+msgstr ""
+"<strong>Conducting Studies by a Research Institution (Art. 7, IV):</strong> "
+"For institutional statistical purposes, ensuring that, whenever possible, "
+"data is analyzed in an aggregated form."
+
+#: templates/pages/privacy_policy.html:50
+msgid "4. COMPARTILHAMENTO DE DADOS"
+msgstr "4. DATA SHARING"
+
+#: templates/pages/privacy_policy.html:51
+msgid ""
+"O Ergo adota uma política rígida de não comercialização de dados. "
+"<strong>Suas informações nunca serão vendidas ou compartilhadas com empresas "
+"privadas ou para fins comerciais.</strong>"
+msgstr ""
+"Ergo adopts a strict policy of not commercializing data. <strong>Your "
+"information will never be sold or shared with private companies or for "
+"commercial purposes.</strong>"
+
+#: templates/pages/privacy_policy.html:52
+msgid ""
+"O acesso aos dados brutos é restrito aos administradores do sistema e "
+"pesquisadores autorizados do projeto Ergo, com o objetivo estrito de "
+"aperfeiçoar a ferramenta e produzir conhecimento científico."
+msgstr ""
+"Access to raw data is restricted to system administrators and authorized "
+"researchers of the Ergo project, with the strict purpose of improving the "
+"tool and producing scientific knowledge."
+
+#: templates/pages/privacy_policy.html:54
+msgid "5. SEGURANÇA DOS DADOS"
+msgstr "5. DATA SECURITY"
+
+#: templates/pages/privacy_policy.html:55
+msgid ""
+"Implementamos medidas técnicas e organizacionais adequadas para proteger os "
+"seus dados contra acessos não autorizados, perdas ou alterações:"
+msgstr ""
+"We implement appropriate technical and organizational measures to protect "
+"your data against unauthorized access, loss, or alteration:"
+
+#: templates/pages/privacy_policy.html:57
+msgid ""
+"Todo o tráfego de dados entre o seu navegador e o nosso servidor é "
+"criptografado utilizando o protocolo HTTPS / SSL."
+msgstr ""
+"All data traffic between your browser and our server is encrypted using the "
+"HTTPS / SSL protocol."
+
+#: templates/pages/privacy_policy.html:58
+msgid ""
+"O sistema roda em ambiente de contêiner e servidor isolado, com restrições "
+"rígidas de acesso à rede interna."
+msgstr ""
+"The system runs in a container environment and isolated server, with strict "
+"internal network access restrictions."
+
+#: templates/pages/privacy_policy.html:59
+msgid ""
+"Os logs de erro e acessos são monitorados continuamente para prevenir e "
+"mitigar vulnerabilidades."
+msgstr ""
+"Error logs and access logs are continuously monitored to prevent and "
+"mitigate vulnerabilities."
+
+#: templates/pages/privacy_policy.html:62
+msgid "6. SEUS DIREITOS COMO TITULAR DOS DADOS"
+msgstr "6. YOUR RIGHTS AS A DATA SUBJECT"
+
+#: templates/pages/privacy_policy.html:63
+msgid ""
+"A LGPD garante a você controle sobre suas informações. A qualquer momento, "
+"você pode exercer os seguintes direitos entrando em contato com a "
+"administração da plataforma:"
+msgstr ""
+"LGPD guarantees you control over your information. At any time, you may "
+"exercise the following rights by contacting the platform administration:"
+
+#: templates/pages/privacy_policy.html:65
+msgid ""
+"Confirmar a existência do tratamento de dados e acessar as informações do "
+"seu perfil."
+msgstr ""
+"Confirm the existence of data processing and access your profile information."
+
+#: templates/pages/privacy_policy.html:66
+msgid "Solicitar a correção de dados incompletos, inexatos ou desatualizados."
+msgstr "Request correction of incomplete, inaccurate, or outdated data."
+
+#: templates/pages/privacy_policy.html:67
+msgid ""
+"Solicitar a exclusão definitiva de sua conta e dos dados a ela associados do "
+"nosso banco de dados ativo."
+msgstr ""
+"Request the definitive deletion of your account and its associated data from "
+"our active database."
+
+#: templates/pages/privacy_policy.html:70
+msgid "7. CONTATO E SUPORTE"
+msgstr "7. CONTACT AND SUPPORT"
+
+#: templates/pages/privacy_policy.html:71
+msgid ""
+"Caso tenha qualquer dúvida sobre esta Política de Privacidade ou sobre como "
+"seus dados são tratados pela ferramenta Ergo, entre em contato com a equipe "
+"de administração:"
+msgstr ""
+"If you have any questions about this Privacy Policy or about how your data "
+"is handled by the Ergo tool, please contact the administration team:"
+
+#: templates/pages/privacy_policy.html:79
+#: templates/tasks/documentation.html:283 templates/tasks/tutorials.html:134
+msgid "Back to top"
+msgstr ""
+
+#: templates/pages/statistic.html:186
+msgid "Performance Hub"
+msgstr ""
+
+#: templates/pages/statistic.html:187
+msgid "My Statistics & Insights"
+msgstr ""
+
+#: templates/pages/statistic.html:201
+msgid "Daily Logs"
+msgstr ""
+
+#: templates/pages/statistic.html:213
+msgid "Entry Score"
+msgstr ""
+
+#: templates/pages/statistic.html:243
+msgid "No individual aspects tracked."
+msgstr ""
+
+#: templates/pages/statistic.html:253
+msgid "Start finishing your days to see data here."
+msgstr ""
+
+#: templates/pages/statistic.html:261
+msgid "Effectiveness Trend"
+msgstr ""
+
+#: templates/pages/statistic.html:262
+msgid "Visual analytics"
+msgstr ""
+
+#: templates/pages/statistic.html:276
+msgid "My Tasks (Executor)"
+msgstr ""
+
+#: templates/pages/statistic.html:282
+msgid "As Stakeholder"
+msgstr ""
+
+#: templates/pages/statistic.html:287
+msgid "Full Overview"
+msgstr ""
+
+#: templates/pages/statistic.html:313
+msgid "Ready to log today's progress?"
+msgstr ""
+
+#: templates/pages/statistic.html:316
+msgid "Finish Day"
+msgstr ""
+
+#: templates/pages/statistic.html:343 templates/tasks/documentation.html:205
+#: user_aspects/views.py:453 user_aspects/views.py:846
+msgid "Daily Effectiveness"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:116
+msgid "Administrative Dashboard"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:117
+msgid "Statistical Insights"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:122
+msgid "Imprimir / Exportar"
+msgstr "Print / Export"
+
+#: templates/params/dashboard_estatisticas.html:136
+msgid "Start Date"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:140
+msgid "End Date"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:146
+msgid "All Companies"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:155
+msgid "All Countries"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:164
+msgid "Filter"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:167
+#: templates/tasks/stakeholder.html:202 templates/tasks/task_history.html:409
+msgid "Clear"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:178
+msgid "Effectiveness Analysis"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:179
+msgid ""
+"Comparison between average scores of self-assessment and stakeholder "
+"evaluation."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:181
+msgid "Effectiveness Graph"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:185
+#: templates/params/dashboard_estatisticas.html:206
+#: templates/params/dashboard_estatisticas.html:230
+#: templates/params/dashboard_estatisticas.html:251
+msgid "How is it calculated?"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:188
+#: templates/params/dashboard_estatisticas.html:209
+msgid "Source:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:189
+msgid ""
+"<strong>Self-Assessment:</strong> When an executor marks a task as 'Done', "
+"they assign an effectiveness score (1 to 5). The bar shows the arithmetic "
+"mean of ALL self-assessment scores: <code>SUM(effectiveness) / "
+"COUNT(records)</code> where <code>rate_type = SELF</code>."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:190
+msgid ""
+"<strong>Stakeholder Evaluation:</strong> When a stakeholder evaluates an "
+"executor's completed task, they also assign a score (1 to 5). The bar shows "
+"the arithmetic mean of ALL stakeholder scores: <code>SUM(effectiveness) / "
+"COUNT(records)</code> where <code>rate_type = STAKEHOLDER</code>."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:199
+msgid "Dimensions Analysis"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:200
+msgid "Impact analysis of Environmental, Cognitive and Behavioral factors."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:202
+msgid "Dimensions Graph"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:210
+msgid ""
+"<strong>Process:</strong> Every time a user finishes their day, a snapshot "
+"of all their configured parameters (with their parametrized value 1-5) is "
+"saved in the history table, linked to that day's effectiveness record."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:211
+msgid ""
+"<strong>Environment:</strong> <code>AVG(parametrized)</code> of all history "
+"records where <code>dimension = ENVIRONMENT</code>."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:212
+msgid ""
+"<strong>Cognition:</strong> <code>AVG(parametrized)</code> of all history "
+"records where <code>dimension = COGNITION</code>."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:213
+msgid ""
+"<strong>Behavior:</strong> <code>AVG(parametrized)</code> of all history "
+"records where <code>dimension = BEHAVIOR</code>."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:214
+msgid ""
+"<strong>Note:</strong> This analysis evaluates only the executors' self-"
+"assessments, as stakeholders do not evaluate the executors' dimensions."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:223
+msgid "Evolution Analysis"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:224
+msgid ""
+"Comparison between daily perception (Logs) and objective performance in "
+"tasks over time."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:226
+msgid "Evolution Graph"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:233
+msgid ""
+"<strong>Daily Record line (blue):</strong> For each day in the period, "
+"calculates the average effectiveness from <code>daily_effectiveness</code>: "
+"<code>AVG(effectiveness)</code> grouped by <code>day</code>. This represents "
+"the user's general daily perception."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:234
+msgid ""
+"<strong>Task Evaluation line (orange):</strong> For each day, calculates the "
+"average effectiveness from <code>task_evaluation</code>: "
+"<code>AVG(effectiveness)</code> grouped by <code>DATE(created_at)</code>. "
+"This represents the objective task-level performance."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:235
+msgid ""
+"<strong>Interpretation:</strong> When the lines diverge significantly, it "
+"indicates a gap between the user's general perception and their actual task "
+"performance. Convergence suggests alignment between self-perception and "
+"results."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:244
+msgid "Statistical Summary"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:245
+msgid "Direct quantitative analysis based on the latest generated data."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:254
+msgid ""
+"<strong>General Average Effectiveness (Daily Records):</strong> "
+"<code>AVG(effectiveness)</code> from <code>daily_effectiveness</code> — the "
+"mean of all end-of-day scores recorded by all users in the selected period."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:255
+msgid ""
+"<strong>Average Effectiveness (Executors):</strong> <code>AVG(effectiveness) "
+"WHERE rate_type = SELF</code> from <code>task_evaluation</code>."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:256
+msgid ""
+"<strong>Average Effectiveness (Stakeholders):</strong> "
+"<code>AVG(effectiveness) WHERE rate_type = STAKEHOLDER</code> from "
+"<code>task_evaluation</code>."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:257
+msgid ""
+"<strong>General Average Effectiveness (Tasks):</strong> "
+"<code>AVG(effectiveness)</code> from <code>task_evaluation</code> — the mean "
+"of all task evaluation scores (both self and stakeholder) in the selected "
+"period."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:258
+msgid ""
+"<strong>Total Task Evaluations:</strong> <code>COUNT(*)</code> from "
+"<code>task_evaluation</code> — total number of task evaluation records in "
+"the period."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:259
+msgid ""
+"<strong>Total Daily Records:</strong> <code>COUNT(*)</code> from "
+"<code>daily_effectiveness</code> — total number of end-of-day records in the "
+"period."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:260
+msgid ""
+"<strong>Average Environmental/Cognitive/Behavioral Impact:</strong> "
+"<code>AVG(parametrized)</code> from <code>measurement_history</code> "
+"filtered by the respective dimension — the mean of all parametrized values "
+"(1-5) that users assigned to their aspects in each dimension."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:270
+msgid "Methodology & Calculation Logic"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:275
+msgid "Daily Effectiveness Records"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:277
+#: templates/params/dashboard_estatisticas.html:288
+#: templates/params/dashboard_estatisticas.html:302
+#: templates/params/dashboard_estatisticas.html:312
+msgid "Source Table:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:278
+msgid "When a user clicks 'Finish the Day', a record is created with:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:279
+msgid "the user who finished the day"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:280
+msgid "current date (auto-generated)"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:281
+msgid "score from 1 to 5 chosen by the user"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:282
+msgid ""
+"Constraint: Only one record per user per day (<code>unique_together: user, "
+"day</code>)."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:286
+msgid "Aspect History Snapshot"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:289
+msgid ""
+"At the same time as the daily record, ALL parameters configured in "
+"<code>aspect_measurement</code> are copied to this table, preserving:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:290
+msgid "ENVIRONMENT, COGNITION, or BEHAVIOR"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:291
+msgid "aspect name (e.g., Temperature, Focus)"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:292
+msgid "absolute value (e.g., 24°C, High)"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:293
+msgid "standardized score from 1 to 5"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:294
+msgid "link to the daily record"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:300
+#: templates/tasks/documentation.html:214
+msgid "Task Evaluations"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:303
+msgid "When a task status changes to 'Done', evaluations are recorded:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:304
+msgid "the executor evaluates their own effectiveness (1-5)"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:305
+msgid "stakeholders evaluate the executor's effectiveness (1-5)"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:306
+msgid "dimension scores assigned during evaluation"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:310
+msgid "ABC Dimensions Impact"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:313
+msgid ""
+"The dimension averages shown in the graph and summary table are calculated "
+"exclusively from the <strong>parametrized</strong> field (1-5 scale) of the "
+"daily aspect snapshots."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:314
+msgid "Formula:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:315
+msgid ""
+"<strong>Important:</strong> These values reflect the executors' daily self-"
+"assessments of their working conditions, NOT the task-level evaluations. "
+"Stakeholders do not evaluate these dimensions."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:321
+msgid "Data Correlation"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:324
+msgid ""
+"The <strong>Evolution Analysis</strong> graph correlates both data sources "
+"by matching <code>effectiveness.day</code> (daily record date) with "
+"<code>DATE(taskrate.created_at)</code> (task evaluation date). This allows "
+"identifying discrepancies between the user's general perception and their "
+"actual task performance."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:325
+msgid ""
+"All metrics respect the date range filter applied at the top of the page. "
+"When no filter is set, the entire system history is included."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:335
+msgid "ERGO System"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:335
+#: templates/params/dashboard_estatisticas.html:418
+msgid "Productivity and Well-being Monitoring"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:339
+#: templates/params/dashboard_estatisticas.html:423
+msgid "Credits:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:340
+#: templates/params/dashboard_estatisticas.html:425
+msgid "Conception & Design:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:341
+#: templates/params/dashboard_estatisticas.html:426
+msgid "Full Stack Developer:"
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:363
+msgid "Gerando PDF..."
+msgstr ""
+
+#: templates/params/dashboard_estatisticas.html:440
+msgid "Relatório de Insights Estatísticos - ERGO"
+msgstr ""
+
+#: templates/params/edit.html:162
+msgid "Aspect Modification"
+msgstr ""
+
+#: templates/params/edit.html:163
+msgid "Edit Aspect:"
+msgstr ""
+
+#: templates/params/edit.html:176 templates/params/new_behavior.html:184
+#: templates/params/new_cognition.html:184
+#: templates/params/new_environment.html:178
+msgid "Aspect Information"
+msgstr ""
+
+#: templates/params/edit.html:179
+#: templates/params/manage_predefined_aspects.html:182
+#: templates/params/manage_unit_list.html:155
+#: templates/params/new_behavior.html:187
+#: templates/params/new_cognition.html:187
+#: templates/params/new_environment.html:181 templates/partials/_param.html:6
+msgid "Name"
+msgstr ""
+
+#: templates/params/edit.html:183 templates/params/new_behavior.html:195
+#: templates/params/new_cognition.html:196
+#: templates/params/new_environment.html:189 templates/partials/_param.html:8
+#: user_aspects/views.py:345
+msgid "Unit"
+msgstr ""
+
+#: templates/params/edit.html:198 templates/params/new_behavior.html:206
+#: templates/params/new_cognition.html:211
+#: templates/params/new_environment.html:200
+msgid "Absolute Value"
+msgstr ""
+
+#: templates/params/edit.html:203 templates/params/new_behavior.html:211
+#: templates/params/new_cognition.html:216
+#: templates/params/new_environment.html:205
+msgid "Parametrized Value (Impact 1-5)"
+msgstr ""
+
+#: templates/params/export_reports.html:105
+msgid "Administrative Area"
+msgstr ""
+
+#: templates/params/export_reports.html:106
+msgid "Data Export & Reports"
+msgstr ""
+
+#: templates/params/export_reports.html:122
+msgid "Statistical Dashboard"
+msgstr ""
+
+#: templates/params/export_reports.html:124
+msgid "View visual insights, trends, and comparative charts."
+msgstr ""
+
+#: templates/params/export_reports.html:129
+msgid "Includes effectiveness and ABC factors analysis."
+msgstr ""
+
+#: templates/params/export_reports.html:133
+msgid "Open Dashboard"
+msgstr ""
+
+#: templates/params/export_reports.html:147
+msgid "Daily Summary (Compact)"
+msgstr ""
+
+#: templates/params/export_reports.html:149
+msgid "One row per day/user with effectiveness and ABC averages."
+msgstr ""
+
+#: templates/params/export_reports.html:154
+msgid "Simplified view for quick performance analysis."
+msgstr ""
+
+#: templates/params/export_reports.html:158
+#: templates/params/export_reports.html:183
+#: templates/params/export_reports.html:208
+#: templates/params/export_reports.html:234
+msgid "Download CSV"
+msgstr ""
+
+#: templates/params/export_reports.html:172
+msgid "Effectiveness History (Detailed)"
+msgstr ""
+
+#: templates/params/export_reports.html:174
+msgid "Complete CSV with all daily scores and parameters."
+msgstr ""
+
+#: templates/params/export_reports.html:179
+msgid "Formatted for SPSS, R, or Excel. One row per aspect per day."
+msgstr ""
+
+#: templates/params/export_reports.html:197
+msgid "Task Evaluations (Full)"
+msgstr ""
+
+#: templates/params/export_reports.html:199
+msgid "Export all evaluations made for individual tasks."
+msgstr ""
+
+#: templates/params/export_reports.html:204
+msgid ""
+"Includes scores for Environment, Cognition, Behavior, Effectiveness and "
+"Evaluation Type."
+msgstr ""
+
+#: templates/params/export_reports.html:223
+msgid "Complete Research Export"
+msgstr ""
+
+#: templates/params/export_reports.html:225
+msgid ""
+"All data in one CSV: users, daily records, aspects, task evaluations and "
+"aggregated stats."
+msgstr ""
+
+#: templates/params/export_reports.html:230
+msgid ""
+"Designed for scientific research. One row per day per user with "
+"demographics, ABC dimensions, self and stakeholder evaluations, and global "
+"user statistics."
+msgstr ""
+
+#: templates/params/export_reports.html:243
+msgid "Back to Main"
+msgstr ""
+
+#: templates/params/index.html:171
+msgid "System Parameters"
+msgstr ""
+
+#: templates/params/index.html:173
+msgid "Values Parametrization"
+msgstr ""
+
+#: templates/params/index.html:179
+msgid "Manage Units"
+msgstr ""
+
+#: templates/params/index.html:182 templates/params/manage_units.html:172
+msgid "Manage Suggestions"
+msgstr ""
+
+#: templates/params/index.html:196
+msgid "Daily Evaluation"
+msgstr ""
+
+#: templates/params/index.html:197
+msgid "Ready to complete your daily effectiveness evaluation?"
+msgstr ""
+
+#: templates/params/index.html:200 templates/partials/_sidebarmenu.html:72
+#: templates/tasks/index.html:149
+msgid "Finish the day"
+msgstr ""
+
+#: templates/params/index.html:209 templates/tasks/index.html:155
+msgid ""
+"You need to define at least one parameter in EACH dimension (Environment, "
+"Cognition, and Behavior) before finishing the day."
+msgstr ""
+
+#: templates/params/index.html:219 templates/tasks/documentation.html:186
+#: templates/tasks/index.html:253 templates/tasks/task_history.html:507
+#: user_aspects/models.py:15 user_aspects/views.py:180
+#: user_aspects/views.py:210 user_aspects/views.py:400
+#: user_aspects/views.py:656
+msgid "Cognition"
+msgstr ""
+
+#: templates/params/index.html:221 templates/params/index.html:234
+#: templates/params/index.html:247 templates/tasks/edit.html:328
+#: templates/tasks/new.html:290
+msgid "Add"
+msgstr ""
+
+#: templates/params/index.html:232 templates/tasks/documentation.html:187
+#: templates/tasks/index.html:266 templates/tasks/task_history.html:516
+#: user_aspects/models.py:14 user_aspects/views.py:181
+#: user_aspects/views.py:211 user_aspects/views.py:401
+#: user_aspects/views.py:656
+msgid "Behavior"
+msgstr ""
+
+#: templates/params/index.html:245 templates/tasks/documentation.html:185
+#: templates/tasks/index.html:240 templates/tasks/task_history.html:498
+#: user_aspects/models.py:16 user_aspects/views.py:182
+#: user_aspects/views.py:209 user_aspects/views.py:399
+#: user_aspects/views.py:656
+msgid "Environment"
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:136
+msgid "Manage Suggested Aspects"
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:137
+msgid "Define predefined names for aspects in each dimension."
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:149
+#: templates/params/manage_predefined_aspects.html:181
+#: templates/params/manage_units.html:187 user_aspects/views.py:341
+#: user_aspects/views.py:653
+msgid "Dimension"
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:153
+#: user_aspects/views.py:342
+msgid "Aspect Name"
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:157
+#: templates/params/manage_predefined_aspects.html:183
+msgid "Language"
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:162
+msgid "Add Suggestion"
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:200
+msgid "Are you sure you want to delete this suggestion?"
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:208
+msgid "No suggestions registered yet."
+msgstr ""
+
+#: templates/params/manage_predefined_aspects.html:219
+msgid "Back to Units"
+msgstr ""
+
+#: templates/params/manage_unit_list.html:125
+msgid "Register Units"
+msgstr ""
+
+#: templates/params/manage_unit_list.html:126
+msgid "Add new measurement units to the system."
+msgstr ""
+
+#: templates/params/manage_unit_list.html:138
+msgid "Unit Name"
+msgstr ""
+
+#: templates/params/manage_unit_list.html:143
+msgid "Add Unit"
+msgstr ""
+
+#: templates/params/manage_unit_list.html:166
+msgid "Are you sure you want to delete this unit?"
+msgstr ""
+
+#: templates/params/manage_unit_list.html:174
+msgid "No units registered yet."
+msgstr ""
+
+#: templates/params/manage_unit_list.html:185
+msgid "Back to Dimensions"
+msgstr ""
+
+#: templates/params/manage_units.html:164
+msgid "Manage Dimension Units"
+msgstr ""
+
+#: templates/params/manage_units.html:165
+msgid "Configure which units are available for each page dimension."
+msgstr ""
+
+#: templates/params/manage_units.html:169
+msgid "Register New Units"
+msgstr ""
+
+#: templates/params/manage_units.html:215
+msgid "Save Configuration"
+msgstr ""
+
+#: templates/params/new_behavior.html:170
+#: templates/params/new_cognition.html:170
+#: templates/params/new_environment.html:164
+msgid "New Aspect"
+msgstr ""
+
+#: templates/params/new_behavior.html:171
+msgid "New Behavior Aspect"
+msgstr ""
+
+#: templates/params/new_behavior.html:220
+#: templates/params/new_cognition.html:225
+#: templates/params/new_environment.html:214
+msgid "Map the absolute value above to a 1-5 scale."
+msgstr ""
+
+#: templates/params/new_behavior.html:228
+#: templates/params/new_cognition.html:233
+#: templates/params/new_environment.html:222
+msgid "Add Aspect"
+msgstr ""
+
+#: templates/params/new_cognition.html:171
+msgid "New Cognition Aspect"
+msgstr ""
+
+#: templates/params/new_environment.html:165
+msgid "New Environment Aspect"
+msgstr ""
+
+#: templates/params/redo_confirm.html:116
+msgid "Already Recorded"
+msgstr ""
+
+#: templates/params/redo_confirm.html:118
+msgid ""
+"Today's effectiveness has already been recorded. Do you want to modify the "
+"values?"
+msgstr ""
+
+#: templates/params/redo_confirm.html:121
+msgid "This will clear your previous assessment for today."
+msgstr ""
+
+#: templates/params/redo_confirm.html:127
+msgid "No, keep it"
+msgstr ""
+
+#: templates/params/redo_confirm.html:132
+msgid "Yes, redo it"
+msgstr ""
+
+#: templates/partials/_add.html:7
+msgid "Add task"
+msgstr ""
+
+#: templates/partials/_alerts.html:10
+msgid "Error"
+msgstr ""
+
+#: templates/partials/_alerts.html:12
+msgid "Warning"
+msgstr ""
+
+#: templates/partials/_alerts.html:14
+msgid "Success"
+msgstr ""
+
+#: templates/partials/_alerts.html:16
+msgid "Info"
+msgstr ""
+
+#: templates/partials/_cards.html:6 templates/tasks/documentation.html:255
+#: templates/tasks/index.html:26 templates/tasks/index.html:45
+msgid "My tasks"
+msgstr ""
+
+#: templates/partials/_cards.html:15 templates/tasks/created_by_me.html:28
+#: templates/tasks/documentation.html:253
+msgid "Tasks created by me"
+msgstr ""
+
+#: templates/partials/_end-day.html:10 templates/tasks/documentation.html:213
+#: templates/tasks/index.html:279 templates/tasks/stakeholder.html:186
+#: templates/tasks/task_history.html:350 templates/tasks/task_history.html:393
+#: templates/tasks/task_history.html:525 user_aspects/views.py:402
+msgid "Effectiveness"
+msgstr ""
+
+#: templates/partials/_end-day.html:17
+msgid "How to rate the effectiveness?"
+msgstr ""
+
+#: templates/partials/_finish_day_modals.html:11
+msgid "Are the parameter values still the same?"
+msgstr ""
+
+#: templates/partials/_finish_day_modals.html:14
+msgid "NO"
+msgstr ""
+
+#: templates/partials/_finish_day_modals.html:15
+msgid "YES"
+msgstr ""
+
+#: templates/partials/_navbar.html:19
+msgid "Logout"
+msgstr ""
+
+#: templates/partials/_pagination.html:27
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr ""
+
+#: templates/partials/_param.html:7
+msgid "Absolute"
+msgstr ""
+
+#: templates/partials/_param.html:9
+msgid "Parametrized"
+msgstr ""
+
+#: templates/partials/_param.html:32
+msgid "Edit"
+msgstr ""
+
+#: templates/partials/_param.html:36
+msgid "Unwatch"
+msgstr ""
+
+#: templates/partials/_param.html:40
+msgid "Watch"
+msgstr ""
+
+#: templates/partials/_param.html:44
+msgid "Delete"
+msgstr ""
+
+#: templates/partials/_param.html:44
+msgid "Are you sure you want to delete this parameter?"
+msgstr ""
+
+#: templates/partials/_param.html:54
+msgid "No parameters registered yet."
+msgstr ""
+
+#: templates/partials/_search_bar.html:19
+msgid "Search tasks by name..."
+msgstr ""
+
+#: templates/partials/_search_bar.html:24
+msgid "Clear search"
+msgstr ""
+
+#: templates/partials/_search_bar.html:29
+msgid "Search"
+msgstr ""
+
+#: templates/partials/_sidebarmenu.html:18
+msgid "Main"
+msgstr ""
+
+#: templates/partials/_sidebarmenu.html:24
+msgid "Statistics"
+msgstr ""
+
+#: templates/partials/_sidebarmenu.html:30
+msgid "Parametrization"
+msgstr ""
+
+#: templates/partials/_sidebarmenu.html:37
+msgid "Tutorials"
+msgstr ""
+
+#: templates/partials/_sidebarmenu.html:44
+msgid "Documentation"
+msgstr ""
+
+#: templates/partials/_sidebarmenu.html:52
+msgid "Users"
+msgstr ""
+
+#: templates/partials/_sidebarmenu.html:58
+msgid "Reports"
+msgstr ""
+
+#: templates/partials/_status_filters.html:7
+msgid "All"
+msgstr ""
+
+#: templates/tasks/created_by_me.html:47 templates/tasks/stakeholder.html:46
+msgid "Tasks"
+msgstr ""
+
+#: templates/tasks/created_by_me.html:57 templates/tasks/documentation.html:230
+#: templates/tasks/index.html:55
+msgid "Stakeholders"
+msgstr ""
+
+#: templates/tasks/created_by_me.html:67 templates/tasks/documentation.html:229
+#: templates/tasks/documentation.html:260 templates/tasks/index.html:65
+msgid "Executors"
+msgstr ""
+
+#: templates/tasks/created_by_me.html:77
+msgid "Responsible"
+msgstr ""
+
+#: templates/tasks/created_by_me.html:116
+msgid "Manage Sharing & Requests"
+msgstr ""
+
+#: templates/tasks/documentation.html:111
+msgid "System"
+msgstr ""
+
+#: templates/tasks/documentation.html:112
+msgid "Technical Documentation"
+msgstr ""
+
+#: templates/tasks/documentation.html:116
+msgid "Full overview of the ERGO system logic and architecture"
+msgstr ""
+
+#: templates/tasks/documentation.html:123
+msgid ""
+"Conceived by Professor and Researcher <strong>Dr. Carlo Gabriel Porto "
+"Bellini</strong> (Porto-Bellini in citations), Full Professor of MIS/HCI at "
+"the Department of Business Administration at UFPB, ERGO is a specialized "
+"platform for monitoring productivity and well-being in professional "
+"environments."
+msgstr ""
+
+#: templates/tasks/documentation.html:124
+msgid ""
+"<strong>Technical Lead / Full-Stack Developer:</strong> <strong>Leonardo "
+"Américo Bezerra Viana</strong>, responsible for system architecture, "
+"development, and maintenance."
+msgstr ""
+
+#: templates/tasks/documentation.html:128
+msgid "System Architecture"
+msgstr ""
+
+#: templates/tasks/documentation.html:129
+msgid ""
+"ERGO is built on the <strong>Django (Python)</strong> framework, utilizing a "
+"modular architecture divided into specific applications:"
+msgstr ""
+
+#: templates/tasks/documentation.html:131
+msgid "Custom user management, access levels, groups and permissions."
+msgstr ""
+
+#: templates/tasks/documentation.html:132
+msgid ""
+"Core task system, user roles, performance evaluations, invitations and "
+"sharing."
+msgstr ""
+
+#: templates/tasks/documentation.html:133
+msgid ""
+"Ergonomic aspect personalization, measurements and daily effectiveness "
+"history."
+msgstr ""
+
+#: templates/tasks/documentation.html:134
+msgid "Global dimension and aspect definitions."
+msgstr ""
+
+#: templates/tasks/documentation.html:135
+msgid "Measurement unit configuration."
+msgstr ""
+
+#: templates/tasks/documentation.html:136
+msgid "Public pages, privacy policy and general views."
+msgstr ""
+
+#: templates/tasks/documentation.html:141
+msgid "Users and Permissions"
+msgstr ""
+
+#: templates/tasks/documentation.html:142
+msgid "Access Levels (Roles)"
+msgstr ""
+
+#: templates/tasks/documentation.html:144
+msgid "Full access, global task visualization, and system management."
+msgstr ""
+
+#: templates/tasks/documentation.html:145
+msgid "Team manager, can create tasks and monitor subordinate performance."
+msgstr ""
+
+#: templates/tasks/documentation.html:146
+msgid "Operational profile, focused on task execution and self-assessment."
+msgstr ""
+
+#: templates/tasks/documentation.html:148
+msgid "Task Roles"
+msgstr ""
+
+#: templates/tasks/documentation.html:150
+msgid "Requester/Client who defines criteria and evaluates the result."
+msgstr ""
+
+#: templates/tasks/documentation.html:151
+msgid "Responsible for performing the task and recording working conditions."
+msgstr ""
+
+#: templates/tasks/documentation.html:156
+msgid "Task Lifecycle"
+msgstr ""
+
+#: templates/tasks/documentation.html:157
+msgid ""
+"Tasks are the core of ERGO. Each task goes through a lifecycle with well-"
+"defined states:"
+msgstr ""
+
+#: templates/tasks/documentation.html:158
+msgid "Assignment Statuses"
+msgstr ""
+
+#: templates/tasks/documentation.html:160
+msgid "The task is being executed."
+msgstr ""
+
+#: templates/tasks/documentation.html:161
+msgid "Temporary interruption."
+msgstr ""
+
+#: templates/tasks/documentation.html:162
+msgid "Task permanently discontinued."
+msgstr ""
+
+#: templates/tasks/documentation.html:163
+msgid "Completed and ready for evaluation."
+msgstr ""
+
+#: templates/tasks/documentation.html:165
+msgid "Task Attributes"
+msgstr ""
+
+#: templates/tasks/documentation.html:167
+msgid "Difficulty"
+msgstr ""
+
+#: templates/tasks/documentation.html:167
+msgid "Perceived complexity level (1-5)."
+msgstr ""
+
+#: templates/tasks/documentation.html:168
+msgid "Established Duration"
+msgstr ""
+
+#: templates/tasks/documentation.html:168
+msgid "Days and hours estimated for completion."
+msgstr ""
+
+#: templates/tasks/documentation.html:170
+msgid "User Invitation"
+msgstr ""
+
+#: templates/tasks/documentation.html:171
+msgid ""
+"The system allows inviting people who do not yet have an account to "
+"participate in a task:"
+msgstr ""
+
+#: templates/tasks/documentation.html:173
+msgid ""
+"During task creation or editing, the user can invite by entering the guest's "
+"email."
+msgstr ""
+
+#: templates/tasks/documentation.html:174
+msgid ""
+"The system sends an automatic email with task details and a unique "
+"registration link. This link expires after 48 hours."
+msgstr ""
+
+#: templates/tasks/documentation.html:175
+msgid ""
+"As soon as the guest completes registration through the received link, they "
+"are automatically linked to the task with the pre-assigned role."
+msgstr ""
+
+#: templates/tasks/documentation.html:177
+msgid "Share via Link"
+msgstr ""
+
+#: templates/tasks/documentation.html:178
+msgid ""
+"In addition to email invitations, the system allows generating a shareable "
+"link that anyone can use to request task access. The task creator can "
+"approve or reject the request."
+msgstr ""
+
+#: templates/tasks/documentation.html:182
+msgid "Ergonomic Logic and Dimensions"
+msgstr ""
+
+#: templates/tasks/documentation.html:183
+msgid "ERGO evaluates performance through three main pillars (ABC):"
+msgstr ""
+
+#: templates/tasks/documentation.html:185
+msgid "External physical factors (Temperature, Noise, Lighting)."
+msgstr ""
+
+#: templates/tasks/documentation.html:186
+msgid "Mental load and psychological processes (Focus, Stress, Fatigue)."
+msgstr ""
+
+#: templates/tasks/documentation.html:187
+msgid "Action patterns during execution (Posture, Breaks, Rhythm)."
+msgstr ""
+
+#: templates/tasks/documentation.html:189
+msgid "Personalization (Aspects)"
+msgstr ""
+
+#: templates/tasks/documentation.html:190
+msgid ""
+"Each user can define their own Aspects within these dimensions, allowing the "
+"system to be adapted to different contexts (office, home office, factory "
+"floor)."
+msgstr ""
+
+#: templates/tasks/documentation.html:192
+msgid "Measurement units: Celsius, Decibels, Lumens, Scales (1-5), Time, etc."
+msgstr ""
+
+#: templates/tasks/documentation.html:193
+msgid ""
+"Parametrization: Define a target value or scale for each monitored aspect."
+msgstr ""
+
+#: templates/tasks/documentation.html:198
+msgid "Evaluation and Differentiation"
+msgstr ""
+
+#: templates/tasks/documentation.html:199
+msgid ""
+"ERGO differentiates between internal perception (executor) and external "
+"perception (supervisor)."
+msgstr ""
+
+#: templates/tasks/documentation.html:201
+msgid ""
+"Performed by the Executor upon completion. Represents internal perception of "
+"conditions and personal efficacy."
+msgstr ""
+
+#: templates/tasks/documentation.html:202
+msgid ""
+"Performed by the Stakeholder. Represents external perception and "
+"satisfaction with the delivery."
+msgstr ""
+
+#: templates/tasks/documentation.html:204
+msgid ""
+"Each evaluation is stored independently, allowing multiple ratings per task "
+"for different executors and by different stakeholders."
+msgstr ""
+
+#: templates/tasks/documentation.html:206
+msgid ""
+"In addition to task-level evaluation, the system maintains continuous "
+"monitoring through <strong>Daily Effectiveness</strong> — a daily record "
+"(scale 1-5) of the user's general productivity state. At the moment of "
+"recording, the system captures a snapshot of all personalized aspects, "
+"enabling correlations between ergonomic variables and performance."
+msgstr ""
+
+#: templates/tasks/documentation.html:210
+msgid "Data Export for Research"
+msgstr ""
+
+#: templates/tasks/documentation.html:211
+msgid ""
+"ERGO offers specific CSV exports for statistical analysis in software like "
+"Jamovi, SPSS and R:"
+msgstr ""
+
+#: templates/tasks/documentation.html:213
+msgid "Daily data per user with demographics and effectiveness."
+msgstr ""
+
+#: templates/tasks/documentation.html:214
+msgid "ABC scores per task with demographics."
+msgstr ""
+
+#: templates/tasks/documentation.html:215
+#, fuzzy
+#| msgid "Tasks Summary"
+msgid "Daily Summary"
+msgstr "Tasks Summary"
+
+#: templates/tasks/documentation.html:215
+msgid "Aggregated metrics per day."
+msgstr ""
+
+#: templates/tasks/documentation.html:216
+msgid "Complete Research CSV"
+msgstr ""
+
+#: templates/tasks/documentation.html:216
+msgid ""
+"33+ columns including demographics, daily effectiveness, ABC dimensions, "
+"self-assessments, stakeholder evaluations and global statistics."
+msgstr ""
+
+#: templates/tasks/documentation.html:219
+msgid ""
+"Empty cells (not 0.0 or '-') represent missing data, ensuring compatibility "
+"with missing value treatment in statistical software."
+msgstr ""
+
+#: templates/tasks/documentation.html:224
+msgid "History and Traceability"
+msgstr ""
+
+#: templates/tasks/documentation.html:225
+msgid ""
+"The system maintains a detailed, auditable history for each task, allowing "
+"granular analysis per executor and evaluator."
+msgstr ""
+
+#: templates/tasks/documentation.html:226
+msgid "View Permissions"
+msgstr ""
+
+#: templates/tasks/documentation.html:228
+msgid "Admins"
+msgstr ""
+
+#: templates/tasks/documentation.html:228
+msgid "Full access to all records from all users."
+msgstr ""
+
+#: templates/tasks/documentation.html:229
+msgid ""
+"Can only view their own history (their self-assessments and ratings "
+"received)."
+msgstr ""
+
+#: templates/tasks/documentation.html:230
+msgid ""
+"Can view the history of all executors in the tasks they are assigned to "
+"monitor."
+msgstr ""
+
+#: templates/tasks/documentation.html:231
+msgid "Creators and other users"
+msgstr ""
+
+#: templates/tasks/documentation.html:231
+msgid ""
+"Do not have access to the history unless they are also executors or "
+"stakeholders of the task."
+msgstr ""
+
+#: templates/tasks/documentation.html:236
+msgid "Work Flow (Workflow)"
+msgstr ""
+
+#: templates/tasks/documentation.html:238
+msgid "Creation"
+msgstr ""
+
+#: templates/tasks/documentation.html:238
+msgid "A Stakeholder creates a task and assigns one or more Executors."
+msgstr ""
+
+#: templates/tasks/documentation.html:239
+msgid "Execution"
+msgstr ""
+
+#: templates/tasks/documentation.html:239
+msgid ""
+"The Executor starts the task (DOING). The system monitors (or allows "
+"recording) personalized ergonomic aspects."
+msgstr ""
+
+#: templates/tasks/documentation.html:240
+msgid "Completion and Self Assessment"
+msgstr ""
+
+#: templates/tasks/documentation.html:240
+msgid ""
+"The Executor marks the task as DONE and fills in their Self Assessment of "
+"effectiveness."
+msgstr ""
+
+#: templates/tasks/documentation.html:241
+msgid ""
+"The Stakeholder reviews the completed work and records their own Evaluation "
+"of that executor's performance."
+msgstr ""
+
+#: templates/tasks/documentation.html:242
+msgid "History Analysis"
+msgstr ""
+
+#: templates/tasks/documentation.html:242
+msgid ""
+"Managers and interested parties use the history view to compare internal and "
+"external perceptions and identify productivity patterns."
+msgstr ""
+
+#: templates/tasks/documentation.html:247
+msgid "Dashboard and Visualization Logic"
+msgstr ""
+
+#: templates/tasks/documentation.html:249
+msgid "Privileged View:"
+msgstr ""
+
+#: templates/tasks/documentation.html:249
+msgid "Admin and SuperAdmin profiles have a global view of all system tasks."
+msgstr ""
+
+#: templates/tasks/documentation.html:251
+msgid "Dashboard Cards"
+msgstr ""
+
+#: templates/tasks/documentation.html:253
+msgid "Counts unique Task records (or all tasks for Admins)."
+msgstr ""
+
+#: templates/tasks/documentation.html:254
+msgid ""
+"Counts unique tasks where the user is a stakeholder (or all tasks for "
+"Admins)."
+msgstr ""
+
+#: templates/tasks/documentation.html:255
+msgid ""
+"Counts <strong>Execution Assignments</strong> (TaskAssignment of type "
+"Executor)."
+msgstr ""
+
+#: templates/tasks/documentation.html:257
+msgid ""
+"Note: 'My tasks' may show a higher count than other cards because it tracks "
+"individual assignments, and one task can have multiple executors."
+msgstr ""
+
+#: templates/tasks/documentation.html:258
+msgid "Special Columns and Filters"
+msgstr ""
+
+#: templates/tasks/documentation.html:260
+msgid ""
+"Regular users see only their own name in the executor list. Only Admin and "
+"SuperAdmin see the full list."
+msgstr ""
+
+#: templates/tasks/documentation.html:261
+msgid "History"
+msgstr ""
+
+#: templates/tasks/documentation.html:261
+msgid ""
+"The history icon appears dynamically. For regular users, it only shows on "
+"tasks where they have an active assignment."
+msgstr ""
+
+#: templates/tasks/documentation.html:266
+msgid "Privacy and Transparency"
+msgstr ""
+
+#: templates/tasks/documentation.html:267
+msgid ""
+"ERGO is committed to user privacy and complies with LGPD regulations. The "
+"platform only uses strictly necessary cookies to ensure system functionality "
+"and security."
+msgstr ""
+
+#: templates/tasks/documentation.html:270
+msgid "View Full Privacy Policy"
+msgstr ""
+
+#: templates/tasks/edit.html:211 templates/tasks/new.html:198
+#: templates/tasks/task_join_requests.html:271
+msgid "Gestão de Tarefas"
+msgstr ""
+
+#: templates/tasks/edit.html:214
+msgid "Edit task"
+msgstr ""
+
+#: templates/tasks/edit.html:216 templates/tasks/new.html:199
+msgid "New task"
+msgstr ""
+
+#: templates/tasks/edit.html:224
+msgid "Compartilhar"
+msgstr ""
+
+#: templates/tasks/edit.html:238 templates/tasks/new.html:211
+msgid "Detalhes da Tarefa"
+msgstr ""
+
+#: templates/tasks/edit.html:241 templates/tasks/new.html:214
+msgid "Task name"
+msgstr ""
+
+#: templates/tasks/edit.html:252 templates/tasks/new.html:225
+msgid "Task description"
+msgstr ""
+
+#: templates/tasks/edit.html:266 templates/tasks/new.html:238
+msgid "Estimated time to completion"
+msgstr ""
+
+#: templates/tasks/edit.html:269 templates/tasks/new.html:241
+msgid "Days"
+msgstr ""
+
+#: templates/tasks/edit.html:273 templates/tasks/new.html:245
+msgid "Hours"
+msgstr ""
+
+#: templates/tasks/edit.html:277 templates/tasks/new.html:249
+msgid "Estimated task difficulty"
+msgstr ""
+
+#: templates/tasks/edit.html:279 templates/tasks/new.html:251
+msgid "Easy"
+msgstr ""
+
+#: templates/tasks/edit.html:287 templates/tasks/new.html:259
+msgid "Hard"
+msgstr ""
+
+#: templates/tasks/edit.html:296 templates/tasks/new.html:267
+msgid "Roles"
+msgstr ""
+
+#: templates/tasks/edit.html:309 templates/tasks/edit.html:338
+#: templates/tasks/edit.html:421 templates/tasks/new.html:279
+#: templates/tasks/new.html:300
+msgid "User"
+msgstr ""
+
+#: templates/tasks/edit.html:316
+msgid "New user email"
+msgstr ""
+
+#: templates/tasks/edit.html:322
+msgid "Invite?"
+msgstr ""
+
+#: templates/tasks/edit.html:359
+msgid "Delete Task"
+msgstr ""
+
+#: templates/tasks/edit.html:368
+msgid "Update task"
+msgstr ""
+
+#: templates/tasks/edit.html:370 templates/tasks/new.html:318
+msgid "Create task"
+msgstr ""
+
+#: templates/tasks/edit.html:390
+msgid "Delete Task?"
+msgstr ""
+
+#: templates/tasks/edit.html:392
+msgid ""
+"Are you sure you want to permanently delete this task and all related data? "
+"This action cannot be undone."
+msgstr ""
+
+#: templates/tasks/edit.html:401
+msgid "No, Keep it"
+msgstr ""
+
+#: templates/tasks/edit.html:402
+msgid "Yes, Delete"
+msgstr ""
+
+#: templates/tasks/edit.html:415
+msgid "Confirm Removal"
+msgstr ""
+
+#: templates/tasks/edit.html:419
+msgid "Are you sure you want to remove this entry from the task?"
+msgstr ""
+
+#: templates/tasks/edit.html:429
+msgid "Remove"
+msgstr ""
+
+#: templates/tasks/edit.html:505
+msgid "Invite"
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:17
+msgid "You've been invited to Ergo!"
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:20
+#: templates/tasks/emails/new_task_assignment_email.html:20
+#: templates/tasks/emails/task_canceled_email.html:20
+#: templates/tasks/emails/task_completed_email.html:20
+#: templates/tasks/emails/task_evaluated_email.html:20
+#: templates/tasks/emails/task_reactivated_email.html:20
+#: templates/tasks/emails/task_reminder_email.html:13
+msgid "Hello,"
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:21
+#, python-format
+msgid ""
+"<strong>%(first)s %(last)s</strong> has invited you to participate in a task "
+"in the Ergo system."
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:22
+msgid "Task:"
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:23
+msgid "Your Role:"
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:24
+msgid ""
+"To accept this invitation and join the task, please click the button below "
+"to register or log in:"
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:26
+msgid "Accept Invitation"
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:28
+#: templates/tasks/emails/new_task_assignment_email.html:26
+#: templates/tasks/emails/task_completed_email.html:26
+#: templates/tasks/emails/task_evaluated_email.html:26
+#: templates/tasks/emails/task_reminder_email.html:28
+msgid ""
+"If the button doesn't work, you can copy and paste this link into your "
+"browser:"
+msgstr ""
+
+#: templates/tasks/emails/invitation_email.html:32
+#: templates/tasks/emails/new_task_assignment_email.html:30
+#: templates/tasks/emails/task_canceled_email.html:28
+#: templates/tasks/emails/task_completed_email.html:30
+#: templates/tasks/emails/task_evaluated_email.html:30
+#: templates/tasks/emails/task_reactivated_email.html:28
+#: templates/tasks/emails/task_reminder_email.html:33
+msgid ""
+"This is an automated message from Ergo. Please do not reply to this email."
+msgstr ""
+
+#: templates/tasks/emails/new_task_assignment_email.html:17
+msgid "New Task Assigned!"
+msgstr ""
+
+#: templates/tasks/emails/new_task_assignment_email.html:21
+#, python-format
+msgid ""
+"You have been assigned as the executor for the task <strong>%(task)s</"
+"strong> by <strong>%(owner)s</strong>."
+msgstr ""
+
+#: templates/tasks/emails/new_task_assignment_email.html:22
+msgid "You can now start working on it and track your progress in the system."
+msgstr ""
+
+#: templates/tasks/emails/new_task_assignment_email.html:24
+msgid "View Task"
+msgstr ""
+
+#: templates/tasks/emails/task_canceled_email.html:17
+msgid "Task Canceled"
+msgstr ""
+
+#: templates/tasks/emails/task_canceled_email.html:21
+#, python-format
+msgid ""
+"The task <strong>%(task)s</strong> has been canceled by "
+"<strong>%(executor)s</strong>."
+msgstr ""
+
+#: templates/tasks/emails/task_canceled_email.html:22
+msgid ""
+"You are receiving this notification because you are a stakeholder for this "
+"task."
+msgstr ""
+
+#: templates/tasks/emails/task_completed_email.html:17
+msgid "Task Completed!"
+msgstr ""
+
+#: templates/tasks/emails/task_completed_email.html:21
+#, python-format
+msgid ""
+"The task <strong>%(task)s</strong> has been completed by "
+"<strong>%(executor)s</strong> and is now ready for your evaluation."
+msgstr ""
+
+#: templates/tasks/emails/task_completed_email.html:22
+msgid ""
+"Your feedback is important to ensure the quality and effectiveness of the "
+"work performed."
+msgstr ""
+
+#: templates/tasks/emails/task_completed_email.html:24
+msgid "Evaluate Task"
+msgstr ""
+
+#: templates/tasks/emails/task_evaluated_email.html:17
+msgid "Evaluation Received!"
+msgstr ""
+
+#: templates/tasks/emails/task_evaluated_email.html:21
+#, python-format
+msgid ""
+"Your task <strong>%(task)s</strong> has been evaluated by "
+"<strong>%(stakeholder)s</strong>."
+msgstr ""
+
+#: templates/tasks/emails/task_evaluated_email.html:22
+msgid ""
+"You can check the feedback and your effectiveness history in the system."
+msgstr ""
+
+#: templates/tasks/emails/task_reactivated_email.html:17
+msgid "Task Reactivated"
+msgstr ""
+
+#: templates/tasks/emails/task_reactivated_email.html:21
+#, python-format
+msgid ""
+"The task <strong>%(task)s</strong> has been reactivated and is now "
+"<strong>In Progress</strong> again by <strong>%(executor)s</strong>."
+msgstr ""
+
+#: templates/tasks/emails/task_reactivated_email.html:22
+msgid ""
+"You are receiving this notification because the task was previously canceled."
+msgstr ""
+
+#: templates/tasks/emails/task_reminder_email.html:10
+msgid "Task Reminder"
+msgstr ""
+
+#: templates/tasks/emails/task_reminder_email.html:15
+#, python-format
+msgid ""
+"This is a reminder from <strong>%(stakeholder)s</strong> regarding the task "
+"<strong>%(task)s</strong>, which is still pending."
+msgstr ""
+
+#: templates/tasks/emails/task_reminder_email.html:17
+msgid "Please try to complete it as soon as possible or update its status."
+msgstr ""
+
+#: templates/tasks/emails/task_reminder_email.html:21
+msgid "Go to My Tasks"
+msgstr ""
+
+#: templates/tasks/index.html:158
+msgid "Go to Settings"
+msgstr ""
+
+#: templates/tasks/index.html:172 templates/tasks/task_history.html:272
+#: templates/tasks/task_history.html:431
+msgid "Change status"
+msgstr ""
+
+#: templates/tasks/index.html:233 templates/tasks/stakeholder.html:176
+#: templates/tasks/task_history.html:383
+msgid "Task effectiveness"
+msgstr ""
+
+#: templates/tasks/index.html:292 templates/tasks/stakeholder.html:199
+#: templates/tasks/task_history.html:406 templates/tasks/task_history.html:535
+msgid "Submit Assessment"
+msgstr ""
+
+#: templates/tasks/stakeholder.html:88 templates/tasks/stakeholder.html:139
+#: templates/tasks/task_history.html:304 templates/tasks/task_history.html:306
+msgid "Evaluate"
+msgstr ""
+
+#: templates/tasks/stakeholder.html:139 templates/tasks/task_history.html:304
+#: templates/tasks/task_history.html:306
+msgid "Update evaluation"
+msgstr ""
+
+#: templates/tasks/stakeholder.html:143
+msgid "Waiting"
+msgstr ""
+
+#: templates/tasks/task_history.html:224
+msgid "Task History"
+msgstr ""
+
+#: templates/tasks/task_history.html:224
+msgid "Created by"
+msgstr ""
+
+#: templates/tasks/task_history.html:224
+msgid "on"
+msgstr ""
+
+#: templates/tasks/task_history.html:238
+msgid "Previous pending"
+msgstr ""
+
+#: templates/tasks/task_history.html:246
+msgid "Next pending"
+msgstr ""
+
+#: templates/tasks/task_history.html:289
+msgid "Send Reminder"
+msgstr ""
+
+#: templates/tasks/task_history.html:334
+msgid "Env"
+msgstr ""
+
+#: templates/tasks/task_history.html:338
+msgid "Cog"
+msgstr ""
+
+#: templates/tasks/task_history.html:342
+msgid "Beh"
+msgstr ""
+
+#: templates/tasks/task_history.html:365
+msgid "No evaluations yet for this executor."
+msgstr ""
+
+#: templates/tasks/task_history.html:492
+msgid "Finish Task & Evaluate"
+msgstr ""
+
+#: templates/tasks/task_join_requests.html:272
+msgid "Solicitações de Participação"
+msgstr ""
+
+#: templates/tasks/task_join_requests.html:283
+msgid "Link de Compartilhamento"
+msgstr ""
+
+#: templates/tasks/task_join_requests.html:317
+msgid "Ativar Link de Compartilhamento"
+msgstr ""
+
+#: templates/tasks/task_join_requests.html:326
+msgid "Solicitações Recebidas"
+msgstr ""
+
+#: templates/tasks/task_join_requests.html:375
+msgid "Interessado"
+msgstr ""
+
+#: templates/tasks/tutorials.html:76
+msgid "Help"
+msgstr ""
+
+#: templates/tasks/tutorials.html:77
+msgid "User Tutorials"
+msgstr ""
+
+#: templates/tasks/tutorials.html:83
+msgid "1. How to Create a Task"
+msgstr ""
+
+#: templates/tasks/tutorials.html:85 templates/tasks/tutorials.html:111
+msgid "Step 1"
+msgstr ""
+
+#: templates/tasks/tutorials.html:86
+msgid ""
+"Click on the <strong>\"+\" (plus)</strong> icon or the <strong>\"Add Task\"</"
+"strong> button on the top bar."
+msgstr ""
+
+#: templates/tasks/tutorials.html:89 templates/tasks/tutorials.html:115
+msgid "Step 2"
+msgstr ""
+
+#: templates/tasks/tutorials.html:90
+msgid ""
+"Fill in the <strong>Name</strong> and <strong>Description</strong> of the "
+"task. These should be clear so the executor understands the goal."
+msgstr ""
+
+#: templates/tasks/tutorials.html:93 templates/tasks/tutorials.html:119
+msgid "Step 3"
+msgstr ""
+
+#: templates/tasks/tutorials.html:94
+msgid ""
+"Set the <strong>Estimated Time</strong> (Days and Hours) and the "
+"<strong>Difficulty</strong> level."
+msgstr ""
+
+#: templates/tasks/tutorials.html:97 templates/tasks/tutorials.html:123
+msgid "Step 4"
+msgstr ""
+
+#: templates/tasks/tutorials.html:98
+msgid "Add participants:"
+msgstr ""
+
+#: templates/tasks/tutorials.html:100
+msgid "Stakeholder:"
+msgstr ""
+
+#: templates/tasks/tutorials.html:100
+msgid "Who will evaluate the task."
+msgstr ""
+
+#: templates/tasks/tutorials.html:101
+msgid "Executor:"
+msgstr ""
+
+#: templates/tasks/tutorials.html:101
+msgid "Who will perform the work."
+msgstr ""
+
+#: templates/tasks/tutorials.html:105
+msgid "Step 5"
+msgstr ""
+
+#: templates/tasks/tutorials.html:106
+msgid ""
+"Click <strong>\"Submit\"</strong> to save. The executor will be notified (if "
+"invited by email) or see the task in their Inbox."
+msgstr ""
+
+#: templates/tasks/tutorials.html:109
+msgid "2. How to Execute and Evaluate a Task"
+msgstr ""
+
+#: templates/tasks/tutorials.html:112
+msgid ""
+"Go to your <strong>Inbox</strong> (Main page). Locate the task and click on "
+"the <strong>Status badge</strong> (e.g., \"Doing\") to change it."
+msgstr ""
+
+#: templates/tasks/tutorials.html:116
+msgid ""
+"When the work is finished, click on the status badge and select "
+"<strong>\"Done\"</strong>."
+msgstr ""
+
+#: templates/tasks/tutorials.html:120
+msgid ""
+"A popup will appear asking for your <strong>Effectiveness Rating</strong>. "
+"Choose a value from 1 to 5 based on how well you performed the task under "
+"current conditions."
+msgstr ""
+
+#: templates/tasks/tutorials.html:124
+msgid ""
+"After clicking a rating, the task status will update to <strong>Done</"
+"strong>, and the Stakeholder will be able to provide their final evaluation."
+msgstr ""
+
+#: user_aspects/forms.py:39
+msgid "Ex: Kilograms, Liters..."
+msgstr ""
+
+#: user_aspects/forms.py:49
+msgid "Ex: Stress, Posture..."
+msgstr ""
+
+#: user_aspects/models.py:19
+msgid "ºC"
+msgstr ""
+
+#: user_aspects/models.py:20
+msgid "ºF"
+msgstr ""
+
+#: user_aspects/models.py:21
+msgid "Scale (1 to 5)"
+msgstr ""
+
+#: user_aspects/models.py:22
+msgid "Decibels"
+msgstr ""
+
+#: user_aspects/models.py:23
+msgid "Hertz"
+msgstr ""
+
+#: user_aspects/models.py:24
+msgid "Lumens"
+msgstr ""
+
+#: user_aspects/models.py:25
+msgid "Time"
+msgstr ""
+
+#: user_aspects/models.py:117
+msgid "Dimension Unit Configuration"
+msgstr ""
+
+#: user_aspects/models.py:118
+msgid "Dimension Unit Configurations"
+msgstr ""
+
+#: user_aspects/models.py:132
+msgid "Predefined Aspect"
+msgstr ""
+
+#: user_aspects/models.py:133
+msgid "Predefined Aspects"
+msgstr ""
+
+#: user_aspects/views.py:30
+msgid "Today's evaluation has been cleared. You can now record it again."
+msgstr ""
+
+#: user_aspects/views.py:176
+msgid "Unit configurations updated successfully."
+msgstr ""
+
+#: user_aspects/views.py:214
+msgid ""
+"You need to define at least one parameter in EACH dimension (Environment, "
+"Cognition, and Behavior) before finishing the day. Missing: "
+msgstr ""
+
+#: user_aspects/views.py:244
+msgid "Day finished successfully! Check your statistics."
+msgstr ""
+
+#: user_aspects/views.py:259
+msgid "A unit with a similar name or key already exists."
+msgstr ""
+
+#: user_aspects/views.py:263
+msgid "Unit registered successfully."
+msgstr ""
+
+#: user_aspects/views.py:266
+msgid "Error: This unit is already registered."
+msgstr ""
+
+#: user_aspects/views.py:282
+msgid "Unit deleted successfully."
+msgstr ""
+
+#: user_aspects/views.py:292
+msgid "Suggested aspect added successfully."
+msgstr ""
+
+#: user_aspects/views.py:309
+msgid "Suggested aspect deleted successfully."
+msgstr ""
+
+#: user_aspects/views.py:330 user_aspects/views.py:389
+#: user_aspects/views.py:440 user_aspects/views.py:836
+msgid "User ID"
+msgstr ""
+
+#: user_aspects/views.py:331 user_aspects/views.py:837
+msgid "User Email"
+msgstr ""
+
+#: user_aspects/views.py:332 user_aspects/views.py:838
+msgid "User Name"
+msgstr ""
+
+#: user_aspects/views.py:335 user_aspects/views.py:393
+#: user_aspects/views.py:447 user_aspects/views.py:841
+msgid "Birthdate"
+msgstr ""
+
+#: user_aspects/views.py:336 user_aspects/views.py:394
+#: user_aspects/views.py:448 user_aspects/views.py:842
+msgid "Date Joined"
+msgstr ""
+
+#: user_aspects/views.py:338 user_aspects/views.py:396
+#: user_aspects/views.py:450 user_aspects/views.py:844
+msgid "Is Active"
+msgstr ""
+
+#: user_aspects/views.py:339 user_aspects/views.py:398
+#: user_aspects/views.py:452 user_aspects/views.py:733
+#: user_aspects/views.py:845
+msgid "Date"
+msgstr ""
+
+#: user_aspects/views.py:340
+msgid "Effectiveness Score"
+msgstr ""
+
+#: user_aspects/views.py:343
+msgid "Value"
+msgstr ""
+
+#: user_aspects/views.py:344
+msgid "Parametrized Score"
+msgstr ""
+
+#: user_aspects/views.py:361 user_aspects/views.py:419
+#: user_aspects/views.py:533 user_aspects/views.py:873
+msgid "Yes"
+msgstr ""
+
+#: user_aspects/views.py:361 user_aspects/views.py:419
+#: user_aspects/views.py:533 user_aspects/views.py:873
+msgid "No"
+msgstr ""
+
+#: user_aspects/views.py:387
+msgid "Task ID"
+msgstr ""
+
+#: user_aspects/views.py:388
+msgid "Task Name"
+msgstr ""
+
+#: user_aspects/views.py:390
+msgid "Executor/Stakeholder Email"
+msgstr ""
+
+#: user_aspects/views.py:397
+msgid "Evaluation Type"
+msgstr ""
+
+#: user_aspects/views.py:455 user_aspects/views.py:847
+msgid "Avg Environment"
+msgstr ""
+
+#: user_aspects/views.py:456 user_aspects/views.py:848
+msgid "Avg Cognition"
+msgstr ""
+
+#: user_aspects/views.py:457 user_aspects/views.py:849
+msgid "Avg Behavior"
+msgstr ""
+
+#: user_aspects/views.py:459
+msgid "Self Evaluations Count"
+msgstr ""
+
+#: user_aspects/views.py:460
+msgid "Self Avg Environment"
+msgstr ""
+
+#: user_aspects/views.py:461
+msgid "Self Avg Cognition"
+msgstr ""
+
+#: user_aspects/views.py:462
+msgid "Self Avg Behavior"
+msgstr ""
+
+#: user_aspects/views.py:463
+msgid "Self Avg Effectiveness"
+msgstr ""
+
+#: user_aspects/views.py:465
+msgid "Stakeholder Evaluations Count"
+msgstr ""
+
+#: user_aspects/views.py:466
+msgid "Stakeholder Avg Environment"
+msgstr ""
+
+#: user_aspects/views.py:467
+msgid "Stakeholder Avg Cognition"
+msgstr ""
+
+#: user_aspects/views.py:468
+msgid "Stakeholder Avg Behavior"
+msgstr ""
+
+#: user_aspects/views.py:469
+msgid "Stakeholder Avg Effectiveness"
+msgstr ""
+
+#: user_aspects/views.py:471
+msgid "Total Daily Records"
+msgstr ""
+
+#: user_aspects/views.py:472
+msgid "User Avg Daily Effectiveness"
+msgstr ""
+
+#: user_aspects/views.py:473
+msgid "Total Tasks Created"
+msgstr ""
+
+#: user_aspects/views.py:474
+msgid "Total Assignments as Executor"
+msgstr ""
+
+#: user_aspects/views.py:475
+msgid "Total Assignments as Stakeholder"
+msgstr ""
+
+#: user_aspects/views.py:476
+msgid "Total Self Evaluations"
+msgstr ""
+
+#: user_aspects/views.py:477
+msgid "Total Stakeholder Evaluations Received"
+msgstr ""
+
+#: user_aspects/views.py:633
+msgid "Evaluation"
+msgstr ""
+
+#: user_aspects/views.py:634 user_aspects/views.py:654
+msgid "Average"
+msgstr ""
+
+#: user_aspects/views.py:642
+msgid "Effectiveness Comparison: Self vs Stakeholder"
+msgstr ""
+
+#: user_aspects/views.py:643
+msgid "Score (1-5)"
+msgstr ""
+
+#: user_aspects/views.py:662
+msgid "Impact Analysis: ABC Dimensions"
+msgstr ""
+
+#: user_aspects/views.py:663 user_aspects/views.py:732
+msgid "Average Score"
+msgstr ""
+
+#: user_aspects/views.py:703
+msgid "Daily Log Effectiveness"
+msgstr ""
+
+#: user_aspects/views.py:710
+msgid "Task-level Effectiveness"
+msgstr ""
+
+#: user_aspects/views.py:714
+msgid "No historical data available for this period"
+msgstr ""
+
+#: user_aspects/views.py:722
+msgid "Overall Mean (Logs)"
+msgstr ""
+
+#: user_aspects/views.py:727
+msgid "Overall Mean (Tasks)"
+msgstr ""
+
+#: user_aspects/views.py:731
+msgid "Evolution: Daily Log vs. Task Evaluations"
+msgstr ""
+
+#: user_aspects/views.py:752
+msgid "General Average Effectiveness (Daily Logs)"
+msgstr ""
+
+#: user_aspects/views.py:753
+msgid "Average Effectiveness (Executors)"
+msgstr ""
+
+#: user_aspects/views.py:754
+msgid "Average Effectiveness (Stakeholders)"
+msgstr ""
+
+#: user_aspects/views.py:755
+msgid "General Average Effectiveness (Tasks)"
+msgstr ""
+
+#: user_aspects/views.py:756
+msgid "Total Task Evaluations"
+msgstr ""
+
+#: user_aspects/views.py:757
+msgid "Total Daily Logs"
+msgstr ""
+
+#: user_aspects/views.py:758
+msgid "Average Environmental Impact"
+msgstr ""
+
+#: user_aspects/views.py:759
+msgid "Average Cognitive Impact"
+msgstr ""
+
+#: user_aspects/views.py:760
+msgid "Average Behavioral Impact"
+msgstr ""
+
+#: user_aspects/views.py:779
+msgid "Total"
+msgstr ""
+
+#: user_aspects/views.py:818
+msgid ""
+"Summary file not found. Try visiting the dashboard first to generate it."
+msgstr ""
+
+#~ msgid "Ver Política de Privacidade Completa"
+#~ msgstr "View Full Privacy Policy"

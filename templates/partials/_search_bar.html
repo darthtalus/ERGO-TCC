@@ -1,0 +1,67 @@
+{% load i18n %}
+<div class="search-bar-container mb-3">
+    <form method="get" class="d-flex align-items-center">
+        {% if current_status %}
+            <input type="hidden" name="status" value="{{ current_status }}">
+        {% endif %}
+        {% if current_sort %}
+            <input type="hidden" name="sort" value="{{ current_sort }}">
+        {% endif %}
+        {% if current_order %}
+            <input type="hidden" name="order" value="{{ current_order }}">
+        {% endif %}
+        
+        <div class="input-group search-input-group shadow-sm">
+            <span class="input-group-text bg-white border-end-0">
+                <i class="fa-solid fa-magnifying-glass text-muted"></i>
+            </span>
+            <input type="text" name="q" class="form-control border-start-0 ps-0" 
+                   placeholder="{% trans 'Search tasks by name...' %}" 
+                   value="{{ search_query }}">
+            {% if search_query %}
+                <a href="?{% if current_status %}status={{ current_status }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}{% if current_order %}&order={{ current_order }}{% endif %}" 
+                   class="btn btn-outline-light d-flex align-items-center border-start-0 text-muted bg-white" 
+                   title="{% trans 'Clear search' %}">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            {% endif %}
+            <button class="btn btn-search" type="submit">
+                {% trans "Search" %}
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .search-input-group {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #eef2f2;
+    }
+    .search-input-group .form-control {
+        border: none;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    .search-input-group .form-control:focus {
+        box-shadow: none;
+    }
+    .search-input-group .input-group-text {
+        border: none;
+        color: var(--primary-teal);
+        padding-left: 1.2rem;
+    }
+    .btn-search {
+        background-color: var(--primary-teal);
+        color: white;
+        border: none;
+        padding: 0 1.5rem;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+    }
+    .btn-search:hover {
+        background-color: #007355;
+        color: white;
+    }
+</style>

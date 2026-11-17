@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<main><div class="container py-4" style="max-width:1100px;">
+  {% include 'partials/_alerts.html' %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div><h1 style="color:#1A4645;font-weight:800;">{% trans "Environment readings" %}</h1><p class="text-muted mb-0">{% trans "Record readings manually or connect an external device using a personal API key." %}</p></div>
+    <a class="btn btn-outline-secondary rounded-pill" href="{% url 'upgrades_dashboard' %}">{% trans "Back to analysis" %}</a>
+  </div>
+
+  {% if new_api_key %}
+  <div class="alert alert-warning border-warning">
+    <strong>{% trans "Copy this API key now. It will not be shown again:" %}</strong>
+    <div class="input-group mt-2">
+      <input id="newApiKey" class="form-control font-monospace" value="{{ new_api_key }}" readonly>
+      <button class="btn btn-outline-dark" type="button" onclick="navigator.clipboard.writeText(document.getElementById('newApiKey').value)">{% trans "Copy" %}</button>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 mb-4"><div class="card-body">
+        <h5 class="fw-bold mb-3">{% trans "New reading" %}</h5>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button class="btn btn-primary rounded-pill" type="submit">{% trans "Save reading" %}</button>
+        </form>
+      </div></div>
+
+      <div class="card border-0 shadow-sm rounded-4"><div class="card-body">
+        <h5 class="fw-bold mb-2">{% trans "Sensor API key" %}</h5>
+        {% if api_token and api_token.is_active %}
+          <p class="small text-muted">{% trans "Active key prefix" %}: <code>{{ api_token.prefix }}…</code></p>
+          {% if api_token.last_used_at %}<p class="small text-muted">{% trans "Last used" %}: {{ api_token.last_used_at|date:"d/m/Y H:i" }}</p>{% endif %}
+          <div class="d-flex gap-2 flex-wrap">
+            <form method="post" action="{% url 'upgrades_generate_sensor_token' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Replace key" %}</button></form>
+            <form method="post" action="{% url 'upgrades_revoke_sensor_token' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-danger" type="submit">{% trans "Revoke key" %}</button></form>
+          </div>
+        {% else %}
+          <p class="small text-muted">{% trans "No active API key. Generate one to connect an external sensor." %}</p>
+          <form method="post" action="{% url 'upgrades_generate_sensor_token' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Generate API key" %}</button></form>
+        {% endif %}
+      </div></div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4"><div class="card-body">
+        <h5 class="fw-bold mb-3">{% trans "Recent readings" %}</h5>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead><tr><th>{% trans "Date" %}</th><th>{% trans "Source" %}</th><th>°C</th><th>%</th><th>dB</th><th>lux</th><th>AQI</th></tr></thead>
+            <tbody>
+            {% for r in readings %}
+              <tr><td>{{ r.captured_at|date:"d/m/Y H:i" }}</td><td>{{ r.source }}</td><td>{{ r.temperature_c|default:"-" }}</td><td>{{ r.humidity_percent|default:"-" }}</td><td>{{ r.noise_db|default:"-" }}</td><td>{{ r.luminosity_lux|default:"-" }}</td><td>{{ r.air_quality_index|default:"-" }}</td></tr>
+            {% empty %}
+              <tr><td colspan="7" class="text-center text-muted">{% trans "No readings yet." %}</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <h6 class="fw-bold">{% trans "External device example" %}</h6>
+        <p class="small text-muted mb-2">{% trans "Send the key in the X-ERGO-API-Key header. Values are validated before being saved." %}</p>
+        <pre class="small bg-light rounded p-3 mb-0">POST {% url 'upgrades_api_sensors' %}
+X-ERGO-API-Key: ergo_your_key
+Content-Type: application/json
+
+{"temperature_c": 24, "noise_db": 68, "source": "device-01"}</pre>
+      </div></div>
+    </div>
+  </div>
+</div></main>
+{% endblock content %}

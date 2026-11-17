@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/tasks.css' %}?v={{ APP_VERSION }}" />
+<style>
+  .analysis-shell { max-width: 1280px; margin: 0 auto; }
+  .analysis-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 14px rgba(0,0,0,.07); border: 1px solid #eef2f2; }
+  .analysis-title { color: #1A4645; font-weight: 800; }
+  .analysis-header { background: linear-gradient(135deg, #1A4645, #2c5e5c); color: white; border-radius: 18px; padding: 1.25rem 1.5rem; box-shadow: 0 8px 24px rgba(26,70,69,.16); }
+  .analysis-header .analysis-title { color: #fff; }
+  .metric { font-size: 1.55rem; font-weight: 800; color: #1A4645; }
+  .metric-label { font-size: .74rem; color: #6c757d; text-transform: uppercase; letter-spacing: .04rem; }
+  .rec-dot { width: .75rem; height: .75rem; border-radius: 50%; display: inline-block; }
+  .risk-success { background:#198754; } .risk-info { background:#0dcaf0; } .risk-warning { background:#ffc107; } .risk-danger { background:#dc3545; }
+  .chart-box { min-height: 330px; }
+  .chart-wrap { height: 250px; position: relative; }
+  .quick-link { border-color: rgba(255,255,255,.65); color: #fff; }
+  .quick-link:hover { background: #fff; color: #1A4645; }
+  .subtle-pill { background: #eef7f7; color: #1A4645; border: 1px solid #d8eeee; }
+</style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="container-fluid py-4 analysis-shell">
+  {% include 'partials/_alerts.html' %}
+
+  <div class="analysis-header mb-4">
+    <div class="d-flex flex-column flex-xl-row justify-content-between gap-3 align-items-xl-center">
+      <div>
+        <div class="text-uppercase small opacity-75 fw-bold mb-1">ERGO</div>
+        <h1 class="analysis-title mb-1">{% trans "Ergonomic analysis and workflow" %}</h1>
+        <p class="mb-0 opacity-75">{% trans "Integrated recommendations, visual analytics, Kanban, templates, recurring tasks and reports." %}</p>
+      </div>
+      <div class="d-flex gap-2 flex-wrap align-items-center">
+        {% if can_use_organization_scope %}
+          <div class="btn-group btn-group-sm" role="group" aria-label="{% trans 'Analysis scope' %}">
+            <a class="btn rounded-start-pill {% if scope == 'organization' %}btn-light{% else %}quick-link{% endif %}" href="{% url 'upgrades_dashboard' %}?scope=organization">{% trans "Organization" %}</a>
+            <a class="btn rounded-end-pill {% if scope == 'personal' %}btn-light{% else %}quick-link{% endif %}" href="{% url 'upgrades_dashboard' %}?scope=personal">{% trans "Personal" %}</a>
+          </div>
+        {% endif %}
+        <a class="btn btn-sm rounded-pill quick-link" href="{% url 'tasks_index' %}"><i class="fa-solid fa-list-check me-1"></i>{% trans "Tasks" %}</a>
+        <a class="btn btn-sm rounded-pill quick-link" href="{% url 'upgrades_kanban' %}"><i class="fa-solid fa-table-columns me-1"></i>{% trans "Kanban" %}</a>
+        <a class="btn btn-sm rounded-pill quick-link" href="{% url 'upgrades_templates' %}"><i class="fa-solid fa-copy me-1"></i>{% trans "Task models" %}</a>
+        <a class="btn btn-sm rounded-pill quick-link" href="{% url 'upgrades_recurring' %}"><i class="fa-solid fa-repeat me-1"></i>{% trans "Recurring tasks" %}</a>
+        <a class="btn btn-sm rounded-pill quick-link" href="{% url 'upgrades_sensors' %}"><i class="fa-solid fa-temperature-half me-1"></i>{% trans "Environment readings" %}</a>
+        <a class="btn btn-sm btn-light rounded-pill" href="{% url 'upgrades_report_pdf' %}{{ scope_query }}"><i class="fa-solid fa-file-pdf me-1"></i>{% trans "Analytical PDF" %}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="analysis-card p-4 mb-4">
+    <div class="d-flex gap-3 align-items-start">
+      <span class="rounded-circle d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width:42px;height:42px;background:#fff7ed;color:#ea580c;"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+      <div>
+        <h5 class="analysis-title mb-2">{% trans "Assistant summary" %}</h5>
+        <p class="mb-0 text-muted">{{ ai_summary }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-lg-2"><div class="analysis-card p-3 h-100"><div class="metric">{{ cards.tasks }}</div><div class="metric-label">{% trans "Visible tasks" %}</div></div></div>
+    <div class="col-6 col-lg-2"><div class="analysis-card p-3 h-100"><div class="metric">{{ cards.assignments }}</div><div class="metric-label">{% trans "Assignments" %}</div></div></div>
+    <div class="col-6 col-lg-2"><div class="analysis-card p-3 h-100"><div class="metric">{{ cards.daily_effectiveness }}</div><div class="metric-label">{% trans "Daily avg" %}</div></div></div>
+    <div class="col-6 col-lg-2"><div class="analysis-card p-3 h-100"><div class="metric">{{ cards.self_effectiveness }}</div><div class="metric-label">{% trans "Self avg" %}</div></div></div>
+    <div class="col-6 col-lg-2"><div class="analysis-card p-3 h-100"><div class="metric">{{ cards.stakeholder_effectiveness }}</div><div class="metric-label">{% trans "Stakeholder avg" %}</div></div></div>
+    <div class="col-6 col-lg-2"><div class="analysis-card p-3 h-100"><div class="metric">{{ cards.pending_reviews }}</div><div class="metric-label">{% trans "Pending reviews" %}</div></div></div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-end gap-3 mb-3">
+    <div>
+      <h4 class="analysis-title mb-1">{% trans "Data visualization" %}</h4>
+      <p class="text-muted mb-0 small">{% trans "Common charts for understanding trends, proportions, distributions and relationships." %}</p>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm rounded-pill" href="{% url 'upgrades_api_charts' %}{{ scope_query }}">{% trans "Charts API" %}</a>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-xl-8">
+      <div class="analysis-card p-4 chart-box">
+        <h5 class="analysis-title mb-1"><i class="fa-solid fa-chart-line me-2"></i>{% trans "Line chart" %}</h5>
+        <p class="text-muted small mb-3">{% trans "Effectiveness trend and ABC dimensions over time." %}</p>
+        <div class="chart-wrap"><canvas id="dailyLineChart"></canvas></div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="analysis-card p-4 chart-box">
+        <h5 class="analysis-title mb-1"><i class="fa-solid fa-chart-pie me-2"></i>{% trans "Doughnut chart" %}</h5>
+        <p class="text-muted small mb-3">{% trans "Current task distribution by status." %}</p>
+        <div class="chart-wrap"><canvas id="statusDoughnutChart"></canvas></div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="analysis-card p-4 chart-box">
+        <h5 class="analysis-title mb-1"><i class="fa-solid fa-chart-column me-2"></i>{% trans "Bar chart" %}</h5>
+        <p class="text-muted small mb-3">{% trans "Average score by ABC dimension." %}</p>
+        <div class="chart-wrap"><canvas id="abcBarChart"></canvas></div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="analysis-card p-4 chart-box">
+        <h5 class="analysis-title mb-1"><i class="fa-solid fa-calendar-days me-2"></i>{% trans "Weekday chart" %}</h5>
+        <p class="text-muted small mb-3">{% trans "Average effectiveness by weekday." %}</p>
+        <div class="chart-wrap"><canvas id="weekdayBarChart"></canvas></div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="analysis-card p-4 chart-box">
+        <h5 class="analysis-title mb-1"><i class="fa-solid fa-chart-simple me-2"></i>{% trans "Histogram" %}</h5>
+        <p class="text-muted small mb-3">{% trans "Task distribution by estimated difficulty." %}</p>
+        <div class="chart-wrap"><canvas id="difficultyHistogramChart"></canvas></div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="analysis-card p-4 chart-box">
+        <h5 class="analysis-title mb-1"><i class="fa-solid fa-braille me-2"></i>{% trans "Scatter plot" %}</h5>
+        <p class="text-muted small mb-3">{% trans "Relationship between task difficulty and effectiveness." %}</p>
+        <div class="chart-wrap"><canvas id="difficultyScatterChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="analysis-card p-4 h-100">
+        <h5 class="analysis-title mb-3"><i class="fa-solid fa-lightbulb me-2"></i>{% trans "Automatic ergonomic recommendations" %}</h5>
+        {% for rec in recommendations %}
+          <div class="border-bottom pb-3 mb-3">
+            <div class="fw-bold"><span class="rec-dot risk-{{ rec.level }} me-2"></span>{{ rec.title }}</div>
+            <div class="text-muted small mt-1">{{ rec.body }}</div>
+          </div>
+        {% empty %}
+          <p class="text-muted">{% trans "No recommendations yet." %}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="analysis-card p-4 h-100">
+        <h5 class="analysis-title mb-3"><i class="fa-solid fa-chart-simple me-2"></i>{% trans "ABC dimension averages" %}</h5>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between"><span>{% trans "Environment" %}</span><strong>{{ dimension_averages.environment }}</strong></div>
+          <div class="progress"><div class="progress-bar" style="width:{{ dimension_percentages.environment }}%"></div></div>
+        </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between"><span>{% trans "Cognition" %}</span><strong>{{ dimension_averages.cognition }}</strong></div>
+          <div class="progress"><div class="progress-bar" style="width:{{ dimension_percentages.cognition }}%"></div></div>
+        </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between"><span>{% trans "Behavior" %}</span><strong>{{ dimension_averages.behavior }}</strong></div>
+          <div class="progress"><div class="progress-bar" style="width:{{ dimension_percentages.behavior }}%"></div></div>
+        </div>
+        <hr>
+        <h6 class="fw-bold">{% trans "Status distribution" %}</h6>
+        <div class="d-flex gap-2 flex-wrap">
+          {% for status,total in status_map.items %}
+            <span class="badge subtle-pill">
+              {% if status == 'DOING' %}{% trans "Doing" %}{% elif status == 'PAUSED' %}{% trans "Paused" %}{% elif status == 'DONE' %}{% trans "Done" %}{% elif status == 'CANCELED' %}{% trans "Canceled" %}{% else %}{% trans "No status" %}{% endif %}: {{ total }}
+            </span>
+          {% empty %}
+            <span class="text-muted small">{% trans "No assignments." %}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="analysis-card p-4 h-100">
+        <h5 class="analysis-title mb-3"><i class="fa-solid fa-scale-balanced me-2"></i>{% trans "Self vs stakeholder divergence" %}</h5>
+        {% for item in divergences %}
+          <div class="d-flex justify-content-between border-bottom py-2">
+            <div><strong>#{{ item.task.id }} {{ item.task.name }}</strong><br><span class="text-muted small">{{ item.executor }}</span></div>
+            <div class="text-end"><span class="badge bg-warning text-dark">Δ {{ item.difference }}</span><br><span class="small">{{ item.self }} × {{ item.stakeholder }}</span></div>
+          </div>
+        {% empty %}
+          <p class="text-muted mb-0">{% trans "No high divergence found." %}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if show_executor_suggestions %}
+    <div class="col-lg-6">
+      <div class="analysis-card p-4 h-100">
+        <h5 class="analysis-title mb-3"><i class="fa-solid fa-user-check me-2"></i>{% trans "Suggested executors" %}</h5>
+        {% for row in suggested_executors %}
+          <div class="d-flex justify-content-between border-bottom py-2">
+            <div><strong>{{ row.user.get_full_name|default:row.user.username }}</strong><br><span class="text-muted small">{% trans "Active load" %}: {{ row.active_count }}</span></div>
+            <div class="text-end"><span class="badge bg-primary">{% trans "score" %} {{ row.score }}</span><br><span class="small">{% trans "Self" %} {{ row.self_avg }} / {% trans "Stakeholder" %} {{ row.stakeholder_avg }}</span></div>
+          </div>
+        {% empty %}
+          <p class="text-muted mb-0">{% trans "No users found." %}</p>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="col-12">
+      <div class="analysis-card p-4">
+        <h5 class="analysis-title mb-3"><i class="fa-solid fa-database me-2"></i>{% trans "Exports and APIs" %}</h5>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <a class="btn btn-outline-secondary btn-sm" href="{% url 'upgrades_pseudonymized_csv' %}{{ scope_query }}">{% trans "Pseudonymized CSV" %}</a>
+          <a class="btn btn-outline-secondary btn-sm" href="{% url 'upgrades_api_tasks' %}{{ scope_query }}">{% trans "Tasks API" %}</a>
+          <a class="btn btn-outline-secondary btn-sm" href="{% url 'upgrades_api_effectiveness' %}{{ scope_query }}">{% trans "Effectiveness API" %}</a>
+          <a class="btn btn-outline-secondary btn-sm" href="{% url 'upgrades_api_recommendations' %}{{ scope_query }}">{% trans "Recommendations API" %}</a>
+          <a class="btn btn-outline-secondary btn-sm" href="{% url 'upgrades_api_charts' %}{{ scope_query }}">{% trans "Charts API" %}</a>
+          <a class="btn btn-outline-secondary btn-sm" href="{% url 'upgrades_api_sensors' %}">{% trans "Sensors API" %}</a>
+        </div>
+        <p class="text-muted small mb-0">{% trans "The API endpoints return JSON for integration with dashboards, mobile apps or external BI tools. The CSV uses export-specific pseudonyms and should still be handled as research data." %}</p>
+      </div>
+    </div>
+  </div>
+
+  {{ chart_data|json_script:"analysis-chart-data" }}
+</div>
+</main>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/chart.umd.min.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const payloadElement = document.getElementById('analysis-chart-data');
+  if (!payloadElement || typeof Chart === 'undefined') return;
+  const data = JSON.parse(payloadElement.textContent);
+  const commonOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { boxWidth: 12 } } },
+    scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } }
+  };
+
+  const palette = ['#1A4645', '#75A7A6', '#F68800', '#4f46e5', '#16a34a', '#dc3545'];
+
+  const lineData = data.daily_effectiveness || {labels: [], effectiveness: [], environment: [], cognition: [], behavior: []};
+  new Chart(document.getElementById('dailyLineChart'), {
+    type: 'line',
+    data: {
+      labels: lineData.labels,
+      datasets: [
+        { label: '{% trans "Effectiveness" %}', data: lineData.effectiveness, borderColor: palette[0], backgroundColor: 'rgba(26,70,69,.08)', tension: .35, fill: true },
+        { label: '{% trans "Environment" %}', data: lineData.environment, borderColor: palette[1], tension: .35 },
+        { label: '{% trans "Cognition" %}', data: lineData.cognition, borderColor: palette[2], tension: .35 },
+        { label: '{% trans "Behavior" %}', data: lineData.behavior, borderColor: palette[3], tension: .35 }
+      ]
+    },
+    options: commonOptions
+  });
+
+  const status = data.status_doughnut || {labels: [], values: []};
+  new Chart(document.getElementById('statusDoughnutChart'), {
+    type: 'doughnut',
+    data: { labels: status.labels, datasets: [{ data: status.values, backgroundColor: palette }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  const abc = data.abc_bar || {labels: [], values: []};
+  new Chart(document.getElementById('abcBarChart'), {
+    type: 'bar',
+    data: { labels: abc.labels, datasets: [{ label: '{% trans "Average Score" %}', data: abc.values, backgroundColor: palette.slice(0, 3) }] },
+    options: commonOptions
+  });
+
+  const weekday = data.weekday_bar || {labels: [], values: []};
+  new Chart(document.getElementById('weekdayBarChart'), {
+    type: 'bar',
+    data: { labels: weekday.labels, datasets: [{ label: '{% trans "Average effectiveness" %}', data: weekday.values, backgroundColor: palette[1] }] },
+    options: commonOptions
+  });
+
+  const difficulty = data.difficulty_histogram || {labels: [], values: []};
+  new Chart(document.getElementById('difficultyHistogramChart'), {
+    type: 'bar',
+    data: { labels: difficulty.labels, datasets: [{ label: '{% trans "Tasks" %}', data: difficulty.values, backgroundColor: palette[2] }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+
+  const scatter = data.difficulty_effectiveness_scatter || {points: []};
+  new Chart(document.getElementById('difficultyScatterChart'), {
+    type: 'scatter',
+    data: { datasets: [{ label: '{% trans "Task evaluations" %}', data: scatter.points, backgroundColor: palette[0] }] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      parsing: false,
+      scales: {
+        x: { min: 0, max: scatter.x_max || 5, title: { display: true, text: '{% trans "Difficulty" %}' }, ticks: { stepSize: 1 } },
+        y: { min: 0, max: 5, title: { display: true, text: '{% trans "Effectiveness" %}' }, ticks: { stepSize: 1 } }
+      }
+    }
+  });
+});
+</script>
+{% endblock js %}

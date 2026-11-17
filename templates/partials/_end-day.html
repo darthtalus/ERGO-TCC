@@ -1,0 +1,36 @@
+{% load i18n %}
+<div class="modal fade model-lg"
+     id="modalEfetividade"
+     tabindex="-1"
+     aria-labelledby="modalEfetividadeLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans "Effectiveness" %}</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "How to rate the effectiveness?" %}</p>
+            </div>
+            <div class="modal-footer">
+                <form id="id_effectiveness_form"
+                      action="{% url 'set_effectiveness' %}"
+                      method="post">
+                    {% csrf_token %}
+                    {{ effectiveness_form }}
+                </form>
+                <div id="choice">
+                    <a href="#" class="btn btn-secundario btn-effect" data-value="1">1</a>
+                    <a href="#" class="btn btn-secundario btn-effect" data-value="2">2</a>
+                    <a href="#" class="btn btn-secundario btn-effect" data-value="3">3</a>
+                    <a href="#" class="btn btn-secundario btn-effect" data-value="4">4</a>
+                    <a href="#" class="btn btn-secundario btn-effect" data-value="5">5</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

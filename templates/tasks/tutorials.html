@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #1A4645;
+            --soft-teal: #75A7A6;
+            --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f4; }
+        
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+            padding: 1.25rem 1.5rem;
+            border-radius: 14px;
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(26,70,69,0.2);
+            overflow: hidden;
+        }
+        .page-header::after {
+            content: ''; position: absolute; top: -60%; right: -5%;
+            width: 200px; height: 200px; background: rgba(255,255,255,0.05);
+            border-radius: 50%; pointer-events: none;
+        }
+        .page-header .label { font-size: 0.68rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; }
+        .page-header h1 { font-size: 1.25rem; font-weight: 700; margin: 0; }
+
+        .tutorial-container { max-width: 900px; margin: 0 auto; }
+        
+        .step-card {
+            background: white; border-radius: 14px; padding: 1.5rem; margin-bottom: 1.25rem;
+            border-left: 4px solid var(--soft-teal);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease;
+        }
+        .step-card:hover { transform: translateX(5px); }
+        .step-number { font-size: 0.8rem; font-weight: 700; color: var(--soft-teal); text-transform: uppercase; margin-bottom: 0.5rem; display: block; letter-spacing: 1px;}
+        .section-title { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-teal); margin-top: 2rem; margin-bottom: 1rem; }
+        .step-card p, .step-card ul { margin-bottom: 0; font-size: 0.95rem; color: #444; }
+        .step-card ul { margin-top: 0.5rem; }
+        .step-card li { margin-bottom: 0.3rem; }
+
+        /* ── Buttons ── */
+        .btn-save {
+            background: var(--primary-teal); color: white; font-size: 0.85rem; font-weight: 600;
+            border: none; border-radius: 8px; padding: 0.55rem 1.5rem; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn-save:hover { background: #2c5e5c; color: white; transform: translateY(-1px); }
+        .btn-cancel {
+            font-size: 0.85rem; border: 1px solid #dee2e6; border-radius: 8px; color: #868e96;
+            padding: 0.45rem 1.2rem; transition: all 0.2s; text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn-cancel:hover { border-color: var(--soft-teal); color: var(--primary-teal); background: #f0f9f9; }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<main>
+    <div class="container py-3 tutorial-container">
+        
+        {# Header #}
+        <div class="page-header mb-4">
+            <div class="d-flex align-items-center gap-3 position-relative" style="z-index:1;">
+                <div class="user-avatar" style="width: 48px; height: 48px; border-radius: 12px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <div>
+                    <div class="label">{% trans "Help" %}</div>
+                    <h1>{% trans "User Tutorials" %}</h1>
+                </div>
+            </div>
+        </div>
+        
+        <div id="tutorial-content">
+            <h2 class="section-title">{% trans "1. How to Create a Task" %}</h2>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 1" %}</span>
+                <p>{% blocktrans %}Click on the <strong>"+" (plus)</strong> icon or the <strong>"Add Task"</strong> button on the top bar.{% endblocktrans %}</p>
+            </div>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 2" %}</span>
+                <p>{% blocktrans %}Fill in the <strong>Name</strong> and <strong>Description</strong> of the task. These should be clear so the executor understands the goal.{% endblocktrans %}</p>
+            </div>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 3" %}</span>
+                <p>{% blocktrans %}Set the <strong>Estimated Time</strong> (Days and Hours) and the <strong>Difficulty</strong> level.{% endblocktrans %}</p>
+            </div>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 4" %}</span>
+                <p>{% trans "Add participants:" %}</p>
+                <ul>
+                    <li><strong>{% trans "Stakeholder:" %}</strong> {% trans "Who will evaluate the task." %}</li>
+                    <li><strong>{% trans "Executor:" %}</strong> {% trans "Who will perform the work." %}</li>
+                </ul>
+            </div>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 5" %}</span>
+                <p>{% blocktrans %}Click <strong>"Submit"</strong> to save. The executor will be notified (if invited by email) or see the task in their Inbox.{% endblocktrans %}</p>
+            </div>
+
+            <h2 class="section-title">{% trans "2. How to Execute and Evaluate a Task" %}</h2>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 1" %}</span>
+                <p>{% blocktrans %}Go to your <strong>Inbox</strong> (Main page). Locate the task and click on the <strong>Status badge</strong> (e.g., "Doing") to change it.{% endblocktrans %}</p>
+            </div>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 2" %}</span>
+                <p>{% blocktrans %}When the work is finished, click on the status badge and select <strong>"Done"</strong>.{% endblocktrans %}</p>
+            </div>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 3" %}</span>
+                <p>{% blocktrans %}A popup will appear asking for your <strong>Effectiveness Rating</strong>. Choose a value from 1 to 5 based on how well you performed the task under current conditions.{% endblocktrans %}</p>
+            </div>
+            <div class="step-card">
+                <span class="step-number">{% trans "Step 4" %}</span>
+                <p>{% blocktrans %}After clicking a rating, the task status will update to <strong>Done</strong>, and the Stakeholder will be able to provide their final evaluation.{% endblocktrans %}</p>
+            </div>
+        </div>
+
+        {# Footer Buttons #}
+        <div class="d-flex justify-content-center gap-3 mt-5 mb-5">
+            <a href="{% url 'tasks_index' %}" class="btn btn-cancel">
+                <i class="fa-solid fa-arrow-left me-2"></i>{% trans "Back" %}
+            </a>
+            <button type="button" class="btn btn-save" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <i class="fa-solid fa-arrow-up me-2"></i>{% trans "Back to top" %}
+            </button>
+        </div>
+    </div>
+    </div>
+</main>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

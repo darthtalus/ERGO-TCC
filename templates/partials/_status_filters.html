@@ -1,0 +1,82 @@
+{% load i18n task_extras %}
+<div class="status-filters-container mb-3">
+    <div class="row g-2 flex-nowrap">
+        <div class="col">
+            <a href="?{% url_replace status='ALL' %}" class="status-filter-card {% if current_status == 'ALL' %}active{% endif %}">
+                <div class="filter-count">{{ status_counts.ALL }}</div>
+                <div class="filter-label">{% trans "All" %}</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="?{% url_replace status='DOING' %}" class="status-filter-card filter-doing {% if current_status == 'DOING' %}active{% endif %}">
+                <div class="filter-count">{{ status_counts.DOING }}</div>
+                <div class="filter-label">{% trans "Doing" %}</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="?{% url_replace status='PAUSED' %}" class="status-filter-card filter-paused {% if current_status == 'PAUSED' %}active{% endif %}">
+                <div class="filter-count">{{ status_counts.PAUSED }}</div>
+                <div class="filter-label">{% trans "Paused" %}</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="?{% url_replace status='DONE' %}" class="status-filter-card filter-done {% if current_status == 'DONE' %}active{% endif %}">
+                <div class="filter-count">{{ status_counts.DONE }}</div>
+                <div class="filter-label">{% trans "Done" %}</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="?{% url_replace status='CANCELED' %}" class="status-filter-card filter-canceled {% if current_status == 'CANCELED' %}active{% endif %}">
+                <div class="filter-count">{{ status_counts.CANCELED }}</div>
+                <div class="filter-label">{% trans "Canceled" %}</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .status-filter-card {
+        background: white;
+        border: 1px solid #eef2f2;
+        border-radius: 8px;
+        padding: 0.4rem 0.2rem;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.2s;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .status-filter-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        border-color: #dee2e6;
+    }
+    .status-filter-card.active {
+        background: var(--primary-teal);
+        border-color: var(--primary-teal);
+    }
+    .status-filter-card .filter-count {
+        font-size: 1rem;
+        font-weight: 800;
+        color: #2d3436;
+        line-height: 1.2;
+    }
+    .status-filter-card .filter-label {
+        font-size: 0.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #868e96;
+        margin-top: 1px;
+        letter-spacing: 0.2px;
+    }
+    .status-filter-card.active .filter-count,
+    .status-filter-card.active .filter-label {
+        color: white;
+    }
+
+    /* Colors for filters when active */
+    .status-filter-card.filter-doing.active   { background-color: #0984e3; border-color: #0984e3; }
+    .status-filter-card.filter-paused.active  { background-color: #fdcb6e; border-color: #fdcb6e; }
+    .status-filter-card.filter-done.active    { background-color: #00b894; border-color: #00b894; }
+    .status-filter-card.filter-canceled.active{ background-color: #d63031; border-color: #d63031; }
+</style>

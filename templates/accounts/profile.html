@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #1A4645;
+            --soft-teal: #75A7A6;
+            --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f4; }
+
+        .profile-container { max-width: 900px; margin: 0 auto; }
+
+        /* ── Header ── */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+            padding: 1.25rem 1.5rem;
+            border-radius: 14px;
+            color: white;
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(26,70,69,0.2);
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: -60%; right: -5%;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .page-header .label { font-size: 0.68rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; }
+        .page-header h1 { font-size: 1.25rem; font-weight: 700; margin: 0; }
+
+        /* ── Avatar ── */
+        .profile-avatar {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary-teal), var(--soft-teal));
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.2rem; flex-shrink: 0;
+        }
+
+        /* ── Card principal ── */
+        .profile-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #eef2f2;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Seção interna ── */
+        .profile-section {
+            padding: 1.25rem 1.5rem;
+        }
+        .profile-section + .profile-section {
+            border-top: 1px solid #f0f4f4;
+        }
+        .section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--soft-teal);
+            margin-bottom: 1rem;
+        }
+
+        /* ── Inputs ── */
+        .form-label {
+            font-size: 0.72rem !important;
+            font-weight: 600;
+            color: #868e96;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+        .form-control, .form-select {
+            font-size: 0.88rem !important;
+            border: 1px solid #e9ecef !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 0.75rem !important;
+            background: #f8fafa !important;
+            box-shadow: none !important;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--soft-teal) !important;
+            background: white !important;
+            box-shadow: 0 0 0 3px rgba(117,167,166,0.15) !important;
+        }
+        .form-control:disabled {
+            background: #f0f4f4 !important;
+            color: #adb5bd !important;
+        }
+
+        /* ── Role badge ── */
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #e8f5f5;
+            color: var(--primary-teal);
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            border: 1px solid #c8e6e6;
+        }
+
+        /* ── Botão submit ── */
+        .btn-save {
+            background: var(--primary-teal);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 0.55rem 1.5rem;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-save:hover {
+            background: #2c5e5c;
+            color: white;
+            transform: translateY(-1px);
+        }
+        .btn-save:active { transform: translateY(0); }
+
+        /* ── Botão reset password ── */
+        .btn-reset {
+            font-size: 0.8rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            color: #868e96;
+            padding: 0.4rem 1rem;
+            transition: all 0.2s;
+        }
+        .btn-reset:hover {
+            border-color: var(--soft-teal);
+            color: var(--primary-teal);
+            background: #f0f9f9;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="container py-3 profile-container">
+
+    {# Header #}
+    <div class="page-header mb-3">
+        <div class="d-flex align-items-center gap-3 position-relative" style="z-index:1;">
+            <div class="profile-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div>
+                <div class="label">{% trans "My Profile" %}</div>
+                <h1>{{ user.get_full_name|default:user.username }}</h1>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partials/_alerts.html' %}
+
+    <div class="profile-card">
+        <form method="post">
+            {% csrf_token %}
+
+            {# Dados pessoais #}
+            <div class="profile-section">
+                <div class="section-title">{% trans "Personal Information" %}</div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "First Name" %}</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Last Name" %}</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Email" %}</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "birthdate" %}</label>
+                        {{ form.birthdate }}
+                    </div>
+                </div>
+            </div>
+
+            {# Organização #}
+            <div class="profile-section">
+                <div class="section-title">{% trans "Organization" %}</div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Company" %}</label>
+                        {{ form.company }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{% trans "Country" %}</label>
+                        {{ form.country }}
+                    </div>
+                </div>
+            </div>
+
+            {# Perfil/Role #}
+            <div class="profile-section">
+                <div class="section-title">{% trans "Access Level" %}</div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <span class="role-badge">
+                        <i class="fa-solid fa-shield-halved fa-sm"></i>
+                        {{ user.get_role_display }}
+                    </span>
+                    <small class="text-muted" style="font-size:0.75rem;">
+                        {% trans "Roles can only be changed by an administrator." %}
+                    </small>
+                </div>
+            </div>
+
+            {# Ações #}
+            <div class="profile-section d-flex justify-content-end">
+                <button type="submit" class="btn btn-save">
+                    <i class="fa-solid fa-floppy-disk me-2"></i>{% trans "Save Changes" %}
+                </button>
+            </div>
+        </form>
+
+        {# Segurança #}
+        <div class="profile-section d-flex align-items-center justify-content-between">
+            <div>
+                <div class="section-title mb-1">{% trans "Security" %}</div>
+                <span class="text-muted" style="font-size:0.8rem;">{% trans "Want to change your password?" %}</span>
+            </div>
+            <a href="{% url 'password_reset' %}" class="btn btn-reset">
+                <i class="fa-solid fa-key me-1"></i>{% trans "Reset Password" %}
+            </a>
+        </div>
+    </div>
+
+</div>
+</main>
+{% endblock content %}

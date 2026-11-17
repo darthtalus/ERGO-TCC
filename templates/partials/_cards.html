@@ -1,0 +1,30 @@
+{% load i18n %}
+<div class="row g-2 mb-3">
+    <div class="col-4">
+        <a href="{% url 'tasks_index' %}" class="text-decoration-none">
+            <div class="stats-mini-card">
+                <div class="stats-mini-title">{% trans "My tasks" %}</div>
+                <div class="stats-mini-value">{{ card_executor_count }}</div>
+                <div class="stats-mini-icon"><i class="fa-solid fa-list-check"></i></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-4">
+        <a href="{% url 'tasks_created_by_me' %}" class="text-decoration-none">
+            <div class="stats-mini-card">
+                <div class="stats-mini-title">{% trans "Tasks created by me" %}</div>
+                <div class="stats-mini-value">{{ card_created_count }}</div>
+                <div class="stats-mini-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-4">
+        <a href="{% url 'stakeholder_tasks' %}" class="text-decoration-none">
+            <div class="stats-mini-card">
+                <div class="stats-mini-title">{% trans "Stakeholder" %}</div>
+                <div class="stats-mini-value">{{ card_stakeholder_count }}</div>
+                <div class="stats-mini-icon"><i class="fa-solid fa-eye"></i></div>
+            </div>
+        </a>
+    </div>
+</div>

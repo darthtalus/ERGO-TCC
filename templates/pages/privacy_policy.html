@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+<style>
+  body { background-color: #f0f4f4; }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container my-5 pt-5 pb-5" style="max-width: 800px; padding: 40px;">
+    <h1 class="mb-4 text-center">{% trans "POLÍTICA DE PRIVACIDADE E TRANSPARÊNCIA" %}</h1>
+    <p class="text-center text-muted mb-5">
+        {% trans "Plataforma Ergo – CCSA / UFPB" %}<br>
+        {% trans "Última atualização: Maio de 2026" %}
+    </p>
+
+    <p>{% blocktrans %}Bem-vindo(a) à plataforma Ergo. Esta Política de Privacidade foi criada para demonstrar o nosso compromisso com a transparência, a segurança e a proteção dos seus dados pessoais, em estrita conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD).{% endblocktrans %}</p>
+
+    <p>{% blocktrans %}Quando você utiliza o Ergo para avaliar fatores ambientais, cognitivos e comportamentais, coletamos apenas as informações estritamente necessárias para a prestação do serviço e para o desenvolvimento da pesquisa institucional.{% endblocktrans %}</p>
+
+    <h3 class="mt-5 mb-3 text-primary">{% trans "1. QUAIS DADOS COLETAMOS E PARA QUAL FINALIDADE?" %}</h3>
+    <p>{% blocktrans %}Para que o sistema funcione e os relatórios estatísticos sejam gerados, coletamos duas categorias de dados:{% endblocktrans %}</p>
+    <ul>
+        <li class="mb-2">{% blocktrans %}<strong>Dados de Autenticação e Perfil:</strong> Nome de usuário, Nome Completo, Data Nascimento, Organização, País e E-mail.<br>
+        <em>Finalidade:</em> Garantir a segurança do acesso, identificar o usuário na plataforma e gerenciar o perfil individual.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<strong>Dados de Diagnóstico Ergonomico (Formulários):</strong> Respostas sobre o ambiente físico (temperatura, ruído, luminosidade), aspectos cognitivos (foco, conhecimento técnico) e comportamentais (pausas, uso de redes sociais).<br>
+        <em>Finalidade:</em> Calcular os índices de Efetividade Diária e gerar relatórios estatísticos agregados para fins acadêmicos e de pesquisa no âmbito da UFPB.{% endblocktrans %}</li>
+    </ul>
+
+    <h3 class="mt-5 mb-3 text-primary">{% trans "2. USO DE COOKIES (DIREITO À INFORMAÇÃO)" %}</h3>
+    <p>{% blocktrans %}Em respeito ao princípio da transparência da LGPD, informamos que a plataforma Ergo não utiliza cookies de marketing, anúncios, rastreamento comportamental ou serviços de publicidade de terceiros.{% endblocktrans %}</p>
+    <p>{% blocktrans %}Utilizamos exclusivamente <strong>Cookies Estritamente Necessários</strong>, que incluem:{% endblocktrans %}</p>
+    <ul>
+        <li class="mb-2">{% blocktrans %}<strong>Cookies de Sessão:</strong> Temporários e essenciais para manter você logado de forma segura enquanto navega pelas páginas do sistema.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<strong>Cookies de Segurança (CSRF Token):</strong> Mecanismos obrigatórios para blindar os formulários do sistema contra ataques externos e submissões maliciosas de dados.{% endblocktrans %}</li>
+    </ul>
+    
+    <div class="alert alert-info mt-4" role="alert">
+        <strong>{% trans "Nota Legal:" %}</strong> {% blocktrans %}Por serem componentes técnicos vitais para a estabilidade e segurança da aplicação, o uso destes cookies baseia-se na base legal de Execução de Serviço/Contrato e Legítimo Interesse, dispensando a exibição de banners invasivos de consentimento ("Aceitar/Recusar"), uma vez que o sistema não pode funcionar sem eles.{% endblocktrans %}
+    </div>
+
+    <h3 class="mt-5 mb-3 text-primary">{% trans "3. BASE LEGAL PARA O TRATAMENTO DE DADOS" %}</h3>
+    <p>{% blocktrans %}A plataforma Ergo trata os seus dados fundamentada nas seguintes hipóteses legais da LGPD:{% endblocktrans %}</p>
+    <ul>
+        <li class="mb-2">{% blocktrans %}<strong>Execução de Contrato ou Procedimentos Preliminares (Art. 7º, V):</strong> Necessária para a prestação do serviço logado e entrega dos relatórios individuais.{% endblocktrans %}</li>
+        <li>{% blocktrans %}<strong>Realização de Estudos por Órgão de Pesquisa (Art. 7º, IV):</strong> Para fins estatísticos institucionais, garantindo que, sempre que possível, os dados sejam analisados de forma agregada.{% endblocktrans %}</li>
+    </ul>
+
+    <h3 class="mt-5 mb-3 text-primary">{% trans "4. COMPARTILHAMENTO DE DADOS" %}</h3>
+    <p>{% blocktrans %}O Ergo adota uma política rígida de não comercialização de dados. <strong>Suas informações nunca serão vendidas ou compartilhadas com empresas privadas ou para fins comerciais.</strong>{% endblocktrans %}</p>
+    <p>{% blocktrans %}O acesso aos dados brutos é restrito aos administradores do sistema e pesquisadores autorizados do projeto Ergo, com o objetivo estrito de aperfeiçoar a ferramenta e produzir conhecimento científico.{% endblocktrans %}</p>
+
+    <h3 class="mt-5 mb-3 text-primary">{% trans "5. SEGURANÇA DOS DADOS" %}</h3>
+    <p>{% blocktrans %}Implementamos medidas técnicas e organizacionais adequadas para proteger os seus dados contra acessos não autorizados, perdas ou alterações:{% endblocktrans %}</p>
+    <ul>
+        <li class="mb-2">{% blocktrans %}Todo o tráfego de dados entre o seu navegador e o nosso servidor é criptografado utilizando o protocolo HTTPS / SSL.{% endblocktrans %}</li>
+        <li class="mb-2">{% blocktrans %}O sistema roda em ambiente de contêiner e servidor isolado, com restrições rígidas de acesso à rede interna.{% endblocktrans %}</li>
+        <li>{% blocktrans %}Os logs de erro e acessos são monitorados continuamente para prevenir e mitigar vulnerabilidades.{% endblocktrans %}</li>
+    </ul>
+
+    <h3 class="mt-5 mb-3 text-primary">{% trans "6. SEUS DIREITOS COMO TITULAR DOS DADOS" %}</h3>
+    <p>{% blocktrans %}A LGPD garante a você controle sobre suas informações. A qualquer momento, você pode exercer os seguintes direitos entrando em contato com a administração da plataforma:{% endblocktrans %}</p>
+    <ul>
+        <li class="mb-2">{% blocktrans %}Confirmar a existência do tratamento de dados e acessar as informações do seu perfil.{% endblocktrans %}</li>
+        <li class="mb-2">{% blocktrans %}Solicitar a correção de dados incompletos, inexatos ou desatualizados.{% endblocktrans %}</li>
+        <li>{% blocktrans %}Solicitar a exclusão definitiva de sua conta e dos dados a ela associados do nosso banco de dados ativo.{% endblocktrans %}</li>
+    </ul>
+
+    <h3 class="mt-5 mb-3 text-primary">{% trans "7. CONTATO E SUPORTE" %}</h3>
+    <p>{% blocktrans %}Caso tenha qualquer dúvida sobre esta Política de Privacidade ou sobre como seus dados são tratados pela ferramenta Ergo, entre em contato com a equipe de administração:{% endblocktrans %}</p>
+    <ul>
+        <li>Leonardo Américo Bezerra Viana (<a href="mailto:leonardo@sti.ufpb.br">leonardo@sti.ufpb.br</a>)</li>
+        <li>Dr. Carlo Gabriel Porto Bellini (<a href="mailto:cgpbellini@ccsa.ufpb.br">cgpbellini@ccsa.ufpb.br</a>)</li>
+    </ul></p>
+
+    <div class="d-flex justify-content-center mt-5">
+        <button type="button" class="btn btn-outline-secondary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <i class="fa-solid fa-arrow-up me-2"></i>{% trans "Back to top" %}
+        </button>
+    </div>
+</div>
+{% endblock content %}

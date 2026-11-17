@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<main><div class="container py-4" style="max-width:1000px;">
+  {% include 'partials/_alerts.html' %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div><h1 style="color:#1A4645;font-weight:800;">{% trans "Task models" %}</h1><p class="text-muted mb-0">{% trans "Create reusable patterns for recurring work." %}</p></div>
+    <a class="btn btn-outline-secondary rounded-pill" href="{% url 'upgrades_dashboard' %}">{% trans "Back to analysis" %}</a>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm rounded-4"><div class="card-body">
+        <h5 class="fw-bold mb-3">{% trans "New task model" %}</h5>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button class="btn btn-primary rounded-pill" type="submit">{% trans "Save model" %}</button>
+        </form>
+      </div></div>
+    </div>
+    <div class="col-lg-7">
+      {% for template in templates %}
+      <div class="card border-0 shadow-sm rounded-4 mb-3"><div class="card-body">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+          <div>
+            <h5 class="mb-1">{{ template.name }}</h5>
+            <p class="text-muted small mb-2">{{ template.description }}</p>
+            <span class="badge bg-light text-dark border">D {{ template.dias }} / H {{ template.horas }}</span>
+            <span class="badge bg-light text-dark border">{% trans "Difficulty" %}: {{ template.difficulty }}</span>
+          </div>
+          <form method="post" action="{% url 'upgrades_create_from_template' template.id %}">{% csrf_token %}<button class="btn btn-sm btn-success rounded-pill" type="submit">{% trans "Create task" %}</button></form>
+        </div>
+        {% if template.checklist %}<pre class="small bg-light rounded p-2 mt-3 mb-0">{{ template.checklist }}</pre>{% endif %}
+      </div></div>
+      {% empty %}
+      <div class="text-muted border rounded p-4 text-center">{% trans "No task models yet." %}</div>
+      {% endfor %}
+    </div>
+  </div>
+</div></main>
+{% endblock content %}

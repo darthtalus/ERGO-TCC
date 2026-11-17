@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-teal: #1A4645;
+        --soft-teal: #75A7A6;
+        --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    body { font-family: 'Inter', sans-serif; background-color: #f8fbfb; }
+
+    .manage-container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+
+    /* ── Header ── */
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-teal), #2c5e5c);
+        padding: 2rem;
+        border-radius: 20px;
+        color: white;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(26,70,69,0.15);
+    }
+    .page-header h1 { font-size: 1.75rem; font-weight: 800; margin: 0; }
+    .page-header p { opacity: 0.8; font-size: 0.95rem; margin-top: 0.5rem; }
+
+    /* ── Card ── */
+    .config-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(0,0,0,0.03);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Form ── */
+    .form-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--soft-teal);
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .form-control, .form-select {
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #eef2f2;
+        background: #f8fafa;
+        transition: all 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+        background: white;
+        border-color: var(--soft-teal);
+        box-shadow: 0 0 0 4px rgba(117,167,166,0.1);
+    }
+
+    /* ── Table ── */
+    .units-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    .units-table th {
+        padding: 1rem;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        color: #868e96;
+        border-bottom: 2px solid #f0f4f4;
+    }
+    .units-table td {
+        padding: 1.25rem 1rem;
+        border-bottom: 1px solid #f0f4f4;
+        font-size: 0.9rem;
+    }
+    .units-table tr:last-child td { border-bottom: none; }
+
+    .badge-dim {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .badge-cognition { background: #e3f2fd; color: #1976d2; }
+    .badge-behavior { background: #f3e5f5; color: #7b1fa2; }
+    .badge-environment { background: #e8f5e9; color: #388e3c; }
+
+    /* ── Buttons ── */
+    .btn-save {
+        background: var(--primary-teal);
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.2s;
+    }
+    .btn-save:hover {
+        background: #2c5e5c;
+        transform: translateY(-1px);
+        color: white;
+    }
+    .btn-delete {
+        color: #adb5bd;
+        transition: color 0.2s;
+        font-size: 1rem;
+    }
+    .btn-delete:hover {
+        color: #dc3545;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<main>
+<div class="manage-container">
+    <div class="page-header">
+        <div class="d-flex align-items-center gap-4">
+            <div style="background: rgba(255,255,255,0.15); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <div>
+                <h1>{% trans "Manage Suggested Aspects" %}</h1>
+                <p>{% trans "Define predefined names for aspects in each dimension." %}</p>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partials/_alerts.html' %}
+
+    {# Create Form #}
+    <div class="config-card">
+        <form method="post" class="row g-3 align-items-end">
+            {% csrf_token %}
+            <div class="col-md-3">
+                <label class="form-label">{% trans "Dimension" %}</label>
+                {{ form.dimension }}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">{% trans "Aspect Name" %}</label>
+                {{ form.name }}
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">{% trans "Language" %}</label>
+                {{ form.language }}
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-save w-100">
+                    <i class="fa-solid fa-plus me-2"></i> {% trans "Add Suggestion" %}
+                </button>
+            </div>
+            {% if form.errors %}
+            <div class="col-12 mt-2">
+                <div class="alert alert-danger py-2 small">
+                    {{ form.errors }}
+                </div>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+
+    {# List #}
+    <div class="config-card">
+        <div class="table-responsive">
+            <table class="units-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Dimension" %}</th>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "Language" %}</th>
+                        <th class="text-end">{% trans "Actions" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aspect in aspects %}
+                    <tr>
+                        <td>
+                            <span class="badge-dim badge-{{ aspect.dimension|lower }}">
+                                {{ aspect.get_dimension_display }}
+                            </span>
+                        </td>
+                        <td class="fw-bold">{{ aspect.name }}</td>
+                        <td class="text-muted small">{{ aspect.language }}</td>
+                        <td class="text-end">
+                            <a href="{% url 'delete_predefined_aspect' aspect.id %}" 
+                               class="btn-delete"
+                               onclick="return confirm('{% trans "Are you sure you want to delete this suggestion?" %}')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            {% trans "No suggestions registered yet." %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-start">
+        <a href="{% url 'manage_dimension_units' %}" class="btn btn-link text-decoration-none text-muted">
+            <i class="fa-solid fa-arrow-left me-2"></i> {% trans "Back to Units" %}
+        </a>
+    </div>
+</div>
+</main>
+{% endblock content %}

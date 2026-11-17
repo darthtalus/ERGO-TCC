@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu"
+           class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3 sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'tasks_index' %}">
+                <span data-feather="home" class="align-text-bottom"></span>
+                Main
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file" class="align-text-bottom"></span>
+                Values parametrization
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">New task</h1>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+              <label for="floatingInput">Task name</label>
+            </div>
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
+              <label for="floatingPassword">Task description</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-md-4 text-center">Estimated time to completion</div>
+          <div class="col-md-4 text-center">Estimated task difficulty</div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Dias</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Horas</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+          <div class="col-md-4 text-center">
+            <i class="fa-solid fa-circle"></i>
+            <i class="fa-solid fa-circle"></i>
+            <i class="fa-solid fa-circle"></i>
+            <i class="fa-regular fa-circle"></i>
+            <i class="fa-regular fa-circle"></i>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-md-6"></div>
+          <div class="col-md-2">
+            <a href="{% url 'main' %}" class="w-100 btn btn-success">Add task</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+{% endblock content %}
