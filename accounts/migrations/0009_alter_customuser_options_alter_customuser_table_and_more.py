@@ -37,15 +37,19 @@ class Migration(migrations.Migration):
             ],
             database_operations=[
                 migrations.RunSQL(
-                    "ALTER TABLE accounts_customuser_groups RENAME TO user_group",
-                    "ALTER TABLE user_group RENAME TO accounts_customuser_groups",
+                    "ALTER TABLE user_groups RENAME TO user_group",
+                    "ALTER TABLE user_group RENAME TO user_groups",
                 ),
             ],
         ),
-        migrations.AlterField(
-            model_name='customuser',
-            name='groups',
-            field=models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', through='accounts.CustomUserGroup', to='auth.group', verbose_name='groups'),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.AlterField(
+                    model_name='customuser',
+                    name='groups',
+                    field=models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', through='accounts.CustomUserGroup', to='auth.group', verbose_name='groups'),
+                ),
+            ],
         ),
         migrations.SeparateDatabaseAndState(
             state_operations=[
@@ -63,14 +67,18 @@ class Migration(migrations.Migration):
             ],
             database_operations=[
                 migrations.RunSQL(
-                    "ALTER TABLE accounts_customuser_user_permissions RENAME TO user_permission",
-                    "ALTER TABLE user_permission RENAME TO accounts_customuser_user_permissions",
+                    "ALTER TABLE user_user_permissions RENAME TO user_permission",
+                    "ALTER TABLE user_permission RENAME TO user_user_permissions",
                 ),
             ],
         ),
-        migrations.AlterField(
-            model_name='customuser',
-            name='user_permissions',
-            field=models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', through='accounts.CustomUserPermission', to='auth.permission', verbose_name='user permissions'),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.AlterField(
+                    model_name='customuser',
+                    name='user_permissions',
+                    field=models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', through='accounts.CustomUserPermission', to='auth.permission', verbose_name='user permissions'),
+                ),
+            ],
         ),
     ]
