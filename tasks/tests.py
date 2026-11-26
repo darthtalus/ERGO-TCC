@@ -95,6 +95,18 @@ class OwnerTaskListingTests(TaskFlowBase):
         self.assertEqual(response.context['status_counts']['ALL'], 2)
         self.assertContains(response, 'No executor assigned', count=1)
 
+    def test_owner_listing_pairs_each_executor_with_own_status(self):
+        User.objects.filter(pk=self.executor.pk).update(first_name='Lucas', last_name='Silva')
+        User.objects.filter(pk=self.executor2.pk).update(first_name='Pedro', last_name='Santos')
+        TaskUser.objects.filter(pk=self.assignment2.pk).update(status=Task.Status.DONE)
+        self.client.force_login(self.owner)
+        response = self.client.get(reverse('tasks_created_by_me'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'executor-status-pair', count=2)
+        html = response.content.decode()
+        self.assertRegex(html, r'(?s)executor-name">Lucas Silva</span>\s*<span class="badge rounded-pill status status-doing\b')
+        self.assertRegex(html, r'(?s)executor-name">Pedro Santos</span>\s*<span class="badge rounded-pill status status-done\b')
+
     def test_owner_status_filter_deduplicates_mixed_assignments(self):
         TaskUser.objects.filter(pk=self.assignment2.pk).update(status=Task.Status.DONE)
         self.client.force_login(self.owner)

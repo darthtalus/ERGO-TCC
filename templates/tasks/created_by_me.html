@@ -71,21 +71,20 @@
                     <i class="fa-solid fa-sort"></i>
                   {% endif %}
                 </a>
-              </th>
-              <th scope="col">
-                <a href="?{% if current_sort == 'user__first_name' and current_order == 'asc' %}{% url_replace sort='user__first_name' order='desc' %}{% else %}{% url_replace sort='user__first_name' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
-                  {% trans "Responsible" %}
-                  {% if current_sort == 'user__first_name' %}
+                <span class="text-muted mx-1">/</span>
+                <a href="?{% if current_sort == 'status' and current_order == 'asc' %}{% url_replace sort='status' order='desc' %}{% else %}{% url_replace sort='status' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Status" %}
+                  {% if current_sort == 'status' %}
                     <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
                   {% else %}
                     <i class="fa-solid fa-sort"></i>
                   {% endif %}
                 </a>
               </th>
-              <th scope="col" class="text-center">
-                <a href="?{% if current_sort == 'status' and current_order == 'asc' %}{% url_replace sort='status' order='desc' %}{% else %}{% url_replace sort='status' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
-                  {% trans "Status" %}
-                  {% if current_sort == 'status' %}
+              <th scope="col">
+                <a href="?{% if current_sort == 'user__first_name' and current_order == 'asc' %}{% url_replace sort='user__first_name' order='desc' %}{% else %}{% url_replace sort='user__first_name' order='asc' %}{% endif %}" class="text-decoration-none text-muted">
+                  {% trans "Responsible" %}
+                  {% if current_sort == 'user__first_name' %}
                     <i class="fa-solid fa-sort-{% if current_order == 'asc' %}up{% else %}down{% endif %}"></i>
                   {% else %}
                     <i class="fa-solid fa-sort"></i>
@@ -118,12 +117,11 @@
                   </a>
                 </td>
                 <td>{{ task_user.stakeholder }}</td>
-                <td>{{ task_user|executor_display:user }}</td>
-                <td>{{ task_user.user }}</td>
-                <td class="text-center">
+                <td style="min-width: 205px;">
                   {% for exec in task_user|status_display %}
-                    <div class="mb-1">
-                      <span class="badge rounded-pill status status-{{ exec.status | lower }} px-3 py-2" style="font-size: 0.65rem; letter-spacing: 0.5px;" title="{{ exec.user.first_name }}">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 py-1 executor-status-pair">
+                      <span class="fw-medium executor-name">{{ exec.user.get_full_name|default:exec.user.username }}</span>
+                      <span class="badge rounded-pill status status-{{ exec.status|lower }} px-3 py-2" style="font-size: 0.65rem; letter-spacing: 0.5px;">
                         {% for key,value in icons.items %}
                           {% if key == exec.status.lower %}
                             <i class="fa-solid fa-{{ value }}"></i>
@@ -136,13 +134,14 @@
                     <span class="badge rounded-pill bg-secondary">{% trans "No executor assigned" %}</span>
                   {% endfor %}
                 </td>
+                <td>{{ task_user.user }}</td>
                 <td class="text-center text-muted" style="font-size: 0.75rem;">
                   {{ task_user.created_at|date:"d/m/Y" }}
                 </td>
               </tr>
             {% empty %}
               <tr>
-                <td colspan="7" class="text-center text-muted py-4">{% trans "No tasks found." %}</td>
+                <td colspan="6" class="text-center text-muted py-4">{% trans "No tasks found." %}</td>
               </tr>
             {% endfor %}
           </tbody>
