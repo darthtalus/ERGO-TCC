@@ -1,29 +1,50 @@
-# Validação final — 17/11/2026
+# Validação do ERGO — 26/11/2026
 
-Esta revisão consolida as três correções aplicadas à versão 5.1 durante a validação do projeto. Os relatórios anteriores em `docs/` preservam o histórico daquela versão (43 testes); a suíte atual contém 48 testes (30 em `tasks` e 18 em `upgrades`).
+Este documento consolida os resultados da validação da base evoluída de desenvolvimento do ERGO. A primeira versão destinada ao ambiente de produção encontra-se em processo de homologação.
 
-## Resultado dos testes automatizados
+## Testes automatizados
 
 Comando executado no ambiente Windows local:
 
-```powershell
-python manage.py test tasks upgrades --settings=ergo.test_settings -v 2
-```
+    python manage.py test tasks upgrades --settings=ergo.test_settings -v 2
 
-Resultado observado: `Ran 48 tests in 2.069s` / `OK`. O banco de testes é SQLite em memória.
+Resultados:
 
-## Verificações manuais realizadas
+- 16/11/2026: 43 testes aprovados.
+- 17/11/2026: 48 testes aprovados.
+- 26/11/2026: 49 testes aprovados.
+- Resultado após integração das alterações: Ran 49 tests in 2.076s / OK.
+- Banco de testes: SQLite em memória.
+- Commit do código consolidado validado: 9f3b1f3.
+
+## Verificações funcionais realizadas
 
 - Atribuições independentes por executor e controle de acesso por papel.
-- Checklist ergonômico individual, comentários e anexos protegidos.
-- Autoavaliação, avaliação do interessado, devolução para ajustes, novo ciclo e aprovação final.
-- Histórico por ciclo, com cópia das avaliações e registro temporal.
-- Modelos de tarefa, cópia do checklist e geração recorrente idempotente no cenário mensal testado.
-- Listagem do criador sem duplicidade, indicação de ausência de executor e bloqueio visual após aprovação.
-- Acesso indevido às rotas internas e ao download de anexos retornando HTTP 403.
+- Associação visual entre cada executor e seu respectivo status.
+- Checklist ergonômico individual.
+- Comentários e anexos protegidos.
+- Autoavaliação e avaliação do interessado.
+- Devolução para ajustes, reexecução e aprovação final.
+- Preservação do histórico de avaliações por ciclo.
+- Modelos reutilizáveis e cópia dos checklists.
+- Geração recorrente e idempotência no cenário mensal testado.
+- Listagem de tarefas sem duplicidade.
+- Identificação de tarefas sem executor atribuído.
+- Bloqueio de alterações após aprovação.
+- Restrição de acesso às rotas internas e aos anexos, com resposta HTTP 403.
 
-As verificações descrevem os cenários de aceite executados e não constituem certificação de segurança, validação científica do instrumento ou teste de carga.
+## Integração do código
+
+Em 26/11/2026, foram integradas a melhoria da listagem por executor, seu teste de regressão e a correção remota da migração 0009 de usuários e permissões.
+
+Após a integração, os 49 testes automatizados foram novamente aprovados e o código consolidado foi enviado ao GitHub.
+
+## Limitações da validação
+
+Os resultados demonstram o comportamento dos cenários avaliados, mas não constituem certificação de segurança, validação científica do instrumento, teste de carga ou homologação em produção.
+
+A compatibilidade da última correção de migração com o banco MySQL operacional ainda requer verificação específica.
 
 ## Distribuição do código
 
-Este pacote contém o código-fonte consolidado, documentação, migrações, arquivos estáticos de origem e configuração de exemplo. Não contém o banco da demonstração, credenciais, anexos nem ambiente virtual. Recomenda-se manter o repositório privado até obter autorização formal para divulgação, preservando a autoria e os créditos do projeto original.
+A disponibilização pública do repositório deverá ser alinhada com os responsáveis pelo projeto, preservando a autoria e os créditos do desenvolvimento original.
