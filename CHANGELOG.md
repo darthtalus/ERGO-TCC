@@ -1,6 +1,20 @@
 # Changelog
 
-## v5.1 — revisão de validação do TCC (17/11/2026)
+Histórico das etapas de desenvolvimento do ERGO, sem atribuição de versões oficiais de produção.
+
+## Consolidação técnica do TCC — 26/11/2026
+
+- Associação individual entre executor e status na listagem.
+- Inclusão de teste de regressão para a melhoria.
+- Integração da correção remota da migração 0009 de usuários e permissões.
+- Aprovação dos 49 testes automatizados em 2,076 segundos, utilizando SQLite em memória.
+- Commit do código validado: `9f3b1f3`.
+- Atualização do registro de validação no commit `e1e13b3`.
+- Padronização da nomenclatura das etapas de desenvolvimento.
+- Homologação da primeira versão de produção em andamento.
+- Verificação específica da última correção de migração no MySQL operacional ainda pendente.
+
+## Revisão de validação do TCC (17/11/2026)
 
 - Correção de duplicidade na listagem do proprietário.
 - Identificação de tarefas sem executor e ocultação de ações de avaliação após aprovação.
@@ -8,7 +22,7 @@
 - Ampliação da suíte para 48 testes (30 de tarefas e 18 de funcionalidades integradas).
 - Empacotamento sem banco, credenciais ou estáticos coletados; preservação dos estáticos-fonte em `ergo/static/`.
 
-## v5.1.0 — 04/08/2026
+## Consolidação da consistência e validação — 04/08/2026
 
 ### Consistência e validação
 
@@ -19,7 +33,7 @@
 - script Windows/Linux local separado da validação de higiene do pacote;
 - documentação de execução e migrações atualizada.
 
-## v5.0.0 — 04/08/2026
+## Evolução do fluxo operacional — 04/08/2026
 
 ### Fluxo de tarefas
 
@@ -57,6 +71,6 @@
 - scripts de validação para Windows/Linux;
 - documentação funcional e técnica revisada.
 
-## v4 — histórico
+## Etapa anterior de desenvolvimento — histórico
 
-A v4 introduziu a primeira camada de proteção do fluxo, constraints de tarefas e avaliações e testes iniciais. A v5 amplia o contrato com congelamento pós-aprovação, auditoria por ciclos, privacidade dos links públicos, superusuários e documentação consolidada.
+A etapa anterior introduziu a primeira camada de proteção do fluxo, constraints de tarefas e avaliações e testes iniciais. A base evoluída amplia o contrato com congelamento pós-aprovação, auditoria por ciclos, privacidade dos links públicos, superusuários e documentação consolidada.

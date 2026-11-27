@@ -1,14 +1,16 @@
 # ERGO — avaliação ergonômica, efetividade e fluxo de tarefas
 
-> **Versão v5.1 — fluxo protegido, consistência de banco e validação local corrigida — 04/08/2026.**
+> **Base evoluída de desenvolvimento — consolidação técnica para o TCC em 26/11/2026.**
 
-Revisão consolidada para o TCC em 17/11/2026: três correções complementares, com 48 testes automatizados aprovados no ambiente local Windows. Veja o [registro de validação final](docs/VALIDACAO_FINAL_TCC.md).
+A primeira versão destinada ao ambiente de produção encontra-se em processo de homologação.
+
+Validação consolidada em 26/11/2026: 49 testes automatizados aprovados em 2,076 segundos no ambiente Windows, utilizando SQLite em memória. A suíte é compartilhada pelas duas frentes do projeto. Commit do código validado: `9f3b1f3`; commit do registro de validação: `e1e13b3`. Veja o [registro de validação final](docs/VALIDACAO_FINAL_TCC.md).
 
 O ERGO é uma aplicação Django para gerenciamento de tarefas e acompanhamento da efetividade humana sob uma perspectiva ergonômica. A aplicação relaciona tarefas, papéis colaborativos, autoavaliações, avaliações de stakeholders e registros das dimensões Ambiente/Acesso, Cognição e Comportamento.
 
-Este pacote é **limpo**: não contém banco preenchido, dump `ergo.sql`, anexos, arquivo `.env`, ambiente virtual nem dados pessoais.
+O pacote consolidado foi preparado sem banco preenchido, dump `ergo.sql`, anexos, arquivo `.env` ou ambiente virtual. A eventual disponibilização pública do repositório depende de alinhamento com os responsáveis pelo projeto e de revisão de segurança e privacidade.
 
-## O que existe nesta versão
+## Funcionalidades da base evoluída
 
 ### Fluxo principal de tarefas
 
@@ -18,11 +20,12 @@ Este pacote é **limpo**: não contém banco preenchido, dump `ergo.sql`, anexos
 - conclusão somente pelo executor atribuído e sempre acompanhada de autoavaliação 1–5;
 - avaliação de stakeholder somente após conclusão válida;
 - devolução para ajustes, nova conclusão e aprovação final;
-- avaliações e revisões congeladas após aprovação;
-- histórico por ciclo com cópia imutável das avaliações;
+- avaliações e revisões congeladas após aprovação pelo fluxo normal da aplicação;
+- histórico por ciclo com cópia imutável das avaliações no fluxo normal;
 - comentários, anexos protegidos e checklists;
 - convites, links públicos e solicitações de participação;
-- Kanban usando as mesmas regras do fluxo principal.
+- Kanban usando as mesmas regras do fluxo principal;
+- listagem com associação individual entre executor e status.
 
 ### Análises e recursos complementares
 
@@ -43,18 +46,18 @@ O status pertence à atribuição de cada executor, não à tarefa inteira.
 DOING ──► PAUSED ──► DOING
   │          │
   └──────► CANCELED ──► DOING
-  │
-  └── autoavaliação válida ──► DONE
-                                  │
-                                  ├── devolução ──► DOING
-                                  └── aprovação ──► FINAL
+
+DOING ou PAUSED ── autoavaliação válida ──► DONE
+                                             │
+                                             ├── devolução ──► DOING
+                                             └── aprovação ──► DONE (APPROVED)
 ```
 
-`DONE` não pode ser definido por um campo livre ou pelo Kanban. Apenas o serviço transacional de conclusão cria/atualiza a autoavaliação e muda o estado. Após uma revisão `APPROVED`, a atribuição permanece final e suas avaliações não podem ser alteradas ou apagadas pela interface.
+`DONE` não pode ser definido por um campo livre ou pelo Kanban. Apenas o serviço transacional de conclusão cria/atualiza a autoavaliação e muda o estado. Após uma revisão `APPROVED`, a atribuição permanece em `DONE` e suas avaliações não podem ser alteradas ou apagadas pela interface. A aprovação é uma decisão de revisão, não um novo estado operacional da atribuição.
 
 ## Instalação rápida no Windows
 
-Consulte [`RODAR_NO_WINDOWS.md`](RODAR_NO_WINDOWS.md). Resumo:
+Consulte [`RODAR_NO_WINDOWS.md`](RODAR_NO_WINDOWS.md). Resumo para uma nova instalação:
 
 ```powershell
 py -m venv venv
@@ -62,12 +65,15 @@ py -m venv venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 Copy-Item .env.example .env
+```
+
+Ajuste `DATABASE_URL` no `.env` antes de executar as migrações. Consulte também a seção de migrações abaixo, especialmente ao atualizar uma instalação existente.
+
+```powershell
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
-
-Ajuste `DATABASE_URL` no `.env` antes de executar as migrações.
 
 ## Validar o projeto
 
@@ -88,7 +94,7 @@ python manage.py makemigrations --check --dry-run
 python manage.py test tasks upgrades --settings=ergo.test_settings -v 2
 ```
 
-A suíte utiliza SQLite em memória e não toca no banco MySQL configurado no `.env`.
+A suíte de testes indicada utiliza SQLite em memória e não toca no banco MySQL configurado no `.env`. Seus resultados não equivalem à homologação em produção, a um teste de carga ou à validação das migrações no MySQL operacional.
 
 A higiene do pacote deve ser executada apenas sobre uma cópia limpa, antes de criar `venv`, `.env` ou backups:
 
@@ -96,14 +102,15 @@ A higiene do pacote deve ser executada apenas sobre uma cópia limpa, antes de c
 .\scripts\run_package_validation_windows.ps1
 ```
 
-## Migrações relevantes da v5
+## Migrações relevantes da evolução
 
 - `tasks.0018_task_workflow_integrity`: normalização e constraints do fluxo;
 - `tasks.0019_taskrate_updated_at`: timestamp da última atualização das avaliações;
 - `tasks.0020_task_difficulty_constraint`: normalização legada e constraint de dificuldade 0–5;
 - `upgrades.0002_security_workflow_and_validation`: segurança das extensões;
 - `upgrades.0003_task_review_audit_snapshot`: ciclo, snapshot e constraints das revisões;
-- `upgrades.0004_task_template_difficulty_constraint`: constraint de dificuldade 0–5 nos modelos de tarefa.
+- `upgrades.0004_task_template_difficulty_constraint`: constraint de dificuldade 0–5 nos modelos de tarefa;
+- `accounts.0009`: correção da migração de usuários e permissões, integrada em 26/11/2026. Sua execução no banco MySQL operacional ainda requer verificação específica.
 
 Faça backup do banco antes de atualizar uma instalação existente.
 
@@ -120,19 +127,22 @@ Faça backup do banco antes de atualizar uma instalação existente.
 
 ## Modelo teórico
 
-O ERGO é inspirado no modelo ABC de efetividade digital e permite registrar fatores ambientais/de acesso, cognitivos e comportamentais. Recomendações, ranking heurístico, score de risco, Kanban e workflow de aprovação são extensões operacionais e **não constituem, por si só, instrumentos científicos validados ou diagnóstico ergonômico**.
+O ERGO é inspirado no modelo ABC de efetividade digital (Access, Behavior e Cognition), operacionalizado na aplicação pelas dimensões Ambiente, Comportamento e Cognição. O acompanhamento diário permite parametrizar aspectos com diferentes unidades de medida e registrar separadamente a percepção geral de efetividade em uma escala de 1 a 5. Na conclusão de uma atribuição, o executor informa as três dimensões e a efetividade; o interessado avalia a efetividade da entrega. A nota geral não é calculada automaticamente como média das dimensões.
+
+Recomendações, ranking heurístico, score de risco, Kanban e workflow de aprovação são extensões operacionais e **não constituem, por si só, instrumentos científicos validados ou diagnóstico ergonômico**.
 
 Consulte [`docs/MODELO_TEORICO_E_LIMITES.md`](docs/MODELO_TEORICO_E_LIMITES.md).
 
 ## Documentação
 
-O índice completo está em [`docs/INDICE_DOCUMENTACAO.md`](docs/INDICE_DOCUMENTACAO.md).
+Os nomes históricos dos arquivos foram preservados e não representam versões oficiais de produção. O índice completo está em [`docs/INDICE_DOCUMENTACAO.md`](docs/INDICE_DOCUMENTACAO.md).
 
 Documentos principais:
 
-- [`ALTERACOES_V5.md`](ALTERACOES_V5.md) — lista detalhada das mudanças;
+- [`docs/VALIDACAO_FINAL_TCC.md`](docs/VALIDACAO_FINAL_TCC.md) — registro atualizado da validação;
+- [`ALTERACOES_V5.md`](ALTERACOES_V5.md) — lista histórica detalhada das mudanças;
 - [`docs/FLUXO_DE_TAREFAS_VALIDADO.md`](docs/FLUXO_DE_TAREFAS_VALIDADO.md) — regras do fluxo;
-- [`docs/RELATORIO_VALIDACAO_V5.md`](docs/RELATORIO_VALIDACAO_V5.md) — evidências e limites da validação;
+- [`docs/RELATORIO_VALIDACAO_V5.md`](docs/RELATORIO_VALIDACAO_V5.md) — evidências e limites da validação anterior;
 - [`docs/ROTAS_E_PERMISSOES.md`](docs/ROTAS_E_PERMISSOES.md) — matriz de autorização;
 - [`docs/TESTES_E_VALIDACAO.md`](docs/TESTES_E_VALIDACAO.md) — execução dos testes;
 - [`docs/MIGRACAO_E_ATUALIZACAO.md`](docs/MIGRACAO_E_ATUALIZACAO.md) — atualização segura;
